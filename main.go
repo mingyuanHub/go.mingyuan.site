@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 
 	"mingyuanHub/mingyuan.site/web/controllers"
@@ -21,5 +22,7 @@ func main() {
 
 	r.GET("/home", controllers.Home)
 
-	r.Run(":9080") // listen and serve on 0.0.0.0:8080
+	fmt.Println("listen and serve on 0.0.0.0:9080")
+
+	r.Run(":9080")
 }
