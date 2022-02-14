@@ -1,13 +1,21 @@
 package main
 
 import (
-	"fmt"
+	"log"
+
 	"github.com/gin-gonic/gin"
 
+	"mingyuanHub/mingyuan.site/utils/logger"
 	"mingyuanHub/mingyuan.site/web/controllers"
 )
 
 func main() {
+
+	err := logger.InitLogger()
+	if err != nil {
+		log.Fatalf("fail to initLogger, err=%s", err.Error())
+	}
+
 	r := gin.Default()
 
 	r.GET("/ping", func(c *gin.Context) {
@@ -22,7 +30,7 @@ func main() {
 
 	r.GET("/home", controllers.Home)
 
-	fmt.Println("listen and serve on 0.0.0.0:9080")
+	logger.Info("listen and serve on 0.0.0.0:9080")
 
 	r.Run(":9080")
 }

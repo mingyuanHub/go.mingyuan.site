@@ -1,0 +1,4 @@
+2022/02/14 18:58:27 D:/GoPath/src/mingyuan.site/utils/logger/logger.go:24: listen and serve on 0.0.0.0:9080%!(EXTRA []interface {}=[])
+2022/02/14 18:58:46 D:/GoPath/src/mingyuan.site/utils/logger/logger.go:24: home api request: [PostmanRuntime/7.29.0]
+2022/02/14 18:59:04 D:/GoPath/src/mingyuan.site/utils/logger/logger.go:24: home api request: [PostmanRuntime/7.29.0]
+2022/02/14 18:59:24 D:/GoPath/src/mingyuan.site/utils/logger/logger.go:24: home api request: [PostmanRuntime/7.29.0]
