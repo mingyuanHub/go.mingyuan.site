@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"mingyuanHub/mingyuan.site/web/middlewares"
 
 	"github.com/gin-gonic/gin"
 
@@ -11,12 +12,14 @@ import (
 
 func main() {
 
-	err := logger.InitLogger()
+	err := logger.Init()
 	if err != nil {
 		log.Fatalf("fail to initLogger, err=%s", err.Error())
 	}
 
 	r := gin.Default()
+
+	r.Use(middlewares.LoggerMiddleware())
 
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{

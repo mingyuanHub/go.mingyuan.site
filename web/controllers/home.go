@@ -8,14 +8,16 @@ import (
 
 func Home(c *gin.Context) {
 
-	logger.Info("home api request: %s", c.Request.UserAgent())
+	defer func() {
+		if panicMsg := recover(); panicMsg != nil {
+			logger.Error("[home] error: recover from panic in homeController. msgError=%v", panicMsg)
+		}
+	}()
 
 	t, err := template.ParseFiles("web/views/_header.tmpl", "web/views/_footer.tmpl", "web/views/home.tmpl")
 
 	if err != nil {
-		logger.Info("home error: %s", err.Error())
-
-		c.JSON(200, nil)
+		logger.Error("[home] error: %s", err.Error())
 		return
 	}
 
@@ -26,10 +28,7 @@ func Home(c *gin.Context) {
 	err = t.ExecuteTemplate(c.Writer, "home.tmpl", data)
 
 	if err != nil {
-		logger.Info("home error: %s", err.Error())
-
-		c.JSON(200, nil)
-		return
+		logger.Error("[home] error: %s", err.Error())
 	}
 
 	//t.ExecuteTemplate(os.Stdout, "home.tmpl", data)
