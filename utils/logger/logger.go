@@ -21,5 +21,9 @@ func InitLogger() error {
 }
 
 func Info(f string, v ...interface{}) {
+	//标准输出
+	log.Printf(f, v)
+
+	//日志记录
 	Logger.Printf(f, v)
 }
