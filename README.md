@@ -1,1 +1,1 @@
-# mingyuan.site
+# go.mingyuan.site
