@@ -1,13 +1,13 @@
 package main
 
 import (
-	"log"
-	"mingyuanHub/mingyuan.site/web/middlewares"
-
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"log"
+	"mingyuanHub/mingyuan.site/internal/routers"
+	"net/http"
 
-	"mingyuanHub/mingyuan.site/utils/logger"
-	"mingyuanHub/mingyuan.site/web/controllers"
+	"mingyuanHub/mingyuan.site/internal/pkg/logger"
 )
 
 func main() {
@@ -17,23 +17,21 @@ func main() {
 		log.Fatalf("fail to initLogger, err=%s", err.Error())
 	}
 
-	r := gin.Default()
-
-	r.Use(middlewares.LoggerMiddleware())
-
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
-
-	r.LoadHTMLGlob("web/views/*")
-
-	r.GET("/demo", controllers.Demo)
-
-	r.GET("/home", controllers.Home)
+	r := routers.InitRouter()
 
 	logger.Info("listen and serve on 0.0.0.0:9080")
 
-	r.Run(":9080")
+	gin.SetMode(gin.DebugMode)
+
+	s := &http.Server{
+		Addr:           fmt.Sprintf(":%d", 9080),
+		Handler:        r,
+		//ReadTimeout:    1000,
+		//WriteTimeout:   1000,
+		MaxHeaderBytes: 1 << 20,
+	}
+
+	s.ListenAndServe()
+
+	//r.Run(":9080")
 }

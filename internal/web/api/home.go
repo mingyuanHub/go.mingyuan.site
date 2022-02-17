@@ -1,9 +1,9 @@
-package controllers
+package api
 
 import (
 	"github.com/gin-gonic/gin"
 	"html/template"
-	"mingyuanHub/mingyuan.site/utils/logger"
+	"mingyuanHub/mingyuan.site/internal/pkg/logger"
 )
 
 func Home(c *gin.Context) {
@@ -14,7 +14,7 @@ func Home(c *gin.Context) {
 		}
 	}()
 
-	t, err := template.ParseFiles("web/views/_header.tmpl", "web/views/_footer.tmpl", "web/views/home.tmpl")
+	t, err := template.ParseFiles("internal/web/views/_header.tmpl", "internal/web/views/_footer.tmpl", "internal/web/views/home.tmpl")
 
 	if err != nil {
 		logger.Error("[home] error: %s", err.Error())
