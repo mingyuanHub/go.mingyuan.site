@@ -10,7 +10,7 @@ func Home(c *gin.Context) {
 
 	defer func() {
 		if panicMsg := recover(); panicMsg != nil {
-			logger.Error("[home] error: recover from panic in homeController. msgError=%v", panicMsg)
+			logger.Error("[home] error: recover from Home. msgError=%v", panicMsg)
 		}
 	}()
 

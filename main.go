@@ -2,36 +2,52 @@ package main
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"log"
-	"mingyuanHub/mingyuan.site/internal/routers"
 	"net/http"
+	"time"
+
+	"github.com/gin-gonic/gin"
 
 	"mingyuanHub/mingyuan.site/internal/pkg/logger"
+	"mingyuanHub/mingyuan.site/internal/pkg/setting"
+	"mingyuanHub/mingyuan.site/internal/models"
+	"mingyuanHub/mingyuan.site/internal/routers"
 )
 
 func main() {
+	var err error
 
-	err := logger.Init()
+	err = logger.Init()
 	if err != nil {
 		log.Fatalf("fail to initLogger, err=%s", err.Error())
 	}
 
-	r := routers.InitRouter()
+	err = setting.Init()
+	if err != nil {
+		log.Fatalf("fail to initSetting, err=%s", err.Error())
+	}
 
-	logger.Info("listen and serve on 0.0.0.0:9080")
+	err = models.Init()
+	if err != nil {
+		log.Fatalf("fail to initDB, err=%s", err.Error())
+	}
 
-	gin.SetMode(gin.DebugMode)
+	logger.Info("listen and serve on 0.0.0.0:%d", setting.ServerConfig.ServerPort)
+
+	gin.SetMode(setting.AppConfig.RunMode)
+
+	r := routers.Init()
 
 	s := &http.Server{
-		Addr:           fmt.Sprintf(":%d", 9080),
+		Addr:           fmt.Sprintf(":%d", setting.ServerConfig.ServerPort),
 		Handler:        r,
-		//ReadTimeout:    1000,
-		//WriteTimeout:   1000,
+		ReadTimeout:    time.Duration(setting.ServerConfig.ReadTimeout) * time.Second,
+		WriteTimeout:   time.Duration(setting.ServerConfig.WriteTimeout) * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
 
-	s.ListenAndServe()
-
 	//r.Run(":9080")
+	if err = s.ListenAndServe(); err != nil {
+		log.Fatalf("fail to listenAndServe, err=%s", err.Error())
+	}
 }

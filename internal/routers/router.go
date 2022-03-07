@@ -3,10 +3,11 @@ package routers
 import (
 	"github.com/gin-gonic/gin"
 	"mingyuanHub/mingyuan.site/internal/middlewares"
-	"mingyuanHub/mingyuan.site/internal/web/api"
+	"mingyuanHub/mingyuan.site/internal/routers/api"
+	"mingyuanHub/mingyuan.site/internal/routers/admin"
 )
 
-func InitRouter() *gin.Engine {
+func Init() *gin.Engine {
 	r := gin.Default()
 
 	r.Use(middlewares.LoggerMiddleware())
@@ -22,6 +23,15 @@ func InitRouter() *gin.Engine {
 	r.LoadHTMLGlob("./internal/web/views/*")
 
 	r.GET("/home", api.Home)
+
+	g1 := r.Group("/article")
+	{
+		g1.GET("", admin.GetArticles)
+		g1.GET("/:id", admin.GetArticle)
+		g1.POST("", admin.AddArticle)
+		g1.PUT(":id", admin.UpdateArticle)
+		g1.DELETE(":id", admin.DeleteArticle)
+	}
 
 	return r
 }
