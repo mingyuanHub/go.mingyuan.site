@@ -2,7 +2,7 @@ package middlewares
 
 import (
 	"github.com/gin-gonic/gin"
-	"mingyuanHub/mingyuan.site/internal/pkg/logger"
+	"mingyuanHub/mingyuan.site/pkg/logger"
 	"time"
 )
 

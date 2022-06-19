@@ -3,8 +3,9 @@ package models
 import (
 	"fmt"
 	"github.com/jinzhu/gorm"
-	"mingyuanHub/mingyuan.site/internal/pkg/setting"
+	"mingyuanHub/mingyuan.site/pkg/setting"
 	"time"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 var db *gorm.DB

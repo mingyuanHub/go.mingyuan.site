@@ -8,10 +8,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"mingyuanHub/mingyuan.site/internal/pkg/logger"
-	"mingyuanHub/mingyuan.site/internal/pkg/setting"
+	webint "mingyuanHub/mingyuan.site/my-web/init"
 	"mingyuanHub/mingyuan.site/internal/models"
-	"mingyuanHub/mingyuan.site/internal/routers"
+	"mingyuanHub/mingyuan.site/pkg/logger"
+	"mingyuanHub/mingyuan.site/pkg/setting"
 )
 
 func main() {
@@ -32,22 +32,36 @@ func main() {
 		log.Fatalf("fail to initDB, err=%s", err.Error())
 	}
 
-	logger.Info("listen and serve on 0.0.0.0:%d", setting.ServerConfig.ServerPort)
-
 	gin.SetMode(setting.AppConfig.RunMode)
-
-	r := routers.Init()
 
 	s := &http.Server{
 		Addr:           fmt.Sprintf(":%d", setting.ServerConfig.ServerPort),
-		Handler:        r,
+		Handler:        getRouter(),
 		ReadTimeout:    time.Duration(setting.ServerConfig.ReadTimeout) * time.Second,
 		WriteTimeout:   time.Duration(setting.ServerConfig.WriteTimeout) * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
 
+	logger.Info("listen and serve on 0.0.0.0:%d", setting.ServerConfig.ServerPort)
+
 	//r.Run(":9080")
 	if err = s.ListenAndServe(); err != nil {
 		log.Fatalf("fail to listenAndServe, err=%s", err.Error())
 	}
+}
+
+func getRouter() (r *gin.Engine) {
+	r = gin.Default()
+
+	webint.Init(r)
+
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "pong",
+		})
+	})
+
+	r.Static("/assets", "./assets")
+
+	return
 }
