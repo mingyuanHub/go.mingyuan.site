@@ -170,3 +170,63 @@ var render = {
 </script>
 
 {{template "footer" .}}
+
+
+
+
+
+
+
+
+
+
+https://blog.csdn.net/u013355529/article/details/114963310
+
+<div id="leftBox" :style='{"height": contentHeight + "px"}'>
+    <textarea cols="1" id="leftNum" disabled v-model="jsonNum"></textarea>
+</div>
+
+
+<script>
+    jsonNum:"",
+
+    getJsonNum(str){
+        // str = str.replace(/\r/gi,"");
+        str = str.split("\n");
+        n = str.length;
+        var num = ""
+        console.log(n)
+        for(var i = 1; i <= n;i ++){
+            console.log(i)
+            num += i + "\n";
+        }
+        this.jsonNum = num
+    }
+</script>
+
+<style>
+#leftBox {
+    display: flex;
+    width: 15px;
+    text-align: left;
+    margin-left: -15px;
+    float: left;
+}
+#leftNum {
+    padding:5px 2px;
+    height:100%;
+    width: 100%;
+    line-height: 21.5px;
+    font-size: 12px;
+    text-align: right;
+    color: #999;
+    font-weight: bold;
+    resize: none;
+    outline:none;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    border: 0;
+    background:rgba(199, 208, 220, 1);
+    box-sizing: border-box;
+}
+</style>

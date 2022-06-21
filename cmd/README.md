@@ -1,6 +1,6 @@
 ### 一 Windows 打包命令：
 
-`CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build`
+`CGO_ENABLED=0  GOOS=linux GOARCH=amd64 go build -o mingyuan.site main.go`
 
 ### 二 使用WinSCP 工具传输
 

@@ -25,4 +25,8 @@ func initRouter(r *gin.Engine) {
 		g2.GET("", api.JsonIndex)
 	}
 
+	g3 := r.Group("/bulletscreen")
+	{
+		g3.GET("", api.BulletScreenIndex)
+	}
 }

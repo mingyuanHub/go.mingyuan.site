@@ -2,7 +2,6 @@
 {{template "header" .}}
 
 
-
 <section>
     <div class="demo-split" :style='{"height": contentHeight + "px", "border": "1px solid #dcdee2"}'>
         <Split v-model="split">
@@ -23,13 +22,6 @@
 <script type="text/javascript" src="./assets/js/formatJson.js"></script>
 
 <script>
-
-// json = "{}"
-// formatJson(json)
-
-// $("#formattedJson2").text(result);
-
-
 var render = {
     data () {
         return {
@@ -41,12 +33,11 @@ var render = {
     watch:{
         jsonData(v){
             this.jsonDataFormatted = formatJson(v)
+            this.getJsonNum(v)
         }
     },
     methods: {
-        test(){
-            alert(1)
-        }
+
     },
     mounted(){
     }

@@ -12,9 +12,5 @@ func JsonIndex(c *gin.Context) {
 
 	t, _ := template.ParseFiles(fmt.Sprintf("my-web/views/%s", tmplName))
 
-	data := map[string]string{
-		"now":"home",
-	}
-
-	t.ExecuteTemplate(c.Writer, tmplName, data)
+	t.ExecuteTemplate(c.Writer, tmplName, nil)
 }
