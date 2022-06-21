@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pid = `ps -ef | grep mingyuan.sit | grep -v grep | awk '{print $2}'`
+pid = `ps -ef | grep mingyuan.site | grep -v grep | awk '{print $2}'`
 
 kill -9 $pid
 

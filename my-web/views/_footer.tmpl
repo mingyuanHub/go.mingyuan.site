@@ -1,7 +1,52 @@
 {{define "footer"}}
 
-<h4>我是页脚</h4>
-</body>
+                            </div>
+                        </Card>
+                    </i-Content>
+                    <Footer class="layout-footer-center">2021-2022 &copy; Mingyuan Design</Footer>
+                </Layout>
+            </div>
+        </div>
+        <script>
+
+            const myMixin = {
+                data () {
+                    return {
+                        clientHeight:0,
+                        contentHeight:0,
+                        path:"",
+                    }
+                },
+                created() {
+                    this.mix()
+                    this.clientHeight = document.body.clientHeight > document.documentElement.clientHeight ? document.body.clientHeight : document.documentElement.clientHeight
+                        this.contentHeight = this.clientHeight - 140
+                        this.path = window.location.pathname
+
+                },
+                methods: {
+                    mix() {
+                        console.log('混入实例!')
+                    }
+                },
+                mounted() {
+                    const that = this
+                    window.onresize = () => {
+                        return (() => {
+                            that.clientHeight = document.documentElement.clientHeight
+                            that.contentHeight = that.clientHeight - 140
+                        })()
+                    }
+                }
+            }
+
+            render.mixins = [myMixin]
+
+            const app = Vue.createApp(render);
+            app.use(ViewUIPlus);
+            app.mount("#app");
+        </script>
+    </body>
 </html>
 
 {{end}}

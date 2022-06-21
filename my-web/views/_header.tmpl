@@ -1,16 +1,90 @@
 {{define "header"}}
 
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="cn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <meta charset="utf-8">
+    <title>View UI Plus example</title>
+    <link rel="stylesheet" type="text/css" href="./assets/vue/viewuiplus.css">
+    <script type="text/javascript" src="./assets/vue/vue.global.js"></script>
+    <script type="text/javascript" src="./assets/vue/viewuiplus.min.js"></script>
+    <script type="text/javascript" src="./assets/js/jquery.min.js"></script>
 </head>
-<body>
 
-<h4>我是页头</h4>
+<style scoped>
+    #app{
+        font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+    }
+    .layout{
+        border: 1px solid #d7dde4;
+        background: #f5f7f9;
+        position: relative;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    .layout-logo{
+        width: 100px;
+        height: 30px;
+        /*background: #515a6e;*/
+        border-radius: 3px;
+        float: left;
+        position: relative;
+        top: 15px;
+        left: 20px;
+        /*color: white;*/
+        color: #515a6e;
+        line-height: 30px;
+        text-align: center;
+        font-size: larger;
+        font-weight: bolder;
+        /*background-image: url("./assets/img/shine.jpg");*/
+    }
+    .layout-nav{
+        width: 500px;
+        margin: 0 auto;
+        margin-right: 20px;
+    }
+    .layout-footer-center{
+        text-align: center;
+    }
+    .layout .ivu-layout-header {
+        background: #191a23;
+    }
+    .layout-topMiddleBottom .ivu-menu-light{
+        background:none;
+        color: #fff
+    }
+</style>
+
+<body>
+<div id="app">
+    <div class="layout">
+        <Layout>
+            <Header>
+                <i-Menu mode="horizontal" theme="light" :active-name="path">
+                    <div class="layout-logo">Code Tools</div>
+                    <div class="layout-nav">
+                        <Menu-Item name="/timestamp" to="/timestamp">
+                            <Icon type="ios-timer"></Icon>
+                            时间戳转换
+                        </Menu-Item>
+                        <Menu-Item name="/json" to="/json">
+                            <Icon type="ios-color-wand"></Icon>
+                            Json 格式化
+                        </Menu-Item>
+                        <Menu-Item name="3">
+                            <Icon type="ios-analytics"></Icon>
+                            Item 3
+                        </Menu-Item>
+                        <Menu-Item name="4">
+                            <Icon type="ios-paper"></Icon>
+                            Item 4
+                        </Menu-Item>
+                    </div>
+                </i-Menu>
+            </Header>
+            <i-Content :style="{padding: '10px'}">
+                <Card>
+                    <div :style="{'min-height': contentHeight + 'px'}">
 
 {{end}}

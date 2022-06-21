@@ -1,116 +1,32 @@
-<!DOCTYPE html>
-<html lang="cn">
-<head>
-    <meta charset="utf-8">
-    <title>View UI Plus example</title>
-    <link rel="stylesheet" type="text/css" href="./assets/vue/viewuiplus.css">
-    <script type="text/javascript" src="./assets/vue/vue.global.js"></script>
-    <script type="text/javascript" src="./assets/vue/viewuiplus.min.js"></script>
-</head>
 
-<style scoped>
-    #app{
-        font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
-    }
-    .layout{
-        border: 1px solid #d7dde4;
-        background: #f5f7f9;
-        position: relative;
-        border-radius: 4px;
-        overflow: hidden;
-    }
-    .layout-logo{
-        width: 100px;
-        height: 30px;
-        background: #515a6e;
-        border-radius: 3px;
-        float: left;
-        position: relative;
-        top: 15px;
-        left: 20px;
-        color: white;
-        line-height: 30px;
-        text-align: center;
-        font-size: larger;
-        font-weight: bolder;
-        /*background-image: url("./assets/img/shine.jpg");*/
-    }
-    .layout-nav{
-        width: 500px;
-        margin: 0 auto;
-        margin-right: 20px;
-    }
-    .layout-footer-center{
-        text-align: center;
-    }
-    .layout .ivu-layout-header {
-        background: #191a23;
-    }
-    .layout-topMiddleBottom .ivu-menu-light{
-        background:none;
-        color: #fff
-    }
-</style>
+{{template "header" .}}
 
-<body>
-<div id="app">
-    <div class="layout">
-        <Layout>
-            <Header>
-                <i-Menu mode="horizontal" theme="dark" active-name="1">
-                    <div class="layout-logo">Code Tools</div>
-                    <div class="layout-nav">
-                        <Menu-Item name="1">
-                            <Icon type="ios-timer"></Icon>
-                            时间戳转换
-                        </Menu-Item>
-                        <Menu-Item name="2">
-                            <Icon type="ios-keypad"></Icon>
-                            Item 2
-                        </Menu-Item>
-                        <Menu-Item name="3">
-                            <Icon type="ios-analytics"></Icon>
-                            Item 3
-                        </Menu-Item>
-                        <Menu-Item name="4">
-                            <Icon type="ios-paper"></Icon>
-                            Item 4
-                        </Menu-Item>
-                    </div>
-                </i-Menu>
-            </Header>
-            <i-Content :style="{padding: '0 20px'}">
-                <Card :style="{margin: '20px 0'}">
-                    <div style="min-height: 465px;">
-                        <div style="font-size: 20px">时间戳转换 <span style="font-size: 10px"> - 北京时间</span></div> <br>
+<section>
+    <div style="font-size: 20px">时间戳转换 <span style="font-size: 10px"> - 北京时间</span></div> <br>
 
-                        <div>
-                            <span>现在：</span>
-                            <span v-html="now" style="margin-left: 24px;"></span>
-                        </div> <br>
+    <div>
+        <span>现在：</span>
+        <span v-html="now" style="margin-left: 24px;"></span>
+    </div> <br>
 
-                        <div>
-                            <span>时间戳：</span>
-                            <i-Input v-model="time1" style="width: auto; margin-left: 10px;"></i-Input>
-                            <i-button type="warning" style="margin-left: 10px" @click="exchange1" ghost>转换 >></i-button>
-                            <i-Input v-model="date1" style="width: auto; margin-left: 10px"></i-Input>
-                        </div> <br>
+    <div>
+        <span>时间戳：</span>
+        <i-Input v-model="time1" style="width: auto; margin-left: 10px;"></i-Input>
+        <i-button type="warning" style="margin-left: 10px" @click="exchange1" ghost>转换 >></i-button>
+        <i-Input v-model="date1" style="width: auto; margin-left: 10px"></i-Input>
+    </div> <br>
 
-                        <div>
-                            <span>当前：</span>
-                            <i-Input v-model="date2" style="width: auto; margin-left: 24px;"></i-Input>
-                            <i-button type="info" style="margin-left: 10px" @click="exchange2" ghost>转换 >></i-button>
-                            <i-Input v-model="time2" style="width: auto; margin-left: 10px"></i-Input>
-                        </div> <br>
-                    </div>
-                </Card>
-            </i-Content>
-            <Footer class="layout-footer-center">2021-2022 &copy; Mingyuan Design</Footer>
-        </Layout>
-    </div>
-</div>
+    <div>
+        <span>当前：</span>
+        <i-Input v-model="date2" style="width: auto; margin-left: 24px;"></i-Input>
+        <i-button type="info" style="margin-left: 10px" @click="exchange2" ghost>转换 >></i-button>
+        <i-Input v-model="time2" style="width: auto; margin-left: 10px"></i-Input>
+    </div> <br>
+</section>
+
 <script>
-    const app = Vue.createApp({
+
+    var render = {
         data () {
             return {
                 now:0,
@@ -159,9 +75,7 @@
 
             setTimeout(this.tt, 1000)
         }
-    });
-    app.use(ViewUIPlus);
-    app.mount("#app");
+    }
 </script>
-</body>
-</html>
+
+{{template "footer" .}}

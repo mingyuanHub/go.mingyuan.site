@@ -15,10 +15,6 @@ func ParseFiles(file string) (t *MyTemplate, err error){
 
 	t.Template, err = template.ParseFiles("my-web/views/_header.tmpl", "my-web/views/_footer.tmpl", file)
 
-	if err == nil {
-		t.Delims("{[{", "}]}")
-	}
-
 	return
 }
 

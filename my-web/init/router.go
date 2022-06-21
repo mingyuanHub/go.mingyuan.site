@@ -17,8 +17,12 @@ func initRouter(r *gin.Engine) {
 
 	g1 := r.Group("/timestamp")
 	{
-		g1.GET("", api.Index)
-		g1.GET("ex", api.Exchange)
+		g1.GET("", api.TimestampIndex)
+	}
+
+	g2 := r.Group("/json")
+	{
+		g2.GET("", api.JsonIndex)
 	}
 
 }
