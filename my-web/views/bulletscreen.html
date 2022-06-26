@@ -30,11 +30,11 @@ var render = {
         },
         add(message, t) {
             //将文本框内容用div包裹起来，便于后续处理
-            var $content = $('<div class="message '+ (t === 1 ? 'self-message' : "") + '">' + message + '</div>');
+            var $content = $('<div class="message ' + (t === 1 ? 'self-message' : "") + '">' + message + '</div>');
             //获取弹幕墙对象
             $screen = $(document.getElementById("screen"));
             //设置弹幕体出现时的上边距，为任意值
-            var top = Math.random() * ( $screen.height() - 100 );
+            var top = Math.random() * ($screen.height() - 100);
 
             //设置弹幕体的上边距和左边距
             $content.css({
@@ -88,6 +88,14 @@ var render = {
     mounted() {
         this.add("将有大批弹幕来袭......")
         setTimeout(this.getMessage, 2000)
+
+        // setInterval(() => {
+        //     // 通过id名称获取元素
+        //     let messages = document.getElementsByClassName('message')
+        //     for (let i = 0; i < messages.length; i++) {
+        //         messages[i].style.left = parseInt(messages[i].style.left) + 1 + "px"
+        //     }
+        // }, 20)
     }
 }
 </script>
@@ -110,6 +118,11 @@ var render = {
     word-break: keep-all;
 }
 
+.self-message {
+    font-weight: bolder;
+    border: 1.5px solid #ed4014;
+}
+
 .send {
     margin-top: 10px;
     background-color: #fff;
@@ -118,8 +131,4 @@ var render = {
     position: absolute;
 }
 
-.self-message {
-    font-weight: bolder;
-    border: 1.5px solid #ed4014;
-}
 </style>
