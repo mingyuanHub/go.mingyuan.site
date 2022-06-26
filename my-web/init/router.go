@@ -28,5 +28,7 @@ func initRouter(r *gin.Engine) {
 	g3 := r.Group("/bulletscreen")
 	{
 		g3.GET("", api.BulletScreenIndex)
+		g3.GET("/message", api.BulletScreenGetMessage)
+		g3.POST("/message", api.BulletScreenSaveMessage)
 	}
 }

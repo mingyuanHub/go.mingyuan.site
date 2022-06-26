@@ -13,28 +13,35 @@
                 data () {
                     return {
                         clientHeight:0,
+                        clientWidth:0,
                         contentHeight:0,
+                        contentWidth:0,
                         path:"",
                     }
                 },
                 created() {
                     this.mix()
-                    this.clientHeight = document.body.clientHeight > document.documentElement.clientHeight ? document.body.clientHeight : document.documentElement.clientHeight
-                        this.contentHeight = this.clientHeight - 140
-                        this.path = window.location.pathname
-
+                    this.onresize()
+                    this.path = window.location.pathname
                 },
                 methods: {
                     mix() {
                         console.log('混入实例!')
+                    },
+                    onresize() {
+                        //this.clientHeight = document.body.clientHeight > document.documentElement.clientHeight ? document.body.clientHeight : document.documentElement.clientHeight
+                        this.clientHeight = document.documentElement.clientHeight
+                        this.contentHeight = this.clientHeight - 140
+
+                        this.clientWidth = document.documentElement.clientWidth
+                        this.contentWidth = this.clientWidth - 36*2
                     }
                 },
                 mounted() {
                     const that = this
                     window.onresize = () => {
                         return (() => {
-                            that.clientHeight = document.documentElement.clientHeight
-                            that.contentHeight = that.clientHeight - 140
+                            that.onresize()
                         })()
                     }
                 }

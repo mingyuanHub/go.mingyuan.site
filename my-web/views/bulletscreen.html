@@ -1,0 +1,125 @@
+
+{{template "header" .}}
+
+<section>
+    <div id="screen" :style='{"height": contentHeight - 150 + "px","width": contentWidth + "px", "border": "1px solid #dcdee2"}'>
+        <!-- <div>text message</div> -->
+    </div>
+    <div class="send" :style='{"margin-top": contentHeight - 140 + "px","width": contentWidth + "px"}'>
+        <i-Input search enter-button="发送" placeholder="发送一个弹幕......" v-model="content" @on-search="send" ></i-Input>
+<!--        <i-button @click="clear">清屏</i-button>-->
+    </div>
+</section>
+
+<script>
+
+var render = {
+    data() {
+        return {
+            content: "",
+            msgOffset: 0,
+            msgLimit: 10,
+        }
+    },
+    methods: {
+        send() {
+            let msg = this.content
+            this.sendMessage()
+            this.add(msg, 1)
+            this.content = ""
+        },
+        add(message, t) {
+            //将文本框内容用div包裹起来，便于后续处理
+            var $content = $('<div class="message '+ (t === 1 ? 'self-message' : "") + '">' + message + '</div>');
+            //获取弹幕墙对象
+            $screen = $(document.getElementById("screen"));
+            //设置弹幕体出现时的上边距，为任意值
+            var top = Math.random() * ( $screen.height() - 100 );
+
+            //设置弹幕体的上边距和左边距
+            $content.css({
+                top: top + "px",
+                left: -500,
+                color: this.getRGB(),
+            });
+            //将弹幕体添加到弹幕墙中
+            $('#screen').append($content);
+            //弹幕体从左端移动到最右侧，时间为8秒，然后直接删除该元素
+            $content.animate({
+                left: 1000 * 3 + $screen.width()
+            }, 40000, "linear", function () {
+                $(this).remove();
+            });
+        },
+        clear() {
+            $('#screen').html("");
+        },
+        getMessage() {
+            var self = this
+            axios.get('/bulletscreen/message', {
+                params: {
+                    offset: self.msgOffset,
+                    limit: self.msgLimit,
+                }
+            }).then(function (response) {
+                if (response.data.length > 0) {
+                    response.data.forEach((item) => {
+                        self.add(item.message)
+                    })
+                    self.msgOffset += self.msgLimit
+                    setTimeout(self.getMessage, 1000)
+                }
+            })
+        },
+        sendMessage() {
+            axios.post('/bulletscreen/message', {
+                message: this.content
+            }).then(function (response) {
+                let resp = response.data;
+            })
+        },
+        getRGB() {
+            let r = parseInt(Math.random() * 256), //0-255
+                g = parseInt(Math.random() * 256), //0-255
+                b = parseInt(Math.random() * 256); //0-255
+            return `rgb(${r},${g},${b})` //使用了es6的模板字符串
+        }
+    },
+    mounted() {
+        this.add("将有大批弹幕来袭......")
+        setTimeout(this.getMessage, 2000)
+    }
+}
+</script>
+
+{{template "footer" .}}
+
+<style>
+
+#screen {
+    background-color: #fff;
+    border: 1px solid rgb(229, 229, 229);
+    font-size: 14px;
+    overflow: hidden;
+    position: absolute;
+}
+
+.message {
+    position: absolute;
+    font-weight: bold;
+    word-break: keep-all;
+}
+
+.send {
+    margin-top: 10px;
+    background-color: #fff;
+    width: 100%;
+    font-size: 14px;
+    position: absolute;
+}
+
+.self-message {
+    font-weight: bolder;
+    border: 1.5px solid #ed4014;
+}
+</style>
