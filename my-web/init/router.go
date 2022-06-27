@@ -31,4 +31,9 @@ func initRouter(r *gin.Engine) {
 		g3.GET("/message", api.BulletScreenGetMessage)
 		g3.POST("/message", api.BulletScreenSaveMessage)
 	}
+
+	g4 := r.Group("/pixelwars")
+	{
+		g4.GET("", api.PixelWarsIndex)
+	}
 }
