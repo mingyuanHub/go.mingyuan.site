@@ -78,12 +78,6 @@ var render = {
                 let resp = response.data;
             })
         },
-        getRGB() {
-            let r = parseInt(Math.random() * 256), //0-255
-                g = parseInt(Math.random() * 256), //0-255
-                b = parseInt(Math.random() * 256); //0-255
-            return `rgb(${r},${g},${b})` //使用了es6的模板字符串
-        }
     },
     mounted() {
         this.add("将有大批弹幕来袭......")

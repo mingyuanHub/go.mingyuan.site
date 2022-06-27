@@ -21,8 +21,6 @@ func BulletScreenIndex(c *gin.Context) {
 func BulletScreenGetMessage(c *gin.Context) {
 	offset, _ := strconv.Atoi(c.Query("offset"))
 	limit, _ := strconv.Atoi(c.Query("limit"))
-
-	fmt.Println(offset, limit)
 	response := models.NewBulletScreenModel().GetBulletScreen(offset, limit)
 	c.JSONP(http.StatusCreated, response)
 }

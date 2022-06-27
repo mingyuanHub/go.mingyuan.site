@@ -1,0 +1,13 @@
+
+<section>
+    <Grid :col="cols" >-->
+        <Grid-Item class="grid-item" v-for="item in pixelArr" :style='{"height":contentWidth/cols + "px"}'>
+        </Grid-Item>
+    </Grid>
+</section>
+
+<style>
+    .ivu-grid-item-main {
+        padding: 0px !important;
+    }
+</style>

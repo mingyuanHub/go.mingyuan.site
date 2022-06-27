@@ -2,17 +2,13 @@
 {{template "header" .}}
 
 <section>
-<!--    <Grid :col="cols" >-->
-<!--        <Grid-Item class="grid-item" v-for="item in pixelArr" :style='{"height":contentWidth/cols + "px"}'>-->
-<!--&lt;!&ndash;            <span v-html="item"></span>&ndash;&gt;-->
-<!--        </Grid-Item>-->
-<!--    </Grid>-->
-
-
     <div class="pixel-grid">
-        <div class="pixel-grid-item" v-for="item in pixelArr" :style='{"width":100/cols + "%", "height":contentWidth/cols + "px"}'>
-
+        <div class="pixel-grid-item" v-for="(color, idx) in pixelArr" :style='{"width":contentWidth/cols + "px", "height":contentWidth/cols + "px", "backgroundColor":color}' @click="setColor(idx)">
         </div>
+    </div>
+
+    <div class="color-picker">
+        <Color-Picker v-model="color" recommend></Color-Picker>
     </div>
 </section>
 
@@ -21,16 +17,53 @@
     var render = {
         data() {
             return {
-                cols: 200,
-                pixelNum : 40000,
+                cols: 150,
+                pixelNum : 0,
                 pixelArr: [],
+                color:""
             }
         },
-        methods: {},
-        mounted() {
-            for (i = 0; i < this.pixelNum ; i ++) {
-                this.pixelArr[i] = i
+        methods: {
+            getColor(){
+                var self = this
+                axios.get('/pixelwars/color').then(function (response) {
+                    if (response.data.length > 0) {
+                        response.data.forEach((item) => {
+                            self.pixelArr[item.id] = item.color
+                        })
+                    }
+                })
+            },
+            setColor(idx) {
+                this.pixelArr[idx] = this.color
+
+                axios.post('/pixelwars/color', {
+                    id: idx,
+                    color: this.color
+                }).then(function (response) {
+                    let resp = response.data;
+                })
             }
+        },
+        mounted() {
+            this.contentHeight = this.contentWidth
+
+            this.color = this.getRGB()
+
+            for (i = 0; i < this.pixelNum ; i ++) {
+                this.pixelArr[i] = ""
+            }
+
+            this.getColor()
+
+            window.onresize = () => {
+                return (() => {
+                    this.contentHeight = this.contentWidth
+                })()
+            }
+        },
+        created(){
+            this.pixelNum = this.cols * this.cols
         }
     }
 </script>
@@ -38,10 +71,6 @@
 {{template "footer" .}}
 
 <style>
-    .ivu-grid-item-main {
-        padding: 0px !important;
-    }
-
     .pixel-grid {
         position: relative;
     }
@@ -55,6 +84,14 @@
         box-sizing: border-box;
         border: 0;
         border-radius: 0;
+    }
+
+    .color-picker {
+        z-index: 10;
+        position: fixed;
+        cursor: pointer;
+        bottom: 50px;
+        right: 50px;
     }
 
 </style>

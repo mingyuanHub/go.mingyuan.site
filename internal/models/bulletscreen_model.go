@@ -3,10 +3,10 @@ package models
 import "time"
 
 type BulletScreen struct {
-	Id        int       `gorm:"primary_key"`
+	Id        int       `gorm:"primary_key" json:"id"`
 	Ip        string    `json:"ip"`
 	Message   string    `json:"message"`
-	UpdatedAt time.Time `json:"updated_at"`
+	UpdatedAt time.Time `json:"-"`
 }
 
 func (m BulletScreen) TableName() string {
