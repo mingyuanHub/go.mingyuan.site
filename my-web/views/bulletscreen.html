@@ -2,10 +2,10 @@
 {{template "header" .}}
 
 <section>
-    <div id="screen" :style='{"height": contentHeight - 150 + "px","width": contentWidth + "px", "border": "1px solid #dcdee2"}'>
+    <div id="screen" :style='{"height": contentHeightInner * 4/5 + "px","width": contentWidth + "px", "border": "1px solid #dcdee2"}'>
         <!-- <div>text message</div> -->
     </div>
-    <div class="send" :style='{"margin-top": contentHeight - 140 + "px","width": contentWidth + "px"}'>
+    <div class="send" :style='{"margin-top": contentHeightInner * 4/5 + 20 + "px","width": contentWidth + "px"}'>
         <i-Input search enter-button="发送" placeholder="发送一个弹幕......" v-model="content" @on-search="send" ></i-Input>
 <!--        <i-button @click="clear">清屏</i-button>-->
     </div>

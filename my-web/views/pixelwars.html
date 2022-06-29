@@ -3,7 +3,7 @@
 
 <section>
     <div class="pixel-grid">
-        <div class="pixel-grid-item" v-for="(color, idx) in pixelArr" :style='{"width":contentWidth/cols + "px", "height":contentWidth/cols + "px", "backgroundColor":color}' @click="setColor(idx)">
+        <div class="pixel-grid-item" v-for="(color, idx) in pixelArr" :style='{"width":100/cols + "%", "height":contentHeight/cols + "px", "backgroundColor":color}' @click="setColor(idx)">
         </div>
     </div>
 
@@ -46,7 +46,7 @@
             }
         },
         mounted() {
-            this.contentHeight = this.contentWidth
+
 
             this.color = this.getRGB()
 
@@ -56,9 +56,11 @@
 
             this.getColor()
 
+            this.contentHeight = this.contentWidth
+
             window.onresize = () => {
                 return (() => {
-                    this.contentHeight = this.contentWidth
+                    this.contentHeight = document.body.clientWidth
                 })()
             }
         },
