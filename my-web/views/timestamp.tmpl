@@ -2,27 +2,61 @@
 {{template "header" .}}
 
 <section>
-    <div style="font-size: 20px">时间戳转换 <span style="font-size: 10px"> - 北京时间</span></div> <br>
+    <Tabs model-value="timestamp" :animated="false">
+        <Tab-Pane label="时间戳转换" name="timestamp">
 
-    <div>
-        <span>现在：</span>
-        <span v-html="now" style="margin-left: 24px;"></span>
-    </div> <br>
+            <div style="padding: 12px">
+                <div style="font-size: 20px">时间戳转换 <span style="font-size: 10px"> - 北京时间</span></div> <br>
 
-    <div>
-        <span>时间戳：</span>
-        <i-Input v-model="time1" style="width: auto; margin-left: 10px;"></i-Input>
-        <i-button type="warning" style="margin-left: 10px" @click="exchange1" ghost>转换 >></i-button>
-        <i-Input v-model="date1" style="width: auto; margin-left: 10px"></i-Input>
-    </div> <br>
+                <div>
+                    <span>现在：</span>
+                    <span v-html="now" style="margin-left: 24px;"></span>
+                </div> <br>
 
-    <div>
-        <span>当前：</span>
-        <i-Input v-model="date2" style="width: auto; margin-left: 24px;"></i-Input>
-        <i-button type="info" style="margin-left: 10px" @click="exchange2" ghost>转换 >></i-button>
-        <i-Input v-model="time2" style="width: auto; margin-left: 10px"></i-Input>
-    </div> <br>
+                <div>
+                    <span>时间戳：</span>
+                    <i-Input v-model="time1" style="width: auto; margin-left: 10px;"></i-Input>
+                    <i-button type="warning" style="margin-left: 10px" @click="exchange1" ghost>转换 >></i-button>
+                    <i-Input v-model="date1" style="width: auto; margin-left: 10px"></i-Input>
+                </div> <br>
+
+                <div>
+                    <span>当前：</span>
+                    <i-Input v-model="date2" style="width: auto; margin-left: 24px;"></i-Input>
+                    <i-button type="info" style="margin-left: 10px" @click="exchange2" ghost>转换 >></i-button>
+                    <i-Input v-model="time2" style="width: auto; margin-left: 10px"></i-Input>
+                </div> <br>
+            </div>
+
+        </Tab-Pane>
+
+        <Tab-Pane label="MD5加密" name="md5">
+            <div style="width: 35%; padding: 12px;float: left">
+                <i-Input v-model="md5_content" type="textarea" :rows="9"></i-Input>
+
+                <i-button type="info" style="margin-top: 10px" @click="md5" ghost>MD5 >></i-button>
+            </div>
+
+            <div style="width: 50%; padding: 12px;float: left;margin-left: 20px">
+                <span class="md5-label">32位大写&nbsp;</span> <i-Input v-model="md5_32_upper" style="width:60%; margin: 2px"></i-Input> <br><br>
+
+                <span class="md5-label">32位小写&nbsp;</span> <i-Input v-model="md5_32_lower" style="width:60%;"></i-Input> <br><br>
+
+                <span class="md5-label">16位大写&nbsp;</span> <i-Input v-model="md5_16_upper" style="width:60%;"></i-Input> <br><br>
+
+                <span class="md5-label">16位小写&nbsp;</span> <i-Input v-model="md5_16_lower" style="width:60%;"></i-Input> <br><br>
+            </div>
+
+        </Tab-Pane>
+<!--        <Tab-Pane label="标签三" name="name3">-->
+<!--            标签三的内容-->
+<!--        </Tab-Pane>-->
+    </Tabs>
+
+
 </section>
+
+<script type="text/javascript" src="./assets/js/md5.js"></script>
 
 <script>
 
@@ -34,6 +68,13 @@
                 date1: "",
                 time2: "",
                 date2: "",
+
+
+                md5_content:"",
+                md5_32_upper:"",
+                md5_32_lower:"",
+                md5_16_upper:"",
+                md5_16_lower:"",
             }
         },
         methods: {
@@ -64,6 +105,13 @@
             tt(){
                 this.now = Date.parse(new Date()) / 1000;
                 setTimeout(this.tt, 1000)
+            },
+
+            md5() {
+                this.md5_32_lower = hex_md5(this.md5_content)
+                this.md5_32_upper = this.md5_32_lower.toUpperCase()
+                this.md5_16_lower = this.md5_32_lower.substr(8, 16)
+                this.md5_16_upper = this.md5_32_upper.substr(8, 16)
             }
         },
         mounted(){
@@ -79,3 +127,10 @@
 </script>
 
 {{template "footer" .}}
+
+<style>
+    .md5-label {
+        font-size: 12px;
+        font-weight: bold;
+    }
+</style>
