@@ -16,14 +16,14 @@
                 <div>
                     <span>时间戳：</span>
                     <i-Input v-model="time1" style="width: auto; margin-left: 10px;"></i-Input>
-                    <i-button type="warning" style="margin-left: 10px" @click="exchange1" ghost>转换 >></i-button>
+                    <i-button type="info" style="margin-left: 10px" @click="exchange1" ghost>转换 >></i-button>
                     <i-Input v-model="date1" style="width: auto; margin-left: 10px"></i-Input>
                 </div> <br>
 
                 <div>
                     <span>当前：</span>
                     <i-Input v-model="date2" style="width: auto; margin-left: 24px;"></i-Input>
-                    <i-button type="info" style="margin-left: 10px" @click="exchange2" ghost>转换 >></i-button>
+                    <i-button type="warning" style="margin-left: 10px" @click="exchange2" ghost>转换 >></i-button>
                     <i-Input v-model="time2" style="width: auto; margin-left: 10px"></i-Input>
                 </div> <br>
             </div>
@@ -53,14 +53,29 @@
                 <i-button type="info" style="margin-top: 10px" @click="md5" ghost>MD5 >></i-button>
             </div>
 
-            <div style="width: 500px; padding: 12px;float: left;margin-left: 20px">
-                <span class="md5-label">32位大写&nbsp;</span> <i-Input v-model="md5_32_upper" style="width:60%; margin: 2px"></i-Input> <br><br>
+            <div style="width: 500px; padding: 12px;float: left;margin-left: 20px"><br>
+                <span class="md5-label">32位大写&nbsp;</span> <i-Input v-model="md5_32_upper" style="width:60%;"></i-Input> <br><br>
 
                 <span class="md5-label">32位小写&nbsp;</span> <i-Input v-model="md5_32_lower" style="width:60%;"></i-Input> <br><br>
 
                 <span class="md5-label">16位大写&nbsp;</span> <i-Input v-model="md5_16_upper" style="width:60%;"></i-Input> <br><br>
 
                 <span class="md5-label">16位小写&nbsp;</span> <i-Input v-model="md5_16_lower" style="width:60%;"></i-Input> <br><br>
+            </div>
+        </Tab-Pane>
+
+        <Tab-Pane label="URL解码" name="url">
+            <div style="width: 500px; padding: 12px;float: left">
+                <i-Input v-model="urlContent" type="textarea" :rows="13"></i-Input>
+
+                <i-button type="info" style="margin-top: 10px" @click="urlCode(1)" ghost>Url转码 >></i-button> &nbsp;&nbsp;
+                <i-button type="warning" style="margin-top: 10px" @click="urlCode(2)" ghost>Url解码 >></i-button>
+            </div>
+
+            <Icon type="ios-arrow-round-forward" style="float: left;margin-left: 10px;margin-top: 130px" size="25"></Icon>
+
+            <div style="width: 500px; padding: 12px;float: left;margin-left: 10px">
+                <i-Input v-model="url2Content" type="textarea" :rows="13"></i-Input>
             </div>
         </Tab-Pane>
     </Tabs>
@@ -91,6 +106,10 @@
                 md5_32_lower:"",
                 md5_16_upper:"",
                 md5_16_lower:"",
+
+
+                urlContent:"",
+                url2Content:"",
             }
         },
         watch:{
@@ -133,6 +152,14 @@
                 this.md5_32_upper = this.md5_32_lower.toUpperCase()
                 this.md5_16_lower = this.md5_32_lower.substr(8, 16)
                 this.md5_16_upper = this.md5_32_upper.substr(8, 16)
+            },
+
+            urlCode(t) {
+                if (t === 1) {
+                    this.url2Content = escape(this.urlContent)
+                } else {
+                    this.url2Content = unescape(this.urlContent)
+                }
             }
         },
         mounted(){
