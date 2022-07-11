@@ -15,6 +15,11 @@ func initRouter(r *gin.Engine) {
 
 	r.LoadHTMLGlob("./my-web/views/*")
 
+	g0 := r.Group("/")
+	{
+		g0.GET("", api.TimestampIndex)
+	}
+
 	g1 := r.Group("/timestamp")
 	{
 		g1.GET("", api.TimestampIndex)

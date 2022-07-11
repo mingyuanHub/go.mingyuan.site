@@ -66,13 +66,13 @@
         <Layout>
             <Header>
                 <i-Menu mode="horizontal" theme="light" :active-name="path">
-                    <div class="layout-logo">Code Tools</div>
+                    <div class="layout-logo" @click="showBulletscreen">Code Tools</div>
                     <div class="layout-nav">
                         <Menu-Item name="/timestamp" to="/timestamp">
                             <Icon type="ios-swap"></Icon>
                             转换工具
                         </Menu-Item>
-                        <Menu-Item name="/bulletscreen" to="/bulletscreen">
+                        <Menu-Item name="/bulletscreen" to="/bulletscreen" v-if="bulletscreenClick >= 6">
                             <Icon type="ios-film"></Icon>
                             弹幕
                         </Menu-Item>
