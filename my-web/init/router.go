@@ -40,6 +40,7 @@ func initRouter(r *gin.Engine) {
 	g4 := r.Group("/pixelwars")
 	{
 		g4.GET("", api.PixelWarsIndex)
+		g4.GET("/websocket", api.PixelWarsWebsocket)
 		g4.GET("/color", api.PixelWarsGetColor)
 		g4.POST("/color", api.PixelWarsSetColor)
 	}

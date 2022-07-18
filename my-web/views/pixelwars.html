@@ -9,6 +9,9 @@
 
     <div class="color-picker">
         <Color-Picker v-model="color" recommend></Color-Picker>
+        <Tooltip :content="statusTip()" theme="light">
+            <Icon type="ios-ionitron-outline" :color="statusColor()" size="18" style="margin-left: 5px"></Icon>
+        </Tooltip>
     </div>
 </section>
 
@@ -17,10 +20,11 @@
     var render = {
         data() {
             return {
-                cols: 150,
+                cols: 100,
                 pixelNum : 0,
                 pixelArr: [],
-                color:""
+                color:"",
+                websocket:"",
             }
         },
         methods: {
@@ -37,12 +41,58 @@
             setColor(idx) {
                 this.pixelArr[idx] = this.color
 
+                var self = this
                 axios.post('/pixelwars/color', {
                     id: idx,
                     color: this.color
                 }).then(function (response) {
                     let resp = response.data;
+
+                    self.webSocketSend(idx+":"+self.color)
                 })
+            },
+            initWebSocket(){
+                this.websocket = new WebSocket("ws://"+this.host+"/pixelwars/websocket")
+
+                this.websocket.onerror = () => {
+                    console.log("websocket error")
+                }
+
+                this.websocket.onopen = () => {
+                    console.log("websocket onopen")
+                }
+
+                this.websocket.onmessage = (evt) => {
+                    var msgArr = evt.data.split(":")
+
+                    ip = msgArr[0]
+                    pixelIdx = msgArr[1]
+                    pixelColor = msgArr[2]
+
+                    this.pixelArr[pixelIdx] = pixelColor
+
+                    console.log("websocket onmessage: " + evt.data)
+                }
+
+                this.websocket.onclose = () => {
+                    console.log("websocket onclose")
+                }
+
+                window.onbeforeunload = () => {
+                    this.websocket.close();
+                };
+            },
+            webSocketSend(msg){
+                if (this.websocket.readyState === 1) {
+                    this.websocket.send(msg)
+                }
+            },
+            statusColor(){
+                return this.websocket.readyState === 1 ? "green" : "red"
+            },
+            statusTip(){
+                s =  this.websocket.readyState === 1 ? "已连接。" : "已断开 (请刷新界面)。"
+                return "WebSocket " + s
             }
         },
         mounted() {
@@ -61,6 +111,8 @@
                     this.contentHeight = document.body.clientWidth
                 })()
             }
+
+            this.initWebSocket()
         },
         created(){
             this.pixelNum = this.cols * this.cols

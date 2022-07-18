@@ -16,6 +16,7 @@
                         clientWidth:0,
                         contentHeight:0,
                         contentWidth:0,
+                        host:"",
                         path:"",
 
                         bulletscreenClick:0,
@@ -24,6 +25,7 @@
                 created() {
                     this.mix()
                     this.onresize()
+                    this.host = window.location.host
                     this.path = window.location.pathname
                 },
                 methods: {
@@ -61,7 +63,6 @@
                             b = parseInt(id * 3 % 256); //0-255
                         return `rgb(${r},${g},${b})` //使用了es6的模板字符串
                     }
-
                 },
                 mounted() {
                     const that = this
@@ -70,8 +71,6 @@
                             that.onresize()
                         })()
                     }
-
-
                 }
             }
 

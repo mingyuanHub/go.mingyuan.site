@@ -12,14 +12,14 @@
 
 ### 三 Linunx 运行命令
 
-```
+```shell
 ps -aux | grep mingyuan.site
 
 kill -9 17397
 
-nohup /services/mingyuan.site/mingyuan.site /services/mingyuan.site/nohub.out 2>&1 &
+cd /services/mingyuan.site/ && nohup ./mingyuan.site > ./nohub.out 2>&1 &
 
-/usr/local/openresty/nginx/sbin/nginx -s reload
+# /usr/local/openresty/nginx/sbin/nginx -s reload
 
 ```
 
