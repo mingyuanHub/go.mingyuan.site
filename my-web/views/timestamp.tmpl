@@ -6,25 +6,26 @@
         <Tab-Pane label="时间戳转换" name="timestamp">
 
             <div style="padding: 12px">
-                <div style="font-size: 20px">时间戳转换 <span style="font-size: 10px"> - 北京时间</span></div> <br>
+
+                <br>
+
+                <Icon type="ios-clock-outline" size="48" style="width: auto; margin-left: 10px;"></Icon>
+                北京时间: <span v-html="now" style="margin-left: 5px;"></span>
+
+                 <br><br><br>
+
+                <Divider orientation="left" size="small"  style="width: 50%">时间戳转换</Divider><br>
 
                 <div>
-                    <span>现在：</span>
-                    <span v-html="now" style="margin-left: 24px;"></span>
-                </div> <br>
+                    <i-Input v-model="time1" style="width: auto; margin-left: 10px;" on-change="exchange1"></i-Input>
+                    <span v-html="date1" style="margin-left: 10px;"></span>
+                </div> <br><br><br>
+
+                <Divider orientation="left" size="small">日期转换</Divider><br>
 
                 <div>
-                    <span>时间戳：</span>
-                    <i-Input v-model="time1" style="width: auto; margin-left: 10px;"></i-Input>
-                    <i-button type="info" style="margin-left: 10px" @click="exchange1" ghost>转换 >></i-button>
-                    <i-Input v-model="date1" style="width: auto; margin-left: 10px"></i-Input>
-                </div> <br>
-
-                <div>
-                    <span>当前：</span>
-                    <i-Input v-model="date2" style="width: auto; margin-left: 24px;"></i-Input>
-                    <i-button type="warning" style="margin-left: 10px" @click="exchange2" ghost>转换 >></i-button>
-                    <i-Input v-model="time2" style="width: auto; margin-left: 10px"></i-Input>
+                    <i-Input v-model="date2" style="width: auto; margin-left: 10px;"></i-Input>
+                    <span v-html="time2" style="margin-left: 10px;"></span>
                 </div> <br>
             </div>
         </Tab-Pane>
@@ -118,7 +119,13 @@
             },
             md5_content(v){
                 this.md5(v)
-            }
+            },
+            time1(){
+                this.exchange1()
+            },
+            date2(){
+                this.exchange2()
+            },
         },
         methods: {
             add(m){
