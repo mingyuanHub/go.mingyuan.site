@@ -23,11 +23,7 @@ func initRouter(r *gin.Engine) {
 	g1 := r.Group("/timestamp")
 	{
 		g1.GET("", api.TimestampIndex)
-	}
-
-	g2 := r.Group("/json")
-	{
-		g2.GET("", api.JsonIndex)
+		g1.GET("/trans", api.Trans)
 	}
 
 	g3 := r.Group("/bulletscreen")

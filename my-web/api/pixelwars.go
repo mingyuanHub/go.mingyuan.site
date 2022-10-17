@@ -42,7 +42,7 @@ func PixelWarsSetColor(c *gin.Context) {
 	c.ShouldBind(&req)
 
 	pixel := &models.PixelWars{
-		Id:      req.Id,
+		Id:    req.Id,
 		Color: req.Color,
 	}
 

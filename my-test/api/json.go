@@ -8,7 +8,7 @@ import (
 
 func JsonIndex(c *gin.Context) {
 
-	var tmplName = "json.tmpl"
+	var tmplName = "json.html"
 
 	t, _ := template.ParseFiles(fmt.Sprintf("my-web/views/%s", tmplName))
 
