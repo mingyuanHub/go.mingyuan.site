@@ -131,8 +131,12 @@
 
                 <span class="md5-label" style="margin-left: 20px">密钥（s）：</span> <i-Input v-model="aesToken" style="width:300px;"></i-Input>
 
-                <Tooltip  content="AES 128 ECB 加密，base64 编码" placement="right-start" style="display: inline;margin-left:20px;">
+                <Tooltip placement="right-start" style="display: inline;margin-left:20px;">
                     <a target="_blank" href="https://conf-inner.tradplusad.com/pages/viewpage.action?pageId=2835243" ><Icon type="ios-alert"></Icon>提示</a>
+                    <template #content>
+                        <p>1. AES 128 ECB 加密，base64 编码</p>
+                        <p>2. 密钥长度统一32位</p>
+                    </template>
                 </Tooltip >
 
             </div><br/>
@@ -270,32 +274,45 @@
                 })
             },
             aes() {
-                d = this.aesData1
 
-                if (d == "") {
+                if (this.aesData1 == "") {
                     this.aesData2 = ""
                     return
                 }
 
                 var self = this
                 var api = ""
+                var tip = ""
 
                 if (this.aesType) {
                     api = "http://www.mingyuan.site/aes-encode"
+                    tip ="加密"
                 } else {
                     api = "http://www.mingyuan.site/aes-decode"
+                    tip ="解密"
                 }
 
                 axios.post(api,
-                    d,
+                    this.aesData1,
                     {
                         headers:{
                             s: this.aesToken
                         }
-                    }).then(function (response) {
-                    let resp = response.data
-                    self.aesData2 = resp
-                    console.log(resp)
+                    }
+                ).then(function (response) {
+                    if (response.status == 200 && response.data != 'nil\n') {
+                        let resp = response.data
+                        resp2 = JSON.stringify(resp)
+                        if (resp2.substring(0, 1) == "\"") {
+                            resp2 = resp2.substring(1, resp2.length-3)
+                        }
+                        self.aesData2 = resp2
+                    } else {
+                        self.aesData2 = tip + "失败."
+                    }
+                }).catch((error) => {
+                    console.log(error);
+                    self.aesData2 = tip + "失败."
                 })
             }
         },
@@ -307,6 +324,8 @@
             this.date2 = this.exchangeT2D(this.time1)
 
             setTimeout(this.tt, 1000)
+
+            this.aesData1 = this.aesData2 = this.aesToken = ""
         }
     }
 </script>
