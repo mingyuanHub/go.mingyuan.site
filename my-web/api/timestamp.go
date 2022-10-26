@@ -4,10 +4,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 
+	"mingyuanHub/mingyuan.site/pkg/logger"
 	"mingyuanHub/mingyuan.site/pkg/net"
 	"mingyuanHub/mingyuan.site/pkg/template"
 )
@@ -43,8 +45,9 @@ func Trans(c *gin.Context) {
 
 	var errMsg = errors.New("")
 
-	httpResponse, body, err := net.HttpGetRequest("https://fanyi.youdao.com/translate?&doctype=json&type=AUTO&i="+t, net.HttpClient2000)
+	httpResponse, body, err := net.HttpGetRequest("https://fanyi.youdao.com/translate?&doctype=json&type=AUTO&i="+t, net.HttpClient5000)
 	if err != nil {
+		logger.Error("fail to HttpGetRequest, err=%s", err.Error())
 		return
 	}
 

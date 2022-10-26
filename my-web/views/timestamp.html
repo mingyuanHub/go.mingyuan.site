@@ -106,8 +106,54 @@
                 </Split>
             </div>
         </Tab-Pane>
-    </Tabs>
 
+<!------------------------------------------------------------------------------------>
+
+<!--        <Tab-Pane label="HTTP 请求" name="http">-->
+<!--            <div class="demo-split" :style='{"height": contentHeight - 52 + "px", "padding":"10px"}'>-->
+<!--                <i-Input v-model="transDataDone" type="textarea" autosize style="width:50%"></i-Input>-->
+<!--            </div>-->
+<!--        </Tab-Pane>-->
+
+<!------------------------------------------------------------------------------------>
+
+        <Tab-Pane label="AES加解密" name="aes">
+            <div style="padding-left: 10px">
+
+                <i-Switch size="large" v-model="aesType">
+                    <template #open>
+                        <span>加密</span>
+                    </template>
+                    <template #close>
+                        <span>解密</span>
+                    </template>
+                </i-Switch>
+
+                <span class="md5-label" style="margin-left: 20px">密钥（s）：</span> <i-Input v-model="aesToken" style="width:300px;"></i-Input>
+
+                <Tooltip  content="AES 128 ECB 加密，base64 编码" placement="right-start" style="display: inline;margin-left:20px;">
+                    <a target="_blank" href="https://conf-inner.tradplusad.com/pages/viewpage.action?pageId=2835243" ><Icon type="ios-alert"></Icon>提示</a>
+                </Tooltip >
+
+            </div><br/>
+
+            <div class="demo-split" :style='{"height": contentHeight - 52 + "px", "border": "1px solid #dcdee2"}'>
+                <Split v-model="split">
+                    <template #left>
+                        <div class="demo-split-pane">
+                            <i-Input v-model="aesData1" type="textarea" :border="false" :rows="(contentHeight - 63) / 21"></i-Input>
+                        </div>
+                    </template>
+                    <template #right>
+                        <div class="demo-split-pane">
+                            <i-Input v-model="aesData2" type="textarea" :border="false" :rows="(contentHeight - 63)  / 21"></i-Input>
+                        </div>
+                    </template>
+                </Split>
+            </div>
+        </Tab-Pane>
+
+    </Tabs>
 
 </section>
 
@@ -140,6 +186,11 @@
 
                 transData: "",
                 transDataDone: "",
+
+                aesData1:"",
+                aesData2:"",
+                aesType:true,
+                aesToken:"",
             }
         },
         watch:{
@@ -156,8 +207,17 @@
                 this.exchange2()
             },
             transData(v){
-                this.transDataDone = this.trans(v)
+                this.trans(v)
             },
+            aesData1(){
+                this.aes()
+            },
+            aesType(){
+                this.aes()
+            },
+            aesToken(){
+                this.aes()
+            }
         },
         methods: {
             add(m){
@@ -208,7 +268,35 @@
                     self.transDataDone = resp.result.transTgt
                     console.log(resp)
                 })
+            },
+            aes() {
+                d = this.aesData1
 
+                if (d == "") {
+                    this.aesData2 = ""
+                    return
+                }
+
+                var self = this
+                var api = ""
+
+                if (this.aesType) {
+                    api = "http://www.mingyuan.site/aes-encode"
+                } else {
+                    api = "http://www.mingyuan.site/aes-decode"
+                }
+
+                axios.post(api,
+                    d,
+                    {
+                        headers:{
+                            s: this.aesToken
+                        }
+                    }).then(function (response) {
+                    let resp = response.data
+                    self.aesData2 = resp
+                    console.log(resp)
+                })
             }
         },
         mounted(){

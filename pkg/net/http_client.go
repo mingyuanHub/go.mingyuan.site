@@ -9,6 +9,7 @@ import (
 var (
 	HttpClient1000      *http.Client
 	HttpClient2000      *http.Client
+	HttpClient5000      *http.Client
 )
 
 
@@ -16,6 +17,7 @@ var (
 func init() {
 	HttpClient1000 = createHTTPClient(1000)
 	HttpClient2000 = createHTTPClient(2000)
+	HttpClient5000 = createHTTPClient(5000)
 }
 
 func createHTTPClient(requestTimeout int) *http.Client {
