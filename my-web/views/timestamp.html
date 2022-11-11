@@ -367,17 +367,37 @@
                 var recordsPrimary = this.dataFilterPrimary.split("\n")
                 var recordsSecondary = this.dataFilterSecondary.split("\n")
                 var result = ""
+                var existsRecords = []
 
                 for (i = 0; i < recordsPrimary.length ; i ++) {
+
                     var p = recordsPrimary[i]
+                    var isInsert = false
+                    var isInsert2 = true
+
+                    if (p.length == 0) {
+                        continue
+                    }
+
                     for (j = 0; j < recordsSecondary.length ; j ++) {
                         var s = recordsSecondary[j]
+
+                        if (s.length == 0) {
+                            continue
+                        }
+
                         if (filterType == 1 && p.indexOf(s) != -1)  {
-                            result += p+"\n"
+                            isInsert = true
+                            break
                         }
-                        if (filterType == 2 && p.indexOf(s) == -1)  {
-                            result += p+"\n"
+                        if (filterType == 2 && p.indexOf(s) != -1)  {
+                            isInsert2 = false
+                            break
                         }
+                    }
+
+                    if ((filterType == 1 && isInsert) || (filterType == 2 && isInsert2)) {
+                        result += p+"\n"
                     }
                 }
 
