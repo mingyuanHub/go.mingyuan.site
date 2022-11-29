@@ -40,4 +40,18 @@ func initRouter(r *gin.Engine) {
 		g4.GET("/color", api.PixelWarsGetColor)
 		g4.POST("/color", api.PixelWarsSetColor)
 	}
+
+	g5 := r.Group("/adx")
+	{
+		g5.GET("", api.AdxIndex)
+
+		g5.POST("/adxGetDspList", api.AdxGetDspList)
+		g5.GET("/adxGetDspAdm", api.AdxGetDspAdm)
+
+		g5.POST("/adxDspSave", api.AdxDspSave)
+		g5.GET("/adxGetDspNotice", api.AdxGetDspNotice)
+
+		g5.GET("/:uniqueKey/:noticeType", api.AdxSaveDspNotice)
+		g5.POST("/:uniqueKey", api.AdxBid)
+	}
 }

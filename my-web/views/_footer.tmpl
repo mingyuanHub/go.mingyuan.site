@@ -23,6 +23,8 @@
                         host:"",
                         path:"",
 
+                        nowDate:"",
+
                         bulletscreenClick:0,
                     }
                 },
@@ -69,7 +71,25 @@
 
                         console.log(r,g,b)
                         return `rgb(${r},${g},${b})` //使用了es6的模板字符串
-                    }
+                    },
+                    add(m){
+                        return m<10 ? '0'+m : m
+                    },
+                    exchangeT2D(t){
+                        var time = new Date(t*1000);
+                        var y = time.getFullYear();
+                        var m = time.getMonth()+1;
+                        var d = time.getDate();
+                        var h = time.getHours();
+                        var mm = time.getMinutes();
+                        var s = time.getSeconds();
+                        return y+'-'+this.add(m)+'-'+this.add(d)+' '+this.add(h)+':'+this.add(mm)+':'+this.add(s);
+                    },
+                    exchangeD2T(d){
+                        d = d.substring(0,19);
+                        d = d.replace(/-/g,'/');
+                        return new Date(d).getTime() / 1000;
+                    },
                 },
                 mounted() {
                     const that = this
@@ -78,6 +98,8 @@
                             that.onresize()
                         })()
                     }
+
+                    this.nowDate = this.exchangeT2D(Date.parse(new Date()) / 1000)
                 }
             }
 

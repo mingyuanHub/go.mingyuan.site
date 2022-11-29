@@ -271,29 +271,11 @@
             },
         },
         methods: {
-            add(m){
-                return m<10 ? '0'+m : m
-            },
             exchange1(){
                 this.date1 = this.exchangeT2D(this.time1)
             },
             exchange2(){
                 this.time2 = this.exchangeD2T(this.date2)
-            },
-            exchangeT2D(t){
-                var time = new Date(t*1000);
-                var y = time.getFullYear();
-                var m = time.getMonth()+1;
-                var d = time.getDate();
-                var h = time.getHours();
-                var mm = time.getMinutes();
-                var s = time.getSeconds();
-                return y+'-'+this.add(m)+'-'+this.add(d)+' '+this.add(h)+':'+this.add(mm)+':'+this.add(s);
-            },
-            exchangeD2T(d){
-                d = d.substring(0,19);
-                d = d.replace(/-/g,'/');
-                return new Date(d).getTime() / 1000;
             },
             tt(){
                 this.now = Date.parse(new Date()) / 1000;

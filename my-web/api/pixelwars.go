@@ -23,7 +23,7 @@ func PixelWarsIndex(c *gin.Context) {
 
 func PixelWarsGetColor(c *gin.Context) {
 	response := models.NewPixelWarsModel().GetColor()
-	c.JSONP(http.StatusCreated, response)
+	c.JSONP(http.StatusOK, response)
 }
 
 
@@ -58,7 +58,7 @@ func PixelWarsSetColor(c *gin.Context) {
 		200,
 		"ok",
 	}
-	c.JSONP(http.StatusCreated, response)
+	c.JSONP(http.StatusOK, response)
 }
 
 

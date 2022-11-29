@@ -15,7 +15,7 @@ func initRouter(r *gin.Engine)  {
 
 	r.LoadHTMLGlob("./my-web/views/*")
 
-	r.GET("/home", api.Home)
+	r.GET("/home", api.AddArticle)
 
 	g1 := r.Group("/article")
 	{

@@ -6,6 +6,7 @@ import (
 
 type appConfig struct {
 	RunMode string
+	Host    string
 }
 
 type serverConfig struct {
@@ -50,6 +51,12 @@ func Init() error {
 		MysqlUser:     cfg.Section("mysql").Key("MYSQL_USER").String(),
 		MysqlPassword: cfg.Section("mysql").Key("MYSQL_PASSWORD").String(),
 		MysqlDb:       cfg.Section("mysql").Key("MYSQL_DB").String(),
+	}
+
+	if AppConfig.RunMode == "test" {
+		AppConfig.Host = cfg.Section("").Key("HOST_TEST").String()
+	} else if AppConfig.RunMode == "prod" {
+		AppConfig.Host = cfg.Section("").Key("HOST_PROD").String()
 	}
 
 	return nil
