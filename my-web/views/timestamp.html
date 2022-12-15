@@ -2,7 +2,7 @@
 {{template "header" .}}
 
 <section>
-    <Tabs model-value="timestamp" :animated="false">
+    <Tabs model-value="json2" :animated="false">
 
 <!------------------------------------------------------------------------------------>
 
@@ -35,20 +35,28 @@
 
 <!------------------------------------------------------------------------------------>
 
-        <Tab-Pane label="Json格式化" name="json">
+<!--        <Tab-Pane label="Json格式化" name="json1">-->
+<!--            <div class="demo-split" :style='{"height": contentHeight - 52 + "px", "border": "1px solid #dcdee2"}'>-->
+<!--                <Split v-model="split">-->
+<!--                    <template #left>-->
+<!--                        <div class="demo-split-pane">-->
+<!--                            <i-Input v-model="jsonData" type="textarea" :border="false" :rows="(contentHeight - 63) / 21"></i-Input>-->
+<!--                        </div>-->
+<!--                    </template>-->
+<!--                    <template #right>-->
+<!--                        <div class="demo-split-pane">-->
+<!--                            <i-Input v-model="jsonDataFormatted" type="textarea" :border="false" :rows="(contentHeight - 63)  / 21"></i-Input>-->
+<!--                        </div>-->
+<!--                    </template>-->
+<!--                </Split>-->
+<!--            </div>-->
+<!--        </Tab-Pane>-->
+
+<!------------------------------------------------------------------------------------>
+
+        <Tab-Pane label="Json格式化" name="json2">
             <div class="demo-split" :style='{"height": contentHeight - 52 + "px", "border": "1px solid #dcdee2"}'>
-                <Split v-model="split">
-                    <template #left>
-                        <div class="demo-split-pane">
-                            <i-Input v-model="jsonData" type="textarea" :border="false" :rows="(contentHeight - 63) / 21"></i-Input>
-                        </div>
-                    </template>
-                    <template #right>
-                        <div class="demo-split-pane">
-                            <i-Input v-model="jsonDataFormatted" type="textarea" :border="false" :rows="(contentHeight - 63)  / 21"></i-Input>
-                        </div>
-                    </template>
-                </Split>
+                <iframe id="iframe" src="https://www.jsont.run/" style="width:100%;height:100%;top: 0px;position: relative"></iframe>
             </div>
         </Tab-Pane>
 
@@ -429,5 +437,12 @@
     .md5-label {
         font-size: 12px;
         font-weight: bold;
+    }
+
+    iframe {
+        border-width: 0px !important;
+        border-style: inset;
+        border-color: initial;
+        border-image: initial;
     }
 </style>
