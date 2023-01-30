@@ -5,8 +5,9 @@ import (
 )
 
 type appConfig struct {
-	RunMode string
-	Host    string
+	RunMode   string
+	Host      string
+	LocalHost string
 }
 
 type serverConfig struct {
@@ -37,6 +38,7 @@ func Init() error {
 
 	AppConfig = &appConfig{
 		RunMode: cfg.Section("").Key("RUN_MODE").String(),
+		LocalHost: cfg.Section("").Key("HOST_LOCAL").String(),
 	}
 
 	ServerConfig = &serverConfig{

@@ -171,9 +171,9 @@ func AdxBid(c *gin.Context) {
 	adResponse.Id = requestId
 	adResponse.SeatBid[0].Bid[0].Id = adRequest.Id
 	adResponse.SeatBid[0].Bid[0].Price = 99.99
-	adResponse.SeatBid[0].Bid[0].NUrl = setting.AppConfig.Host + "adx/" + uniqueKey + "/nurl"
-	adResponse.SeatBid[0].Bid[0].BUrl = setting.AppConfig.Host + "adx/" + uniqueKey + "/burl"
-	adResponse.SeatBid[0].Bid[0].LUrl = setting.AppConfig.Host + "adx/" + uniqueKey + "/lurl"
+	adResponse.SeatBid[0].Bid[0].NUrl = setting.AppConfig.LocalHost + "adx/" + uniqueKey + "/nurl"
+	adResponse.SeatBid[0].Bid[0].BUrl = setting.AppConfig.LocalHost + "adx/" + uniqueKey + "/burl"
+	adResponse.SeatBid[0].Bid[0].LUrl = setting.AppConfig.LocalHost + "adx/" + uniqueKey + "/lurl"
 	adResponse.SeatBid[0].Bid[0].Adm = dsp.Adm
 	adResponse.SeatBid[0].Bid[0].Ext.NUrl = []string{setting.AppConfig.Host + "adx/" + uniqueKey + "/tpnurl"}
 	adResponse.SeatBid[0].Bid[0].Ext.LUrl = []string{setting.AppConfig.Host + "adx/" + uniqueKey + "/tplurl"}

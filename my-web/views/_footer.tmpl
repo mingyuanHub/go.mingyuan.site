@@ -22,6 +22,7 @@
                         contentWidth:0,
                         host:"",
                         path:"",
+                        local:"",
 
                         nowDate:"",
 
@@ -33,6 +34,7 @@
                     this.onresize()
                     this.host = window.location.host
                     this.path = window.location.pathname
+                    this.local = "127.0.0.1:8099"
                 },
                 methods: {
                     mix() {
@@ -99,7 +101,7 @@
                         })()
                     }
 
-                    this.nowDate = this.exchangeT2D(Date.parse(new Date()) / 1000)
+                    this.nowDate = this.exchangeT2D(Date.parse(new Date()) / 1000 - 8 * 60 * 60)
                 }
             }
 
