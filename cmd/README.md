@@ -13,6 +13,9 @@
 ### 三 Linunx 运行命令
 
 ```shell
+
+chmod +x /services/mingyuan.site/mingyuan.site
+
 ps -aux | grep mingyuan.site
 
 kill -9 17397
