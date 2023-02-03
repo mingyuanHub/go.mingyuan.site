@@ -18,7 +18,7 @@ chmod +x /services/mingyuan.site/mingyuan.site
 
 ps -aux | grep mingyuan.site
 
-kill -9 17397
+kill 17397
 
 cd /services/mingyuan.site/ && nohup ./mingyuan.site > ./nohub.out 2>&1 &
 

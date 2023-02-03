@@ -1,7 +1,9 @@
 package setting
 
 import (
+	"fmt"
 	"gopkg.in/ini.v1"
+	"strings"
 )
 
 type appConfig struct {
@@ -38,7 +40,6 @@ func Init() error {
 
 	AppConfig = &appConfig{
 		RunMode: cfg.Section("").Key("RUN_MODE").String(),
-		LocalHost: cfg.Section("").Key("HOST_LOCAL").String(),
 	}
 
 	ServerConfig = &serverConfig{
@@ -55,11 +56,8 @@ func Init() error {
 		MysqlDb:       cfg.Section("mysql").Key("MYSQL_DB").String(),
 	}
 
-	if AppConfig.RunMode == "test" {
-		AppConfig.Host = cfg.Section("").Key("HOST_TEST").String()
-	} else if AppConfig.RunMode == "prod" {
-		AppConfig.Host = cfg.Section("").Key("HOST_PROD").String()
-	}
+	AppConfig.Host = cfg.Section("host").Key("HOST_" + strings.ToUpper(AppConfig.RunMode)).String()
+	AppConfig.LocalHost = fmt.Sprintf("http://127.0.0.1:%d", ServerConfig.ServerPort)
 
 	return nil
 }
