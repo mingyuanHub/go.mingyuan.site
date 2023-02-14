@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenAi</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.7.0-beta.5/vue.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.9/index.js"></script>
+    <script src="https://unpkg.com/axios@0.27.2/dist/axios.min.js"></script>
+    </script>
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Anonymous+Pro);
+
+        html {
+            min-height: 100%;
+        }
+
+        body {
+            background-color: rgb(25, 25, 25);
+            color: rgba(255, 255, 255, .75);
+            font-family: 'Anonymous Pro', monospace;
+            height: calc(100vh - 8em);
+            padding: 4em;
+        }
+
+        .content {
+            display: block;
+            font-family: 'Anonymous Pro', sans-serif;
+            margin: auto;
+            position: relative;
+            top: 40%;
+            width: -webkit-calc(90%);
+            /*max-width: 500px;*/
+            word-break:break-all;
+        }
+
+
+        .typewrite {
+            font-size: 120%;
+            border-right: 2px solid rgba(255, 255, 255, .75);
+            line-height: 1.15;
+            /*word-break:break-all;*/
+            /*max-width: 500px;*/
+            /*display:inline-block;*/
+            word-wrap: break-word
+        }
+
+        .aaa {
+            word-break:break-all;
+            max-width: 500px;
+            display:inline-block;
+            word-wrap: break-word
+        }
+
+        .anim-typewrite {
+            animation: blinkTextCursor 500ms infinite normal;
+        }
+
+        @keyframes blinkTextCursor {
+            from {
+                border-right-color: rgba(255, 255, 255, .75);
+            }
+
+            to {
+                border-right-color: transparent;
+            }
+        }
+
+        /* style inspired by Thiago Teles Pereira @thiagoteles */
+    </style>
+</head>
+
+<body>
+<div id="app">
+    <div style="text-align: center">
+        <el-input placeholder="请输入内容" v-model="message" clearable style="width: 600px;">
+        </el-input>
+        <el-button type="primary" @click="sumbit2">提交</el-button>
+    </div>
+    <div>
+        <el-row :gutter="20">
+            <el-col :span="20" :offset="2">
+                    <pre class="content">
+                        <span class="typewrite anim-typewrite js-typewrite"></span>
+                    </pre>
+            </el-col>
+        </el-row>
+
+    </div>
+
+</div>
+
+
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                message: '',
+            }
+        },
+        methods: {
+            // async sumbit() {
+            //     var data = JSON.stringify({
+            //         model: "text-davinci-003",
+            //         prompt: this.message,
+            //         temperature: 0,
+            //         max_tokens: 2048,
+            //     });
+            //     var config = {
+            //         method: "post",
+            //         url: "https://api.openai.com/v1/completions",
+            //         headers: {
+            //             "Content-Type": "application/json",
+            //             Authorization: "Bearer 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",
+            //         },
+            //         data: data,
+            //     };
+            //     await axios(config).then(
+            //         (response) => {
+            //             console.log(response.data);
+            //             var i = 0;
+            //             var txt = response.data.choices[0].text;
+            //             var arr = txt.replace(/\n/g, "<br/>")
+            //
+            //             function typeWriter() {
+            //                 if (i < arr.length) {
+            //                     document.getElementsByClassName('js-typewrite')[0].innerHTML +=
+            //                         txt
+            //                             .charAt(i)
+            //                             .replace(/\n/g, "<br/>");
+            //                     i++;
+            //                     setTimeout(typeWriter, 65);
+            //                 }
+            //             }
+            //             setTimeout(typeWriter, 1000);
+            //         },
+            //         (error) => {
+            //             console.log("请求失败了", error.message);
+            //         }
+            //     );
+            //
+            // },
+            async sumbit2() {
+                var i = 0;
+                var txt = "n\n1、JMeter 报告\n\nJMeter 报告是一种用于描述 JMeter 测试结果的文档，它可以帮助您更好地理解测试结果，并且可以帮助您更好地优化性能。JMeter 报告可以提供有关响应时间、吞吐量、错误率等的详细信息，以及有关每个请求的详细信息。\n\n2、生成 JMeter 报告\n\n要生成 JMeter 报告，您需要在 JMeter 中启用报告功能。要启用报告功能，请打开 JMeter 并点击“文件”菜单，然后点击“选项”，然后点击“报告”选项卡。在“报告”选项卡中，您可以选择要生成的报告类型，以及报告的输出格式（HTML、XML、CSV 等）。\n\n您还可以选择要包含在报告中的信息，例如响应时间、吞吐量、错误率等。\n\n一旦您完成了设置，您可以点击“运行”按钮来生成报告。报告将以您选择的格式保存在您指定的位置。";
+                var arr = txt.replace(/\n/g, "<br/>")
+
+                var max = 0
+                function typeWriter() {
+
+                    if (i < arr.length) {
+                        let chart = txt.charAt(i)
+
+                        if (chart.indexOf("<br/>") === -1 && max === 30) {
+                            chart = chart+"<br/>"
+                            max = 0
+                        }
+
+                        max ++
+
+                        if (chart.indexOf("<br/>") !== -1) {
+                            max = 0
+                        }
+
+                        document.getElementsByClassName('js-typewrite')[0].innerHTML +=
+                            chart
+                            .replace(/\n/g, "<br/>");
+                        i++;
+                        setTimeout(typeWriter, 65);
+                    }
+                }
+                setTimeout(typeWriter, 1000);
+            }
+        }
+    })
+</script>
+</body>
+
+</html>

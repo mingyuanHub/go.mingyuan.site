@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"mingyuanHub/mingyuan.site/internal/middlewares"
 	"mingyuanHub/mingyuan.site/my-web/api"
+	"mingyuanHub/mingyuan.site/my-web/api/chatgpt"
 )
 
 func Init(r *gin.Engine)  {
@@ -53,5 +54,10 @@ func initRouter(r *gin.Engine) {
 
 		g5.GET("/:uniqueKey/:noticeType", api.AdxSaveDspNotice)
 		g5.POST("/:uniqueKey", api.AdxBid)
+	}
+
+	g6 := r.Group("/chatgpt")
+	{
+		g6.GET("", chatgpt.Index)
 	}
 }
