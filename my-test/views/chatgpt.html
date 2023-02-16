@@ -95,6 +95,48 @@
 
 
 <script>
+
+    String.prototype.byteLength = function() {  //获取字符串的字节数，扩展string类型方法
+        var b = 0;
+        l = this.length;  //初始化字节数递加变量并获取字符串参数的字符个数
+        if(l) {  //如果存在字符串，则执行计划
+            for(var i = 0; i < l; i ++) {  //遍历字符串，枚举每个字符
+                if(this.charCodeAt(i) > 255) {  //字符编码大于255，说明是双字节字符
+                    b += 2;  //则累加2个
+                }else {
+                    b ++;  //否则递加一次
+                }
+            }
+            return b;  //返回字节数
+        } else {
+            return 0;  //如果参数为空，则返回0个
+        }
+    }
+
+    // 获取文本px宽度* @param font{String}: 字体样式    eg: normal 36px Robot
+    String.prototype.pxWidth = function (font) {
+        var canvas = String.prototype.pxWidth.canvas || (String.prototype.pxWidth.canvas = document.createElement("canvas")),
+            context = canvas.getContext("2d");
+
+        font && (context.font = font);
+        var metrics = context.measureText(this);
+
+        return metrics.width;
+    }
+
+    function getLenPx(str, font_size) {
+        var str_leng = str.replace(/[^\x00-\xff]/gi, 'aa').length;
+        return str_leng * font_size / 2
+    }
+
+    function getLenPxCanvas(str) {
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext("2d");
+        ctx.font = str;
+        var w = ctx.measureText(str).width;
+        return w
+    }
+
     new Vue({
         el: '#app',
         data() {
@@ -149,28 +191,28 @@
                 var txt = "n\n1、JMeter 报告\n\nJMeter 报告是一种用于描述 JMeter 测试结果的文档，它可以帮助您更好地理解测试结果，并且可以帮助您更好地优化性能。JMeter 报告可以提供有关响应时间、吞吐量、错误率等的详细信息，以及有关每个请求的详细信息。\n\n2、生成 JMeter 报告\n\n要生成 JMeter 报告，您需要在 JMeter 中启用报告功能。要启用报告功能，请打开 JMeter 并点击“文件”菜单，然后点击“选项”，然后点击“报告”选项卡。在“报告”选项卡中，您可以选择要生成的报告类型，以及报告的输出格式（HTML、XML、CSV 等）。\n\n您还可以选择要包含在报告中的信息，例如响应时间、吞吐量、错误率等。\n\n一旦您完成了设置，您可以点击“运行”按钮来生成报告。报告将以您选择的格式保存在您指定的位置。";
                 var arr = txt.replace(/\n/g, "<br/>")
 
-                var max = 0
+                var lenPx = 0
                 function typeWriter() {
 
                     if (i < arr.length) {
                         let chart = txt.charAt(i)
 
-                        if (chart.indexOf("<br/>") === -1 && max === 30) {
-                            chart = chart+"<br/>"
-                            max = 0
+                        lenPx += chart.pxWidth()
+
+                        if (chart.indexOf("\n") !== -1) {
+                            lenPx = 0
                         }
 
-                        max ++
-
-                        if (chart.indexOf("<br/>") !== -1) {
-                            max = 0
+                        if (chart.indexOf("\n") === -1 && lenPx >= 300) {
+                            chart = chart+"\n"
+                            lenPx = 0
                         }
+                            document.getElementsByClassName('js-typewrite')[0].innerHTML +=
+                                chart
+                                    .replace(/\n/g, "<br/>");
 
-                        document.getElementsByClassName('js-typewrite')[0].innerHTML +=
-                            chart
-                            .replace(/\n/g, "<br/>");
                         i++;
-                        setTimeout(typeWriter, 65);
+                        setTimeout(typeWriter, 35);
                     }
                 }
                 setTimeout(typeWriter, 1000);

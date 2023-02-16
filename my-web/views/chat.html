@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" litewebchat-theme="dark">
+<html lang="en" litewebchat-theme="light">
 
 <head>
     <meta charset="UTF-8">
@@ -13,22 +13,53 @@
     <script src="https://cdn.jsdelivr.net/gh/MorFansLab/LiteWebChat_Frame/dist/js/litewebchat_render.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/MorFansLab/LiteWebChat_Frame/lite-chatbox.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/MorFansLab/LiteWebChat_Frame/litewebchatinput.min.js"></script>
-    <script src="https://unpkg.com/axios@0.27.2/dist/axios.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="./assets/vue/viewuiplus.css">
+    <script type="text/javascript" src="./assets/vue/vue.global.js"></script>
+    <script type="text/javascript" src="./assets/vue/viewuiplus.min.js"></script>
+    <script type="text/javascript" src="./assets/vue/axios.min.js"></script>
+    <script type="text/javascript" src="./assets/js/jquery.min.js"></script>
 </head>
 
 <body>
-<div class="lite-chatmaster">
-    <div class="lite-chatbox">
-    </div>
+    <div class="lite-chatmaster">
+        <div class="lite-chatbox"></div>
 
-    <div class="lite-chatinput">
         <div class="lite-chatinput">
-            <hr class="boundary" />
-            <div aria-label="input area" class="editor chatinput" id="chatinput" contenteditable="true" ref="editor"></div>
-            <button class="send">发送</button>
+            <div class="lite-chatinput">
+
+                <hr class="boundary" />
+                <div aria-label="input area" class="editor chatinput" id="chatinput" contenteditable="true" ref="editor" placeholder="请输入..."></div>
+                <hr class="boundary" />
+
+                <div id="app">
+
+                    <button class="send" @click="send" @keyup.enter="send">发送</button>
+
+                    <Icon type="ios-key-outline" style="float: right;margin-right: 3px;margin-top: 3px" @click="modal = true" size="15"></Icon>
+
+                    <Modal v-model="modal" width="480">
+                        <template #header>
+                            <p>
+                                设置 Openai Token:
+                            </p>
+                        </template>
+                        <div style="text-align:center">
+                            <i-Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="70">
+                                <Form-Item label="Token:" prop="token">
+                                    <i-input v-model="formValidate.token" style="width: 95%" ref="token1111"/>
+                                </Form-Item>
+                            </i-Form>
+                        </div>
+                        <template #footer>
+                            <i-button type="info" long @click="saveToken" style="width: 20%">确定</i-button>
+                        </template>
+                    </Modal>
+
+                </div>
+            </div>
         </div>
     </div>
-</div>
 </body>
 </html>
 
@@ -36,79 +67,176 @@
 <script>
     const htmls = [];
 
-    function send() {
-        var message = document.getElementById("chatinput").innerText
+    /**
+     * @description 保存cookie
+     * @param {Object} json 需要存储cookie的对象
+     * @param {Number} days 默认存储多少天
+     */
+    function setCookie(json, days) {
+        // 设置过期时间
+        let data = new Date(
+            new Date().getTime() + days * 24 * 60 * 60 * 1000
+        ).toUTCString();
 
-        if (message.length < 1) {
-            return
+        for (var key in json) {
+            document.cookie = key + "=" + json[key] + "; expires=" + data;
         }
-        htmls.push({
-            messageType: "text",
-            headIcon: "./assets/img/go.jpg",
-            name: "",
-            position: "right",
-            html: message,
-        });
-        document.getElementById("chatinput").innerText = "";
-
-        htmls.push({
-            messageType: "tips",
-            html: "请稍等，正在查询中......",
-        });
-        beforeRenderingHTML(htmls, ".lite-chatbox");
-
-
-        // sumbit(message)
     }
 
-    document.querySelector(".send").onclick = send;
+    /**
+     * @description 获取cookie
+     * @param {String} name 需要获取cookie的key
+     */
+    function getCookie(name) {
+        var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
+        if (arr != null) {
+            return unescape(arr[2])
+        } else {
+            return null
+        }
+    }
 
-    document.onkeydown = function () {
-        var e = window.event || arguments.callee.caller.arguments[0];
-        e.keyCode === 13 && send();
-    };
+    /**
+     * @description 删除cookie
+     * @param {String} name 需要删除cookie的key
+     */
+    function clearCookie(name) {
+        let json = {};
+        json[name] = '';
+        setCookie(json, -1)
+    }
+</script>
 
-    function sumbit(message) {
-        var data = JSON.stringify({
-            model: "text-davinci-003",
-            prompt: message,
-            temperature: 0,
-            max_tokens: 2048,
-        });
-        var config = {
-            method: "post",
-            url: "https://api.openai.com/v1/completions",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer 123",
+<script>
+
+    const myMixin = {
+        data () {
+            return {
+                formValidate: {
+                    token: '',
+                },
+                ruleValidate: {
+                    token: [
+                        {required: true, message: 'token 不能为空。', trigger: 'blur'}
+                    ],
+                },
+                modal:false,
+                isSearch:false,
+                selfImg: "https://api.multiavatar.com/"+new Date().valueOf()+".png"
+            }
+        },
+        created() {
+            self = this
+            document.onkeydown = function () {
+                var e = window.event || arguments.callee.caller.arguments[0];
+                e.keyCode === 13 && self.send();
+            };
+        },
+        methods: {
+            saveToken(){
+                this.$refs["formValidate"].validate((valid) => {
+                    if (valid) {
+                        setCookie({"openai-token":this.formValidate.token}, 1)
+                        this.modal = false
+                    }
+                })
             },
-            data: data,
-        };
-        axios(config).then(
-            (response) => {
-                console.log(response.data);
-                var txt = response.data.choices[0].text;
+            showModal(){
+                this.modal = true
+            },
+            send() {
+                var message = document.getElementById("chatinput").innerText
+                if (message.length < 1) {
+                    return
+                }
+
+                if (this.isSearch) {
+                    htmls.push({
+                        messageType: "tips",
+                        html: "请稍等，正在查询中...",
+                    });
+                    return
+                }
 
                 htmls.push({
                     messageType: "text",
-                    headIcon: "./assets/img/openai.jpeg",
-                    name: "ChatGPT",
-                    position: "left",
-                    html: txt,
+                    headIcon: this.selfImg,
+                    name: "",
+                    position: "right",
+                    html: message,
                 });
-                beforeRenderingHTML(htmls, ".lite-chatbox");
-            },
-            (error) => {
-                console.log("请求失败了", error.message);
+                document.getElementById("chatinput").innerText = "";
 
                 htmls.push({
                     messageType: "tips",
-                    html: "查询失败：" + error.message,
+                    html: "请稍等，正在查询中...",
                 });
                 beforeRenderingHTML(htmls, ".lite-chatbox");
+
+                this.sumbit(message)
+            },
+            sumbit(message) {
+
+                this.isSearch = true
+
+                var data = JSON.stringify({
+                    model: "text-davinci-003",
+                    prompt: message,
+                    temperature: 0,
+                    max_tokens: 2048,
+                });
+
+                var config = {
+                    method: "post",
+                    url: "https://api.openai.com/v1/completions",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer "+ this.formValidate.token,
+                    },
+                    data: data,
+                };
+                axios(config).then(
+                    (response) => {
+                        console.log(response.data);
+                        var txt = response.data.choices[0].text;
+
+                        htmls.push({
+                            messageType: "text",
+                            headIcon: "./assets/img/openai.png",
+                            name: "ChatGPT",
+                            position: "left",
+                            html: txt.trim(),
+                        });
+                        beforeRenderingHTML(htmls, ".lite-chatbox");
+
+                        this.isSearch = false
+                    },
+                    (error) => {
+                        console.log("请求失败了", error.message);
+
+                        htmls.push({
+                            messageType: "tips",
+                            html: "查询失败：" + error.message,
+                        });
+                        beforeRenderingHTML(htmls, ".lite-chatbox");
+
+                        this.isSearch = false
+                    }
+                );
             }
-        );
+        },
+        mounted() {
+            this.formValidate.token = getCookie("openai-token")
+            console.log(this.formValidate.token)
+            if (this.formValidate.token == null || this.formValidate.token.length == 0) {
+                this.showModal()
+            }
+        }
     }
+
+    const app = Vue.createApp(myMixin);
+    app.use(ViewUIPlus);
+    app.mount("#app");
 </script>
 
 <style >
@@ -122,5 +250,13 @@
     .lite-chatmaster {
         height: 100%;
         width: 100%;
+    }
+
+    .ivu-modal-header {
+        border-bottom:none;
+    }
+
+    .ivu-modal-footer {
+        border-top:none;
     }
 </style>
