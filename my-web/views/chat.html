@@ -226,7 +226,7 @@
             validateToken(){
                 htmls.push({
                     messageType: "tips",
-                    html: this.formValidate.token.length === 51 ? "配置正确，请使用." : "配置错误，请使用正确的token",
+                    html: this.formValidate.token.length === 51 ? "配置正确" : "配置错误，请填写正确的token",
                 });
                 beforeRenderingHTML(htmls, ".lite-chatbox")
 
@@ -239,9 +239,9 @@
         },
         mounted() {
             this.formValidate.token = getCookie("openai-token")
-            console.log(this.formValidate.token)
             if (this.formValidate.token == null || this.formValidate.token.length === 0) {
                 this.showModal()
+                return
             }
             this.validateToken()
         }
