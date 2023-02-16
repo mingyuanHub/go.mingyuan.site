@@ -40,14 +40,12 @@
 
                     <Modal v-model="modal" width="480">
                         <template #header>
-                            <p>
-                                设置 Openai Token:
-                            </p>
+                            <p>设置 Openai Token:</p>
                         </template>
                         <div style="text-align:center">
                             <i-Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="70">
                                 <Form-Item label="Token:" prop="token">
-                                    <i-input v-model="formValidate.token" style="width: 95%" ref="token1111"/>
+                                    <i-input v-model="formValidate.token" style="width: 95%"/>
                                 </Form-Item>
                             </i-Form>
                         </div>
@@ -128,7 +126,7 @@
         created() {
             self = this
             document.onkeydown = function () {
-                var e = window.event || arguments.callee.caller.arguments[0];
+                let e = window.event || arguments.callee.caller.arguments[0];
                 e.keyCode === 13 && self.send();
             };
         },
@@ -138,6 +136,7 @@
                     if (valid) {
                         setCookie({"openai-token":this.formValidate.token}, 1)
                         this.modal = false
+                        this.validateToken()
                     }
                 })
             },
@@ -145,7 +144,7 @@
                 this.modal = true
             },
             send() {
-                var message = document.getElementById("chatinput").innerText
+                let message = document.getElementById("chatinput").innerText
                 if (message.length < 1) {
                     return
                 }
@@ -173,20 +172,20 @@
                 });
                 beforeRenderingHTML(htmls, ".lite-chatbox");
 
-                this.sumbit(message)
+                this.submit(message)
             },
-            sumbit(message) {
+            submit(message) {
 
                 this.isSearch = true
 
-                var data = JSON.stringify({
+                let data = JSON.stringify({
                     model: "text-davinci-003",
                     prompt: message,
                     temperature: 0,
                     max_tokens: 2048,
                 });
 
-                var config = {
+                let config = {
                     method: "post",
                     url: "https://api.openai.com/v1/completions",
                     headers: {
@@ -223,14 +222,28 @@
                         this.isSearch = false
                     }
                 );
+            },
+            validateToken(){
+                htmls.push({
+                    messageType: "tips",
+                    html: this.formValidate.token.length === 51 ? "配置正确，请使用." : "配置错误，请使用正确的token",
+                });
+                beforeRenderingHTML(htmls, ".lite-chatbox")
+
+                if (this.formValidate.token.length !== 51) {
+                    setTimeout(()=>{
+                        this.showModal()
+                    }, 1500)
+                }
             }
         },
         mounted() {
             this.formValidate.token = getCookie("openai-token")
             console.log(this.formValidate.token)
-            if (this.formValidate.token == null || this.formValidate.token.length == 0) {
+            if (this.formValidate.token == null || this.formValidate.token.length === 0) {
                 this.showModal()
             }
+            this.validateToken()
         }
     }
 
