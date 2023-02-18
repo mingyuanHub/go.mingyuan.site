@@ -29,14 +29,25 @@
             <div class="lite-chatinput">
 
                 <hr class="boundary" />
-                <div aria-label="input area" class="editor chatinput" id="chatinput" contenteditable="true" ref="editor" placeholder="请输入..."></div>
-                <hr class="boundary" />
 
                 <div id="app">
 
-                    <button class="send" @click="send" @keyup.enter="send">发送</button>
+                    <i-button type="primary" shape="circle" icon="md-key" @click="modal = true" size="small" style="margin-left: 12px;"></i-button>
 
-                    <Icon type="ios-key-outline" style="float: right;margin-right: 3px;margin-top: 3px" @click="modal = true" size="15"></Icon>
+                    <i-Switch style="margin-left: 10px" v-model="isImgModel">
+                        <template #open>
+                            <span>图</span>
+                        </template>
+                        <template #close>
+                            <span>文</span>
+                        </template>
+                    </i-Switch>
+
+                    <i-input type="textarea" :border="false" :autofocus="true" :rows="3" v-model="chatinput" ></i-input>
+
+                    <hr class="boundary" />
+
+                    <button class="send" @click="send" @keyup.enter="send" style="margin-top: 2px">发送</button>
 
                     <Modal v-model="modal" width="480">
                         <template #header>
@@ -61,52 +72,8 @@
 </body>
 </html>
 
-
 <script>
     const htmls = [];
-
-    /**
-     * @description 保存cookie
-     * @param {Object} json 需要存储cookie的对象
-     * @param {Number} days 默认存储多少天
-     */
-    function setCookie(json, days) {
-        // 设置过期时间
-        let data = new Date(
-            new Date().getTime() + days * 24 * 60 * 60 * 1000
-        ).toUTCString();
-
-        for (var key in json) {
-            document.cookie = key + "=" + json[key] + "; expires=" + data;
-        }
-    }
-
-    /**
-     * @description 获取cookie
-     * @param {String} name 需要获取cookie的key
-     */
-    function getCookie(name) {
-        var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
-        if (arr != null) {
-            return unescape(arr[2])
-        } else {
-            return null
-        }
-    }
-
-    /**
-     * @description 删除cookie
-     * @param {String} name 需要删除cookie的key
-     */
-    function clearCookie(name) {
-        let json = {};
-        json[name] = '';
-        setCookie(json, -1)
-    }
-</script>
-
-<script>
-
     const myMixin = {
         data () {
             return {
@@ -118,23 +85,18 @@
                         {required: true, message: 'token 不能为空。', trigger: 'blur'}
                     ],
                 },
-                modal:false,
-                isSearch:false,
-                selfImg: "https://api.multiavatar.com/"+new Date().valueOf()+".png"
+                chatinput: "",
+                modal: false,
+                isSearch: false,
+                isImgModel:false,
+                selfImg: "https://api.multiavatar.com/" + new Date().valueOf() + ".png"
             }
-        },
-        created() {
-            self = this
-            document.onkeydown = function () {
-                let e = window.event || arguments.callee.caller.arguments[0];
-                e.keyCode === 13 && self.send();
-            };
         },
         methods: {
             saveToken(){
                 this.$refs["formValidate"].validate((valid) => {
                     if (valid) {
-                        setCookie({"openai-token":this.formValidate.token}, 1)
+                        this.setCookie({"openai-token":this.formValidate.token}, 1)
                         this.modal = false
                         this.validateToken()
                     }
@@ -144,10 +106,14 @@
                 this.modal = true
             },
             send() {
-                let message = document.getElementById("chatinput").innerText
-                if (message.length < 1) {
+
+                if (this.chatinput.length < 1) {
                     return
                 }
+
+                setTimeout(() => {
+                    this.chatinput = "";
+                }, 100)
 
                 if (this.isSearch) {
                     htmls.push({
@@ -162,27 +128,42 @@
                     headIcon: this.selfImg,
                     name: "",
                     position: "right",
-                    html: message,
+                    html: this.chatinput,
                 });
-                document.getElementById("chatinput").innerText = "";
 
                 htmls.push({
                     messageType: "tips",
-                    html: "请稍等，正在查询中...",
+                    html: this.getNowTime()+" 请稍等，正在查询中...",
                 });
                 beforeRenderingHTML(htmls, ".lite-chatbox");
 
-                this.submit(message)
-            },
-            submit(message) {
-
                 this.isSearch = true
 
+                this.checkToken()
+
+                if (!this.isImgModel) {
+                    this.completions()
+                } else {
+                    this.img()
+                }
+            },
+            async checkToken(){
+                axios.post('/chatgpt/checkToken', {
+                    token: this.formValidate.token,
+                    text: this.chatinput,
+                    isImg: this.isImgModel,
+                }).then(function (response) {
+                })
+            },
+            async completions() {
+
+                //参数详解：https://blog.csdn.net/hekaiyou/article/details/128303729
                 let data = JSON.stringify({
                     model: "text-davinci-003",
-                    prompt: message,
-                    temperature: 0,
-                    max_tokens: 2048,
+                    prompt: this.chatinput,
+                    temperature: 0.8, //创意性， 0 无创意
+                    max_tokens: 1024,
+                    frequency_penalty:0.0,
                 });
 
                 let config = {
@@ -211,10 +192,8 @@
                         this.isSearch = false
                     },
                     (error) => {
-                        console.log("请求失败了", error.message);
-
                         htmls.push({
-                            messageType: "tips",
+                            messageType: "tipsWarning",
                             html: "查询失败：" + error.message,
                         });
                         beforeRenderingHTML(htmls, ".lite-chatbox");
@@ -223,8 +202,51 @@
                     }
                 );
             },
-            validateToken(){
+            async img() {
 
+                //参数详解：https://blog.csdn.net/hekaiyou/article/details/128303729
+                let data = JSON.stringify({
+                    prompt: this.chatinput,
+                    n: 1,
+                    size: "256x256"
+                });
+
+                let config = {
+                    method: "post",
+                    url: "https://api.openai.com/v1/images/generations",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer "+ this.formValidate.token,
+                    },
+                    data: data,
+                };
+                axios(config).then(
+                    (response) => {
+                        console.log(response.data);
+                        var url = response.data.data[0].url;
+
+                        htmls.push({
+                            messageType: "raw",
+                            headIcon: "./assets/img/openai.png",
+                            name: "ChatGPT",
+                            position: "left",
+                            html: `<img src="${url}" />`,
+
+                        });
+                        beforeRenderingHTML(htmls, ".lite-chatbox");
+                        this.isSearch = false
+                    },
+                    (error) => {
+                        htmls.push({
+                            messageType: "tipsWarning",
+                            html: "查询失败：" + error.message,
+                        });
+                        beforeRenderingHTML(htmls, ".lite-chatbox");
+                        this.isSearch = false
+                    }
+                );
+            },
+            validateToken(){
                 let res = this.formValidate.token.length === 51
 
                 if (res) {
@@ -238,7 +260,7 @@
                     beforeRenderingHTML(htmls, ".lite-chatbox");
                 } else {
                     htmls.push({
-                        messageType: "tips",
+                        messageType: "tipsDanger",
                         html: "配置错误，请填写正确的token",
                     });
                     beforeRenderingHTML(htmls, ".lite-chatbox")
@@ -247,23 +269,71 @@
                         this.showModal()
                     }, 1500)
                 }
+            },
+            getNowTime(){
+                let d = new Date();
+                let h = d.getHours()+""
+                h = h.length === 0 ? "0"+h : h
+                let m = d.getMinutes()+""
+                m = m.length === 0 ? "0"+m : m
+                return  h+":"+m
+            },
+            setCookie(json, days) {
+                // 设置过期时间
+                let data = new Date(
+                    new Date().getTime() + days * 24 * 60 * 60 * 1000
+                ).toUTCString();
 
-
+                for (var key in json) {
+                    document.cookie = key + "=" + json[key] + "; expires=" + data;
+                }
+            },
+            getCookie(name) {
+                var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
+                if (arr != null) {
+                    return unescape(arr[2])
+                } else {
+                    return null
+                }
             }
         },
         mounted() {
-            this.formValidate.token = getCookie("openai-token")
+            this.formValidate.token = this.getCookie("openai-token")
             if (this.formValidate.token == null || this.formValidate.token.length === 0) {
                 this.showModal()
                 return
             }
             this.validateToken()
+        },
+        created() {
+            self = this
+            document.onkeydown = function () {
+                let e = window.event || arguments.callee.caller.arguments[0];
+                if (e.keyCode === 13 && !e.ctrlKey) {
+                    self.send();
+                }
+                if (e.keyCode === 13 && e.ctrlKey) {
+                    self.chatinput += "\n";
+                }
+            };
         }
     }
 
     const app = Vue.createApp(myMixin);
     app.use(ViewUIPlus);
     app.mount("#app");
+</script>
+
+<script>
+    /**
+     * @description 删除cookie
+     * @param {String} name 需要删除cookie的key
+     */
+    function clearCookie(name) {
+        let json = {};
+        json[name] = '';
+        setCookie(json, -1)
+    }
 </script>
 
 <style >
@@ -277,6 +347,10 @@
     .lite-chatmaster {
         height: 100%;
         width: 100%;
+    }
+
+    .lite-chatbox {
+        background: linear-gradient(20deg,#c1c0c0cc 0,#c5ede9 100%);
     }
 
     .ivu-modal-header {

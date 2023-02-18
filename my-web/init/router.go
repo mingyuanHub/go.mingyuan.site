@@ -59,5 +59,6 @@ func initRouter(r *gin.Engine) {
 	g6 := r.Group("/chatgpt")
 	{
 		g6.GET("", chatgpt.Index)
+		g6.POST("/checkToken", chatgpt.CheckToken)
 	}
 }

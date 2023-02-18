@@ -8,7 +8,7 @@ import (
 
 func Index(c *gin.Context) {
 
-	var tmplName = "chat.html"
+	var tmplName = "chatgpt.html"
 
 	t, _ := template.ParseFiles(fmt.Sprintf("my-web/views/%s", tmplName))
 
