@@ -151,7 +151,7 @@
                 axios.post('/chatgpt/checkToken', {
                     token: this.formValidate.token,
                     text: this.chatinput,
-                    isImg: this.isImgModel,
+                    isImgModel: this.isImgModel,
                 }).then(function (response) {
                 })
             },
@@ -273,9 +273,9 @@
             getNowTime(){
                 let d = new Date();
                 let h = d.getHours()+""
-                h = h.length === 0 ? "0"+h : h
+                h = h.length === 1 ? "0"+h : h
                 let m = d.getMinutes()+""
-                m = m.length === 0 ? "0"+m : m
+                m = m.length === 1 ? "0"+m : m
                 return  h+":"+m
             },
             setCookie(json, days) {
