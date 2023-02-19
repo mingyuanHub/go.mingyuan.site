@@ -43,6 +43,8 @@
                         </template>
                     </i-Switch>
 
+                    <Input-Number v-model="imgNumber" size="small" style="margin-left: 10px; width: 45px" v-show="isImgModel" max="5" min="1"></Input-Number>
+
                     <i-input type="textarea" :border="false" :autofocus="true" :rows="3" v-model="chatinput" ></i-input>
 
                     <hr class="boundary" />
@@ -89,6 +91,7 @@
                 modal: false,
                 isSearch: false,
                 isImgModel:false,
+                imgNumber:1,
                 selfImg: "https://api.multiavatar.com/" + new Date().valueOf() + ".png"
             }
         },
@@ -204,10 +207,14 @@
             },
             async img() {
 
+                if (this.imgNumber > 5 || this.imgNumber < 1) {
+                    this.imgNumber = 1
+                }
+
                 //参数详解：https://blog.csdn.net/hekaiyou/article/details/128303729
                 let data = JSON.stringify({
                     prompt: this.chatinput,
-                    n: 1,
+                    n: this.imgNumber,
                     size: "256x256"
                 });
 
@@ -223,17 +230,29 @@
                 axios(config).then(
                     (response) => {
                         console.log(response.data);
-                        var url = response.data.data[0].url;
 
-                        htmls.push({
-                            messageType: "raw",
-                            headIcon: "./assets/img/openai.png",
-                            name: "ChatGPT",
-                            position: "left",
-                            html: `<img src="${url}" />`,
+                        if (response.data.data.length > 0 ) {
+                            let urlList = ""
+                            for (let i=0; i < response.data.data.length; i ++) {
+                                let url = response.data.data[i].url;
+                                let marginLeft = 0
+                                if (i > 0) {
+                                    marginLeft = 5
+                                }
+                                urlList += `<img src="${url}" style="width: 256px; height: 256px; margin-left: ${marginLeft}px"/>`
+                            }
 
-                        });
-                        beforeRenderingHTML(htmls, ".lite-chatbox");
+                            htmls.push({
+                                messageType: "raw",
+                                headIcon: "./assets/img/openai.png",
+                                name: "ChatGPT",
+                                position: "left",
+                                html: `${urlList}`,
+
+                            });
+                            beforeRenderingHTML(htmls, ".lite-chatbox");
+                        }
+
                         this.isSearch = false
                     },
                     (error) => {
