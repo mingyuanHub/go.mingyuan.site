@@ -99,7 +99,7 @@
             saveToken(){
                 this.$refs["formValidate"].validate((valid) => {
                     if (valid) {
-                        this.setCookie({"openai-token":this.formValidate.token}, 1)
+                        this.setCookie({"openai-token":this.formValidate.token}, 3)
                         this.modal = false
                         this.validateToken()
                     }
@@ -164,7 +164,7 @@
                 let data = JSON.stringify({
                     model: "text-davinci-003",
                     prompt: this.chatinput,
-                    temperature: 0.8, //创意性， 0 无创意
+                    temperature: 0, //创意性， 0 无创意
                     max_tokens: 1024,
                     frequency_penalty:0.0,
                 });
