@@ -1,8 +1,8 @@
 
 {{template "header" .}}
 
-<section>
-    <Tabs model-value="json1" :animated="false">
+<section v-show="!loadding">
+    <Tabs model-value="json2" :animated="false">
 
 <!------------------------------------------------------------------------------------>
 
@@ -35,30 +35,30 @@
 
 <!------------------------------------------------------------------------------------>
 
-        <Tab-Pane label="Json格式化" name="json1">
-            <div class="demo-split" :style='{"height": contentHeight - 52 + "px", "border": "1px solid #dcdee2"}'>
-                <Split v-model="split">
-                    <template #left>
-                        <div class="demo-split-pane">
-                            <i-Input v-model="jsonData" type="textarea" :border="false" :rows="(contentHeight - 63) / 21"></i-Input>
-                        </div>
-                    </template>
-                    <template #right>
-                        <div class="demo-split-pane">
-                            <i-Input v-model="jsonDataFormatted" type="textarea" :border="false" :rows="(contentHeight - 63)  / 21"></i-Input>
-                        </div>
-                    </template>
-                </Split>
-            </div>
-        </Tab-Pane>
+<!--        <Tab-Pane label="Json格式化" name="json1">-->
+<!--            <div class="demo-split" :style='{"height": contentHeight - 52 + "px", "border": "1px solid #dcdee2"}'>-->
+<!--                <Split v-model="split">-->
+<!--                    <template #left>-->
+<!--                        <div class="demo-split-pane">-->
+<!--                            <i-Input v-model="jsonData" type="textarea" :border="false" :rows="(contentHeight - 63) / 21"></i-Input>-->
+<!--                        </div>-->
+<!--                    </template>-->
+<!--                    <template #right>-->
+<!--                        <div class="demo-split-pane">-->
+<!--                            <i-Input v-model="jsonDataFormatted" type="textarea" :border="false" :rows="(contentHeight - 63)  / 21"></i-Input>-->
+<!--                        </div>-->
+<!--                    </template>-->
+<!--                </Split>-->
+<!--            </div>-->
+<!--        </Tab-Pane>-->
 
 <!------------------------------------------------------------------------------------>
 
-<!--        <Tab-Pane label="Json格式化" name="json2">-->
-<!--            <div class="demo-split" :style='{"height": contentHeight - 52 + "px", "border": "1px solid #dcdee2"}'>-->
-<!--                <iframe id="iframe" src="https://www.jsont.run/" style="width:100%;height:100%;top: 0px;position: relative"></iframe>-->
-<!--            </div>-->
-<!--        </Tab-Pane>-->
+        <Tab-Pane label="Json格式化" name="json2">
+            <div class="demo-split" :style='{"height": contentHeight - 52 + "px", "border": "1px solid #dcdee2"}'>
+                <div id="jsonEditor" style="height: 100%;width: 100%" ></div>
+            </div>
+        </Tab-Pane>
 
 <!------------------------------------------------------------------------------------>
 
@@ -117,14 +117,6 @@
 
 <!------------------------------------------------------------------------------------>
 
-<!--        <Tab-Pane label="HTTP 请求" name="http">-->
-<!--            <div class="demo-split" :style='{"height": contentHeight - 52 + "px", "padding":"10px"}'>-->
-<!--                <i-Input v-model="transDataDone" type="textarea" autosize style="width:50%"></i-Input>-->
-<!--            </div>-->
-<!--        </Tab-Pane>-->
-
-<!------------------------------------------------------------------------------------>
-
         <Tab-Pane label="AES加解密" name="aes">
             <div style="padding-left: 10px">
 
@@ -166,55 +158,28 @@
         </Tab-Pane>
 
 <!------------------------------------------------------------------------------------>
-
-        <Tab-Pane label="数据筛选" name="data-filter">
-
-            <div class="demo-split" :style='{"height": clientHeight-200 + "px", "border": "1px solid #dcdee2"}'>
-                <Split v-model="splitDataFilter">
-                    <template #left>
-                        <div class="demo-split-pane">
-                            <i-Input v-model="dataFilterPrimary" type="textarea" :border="false" :rows="(clientHeight - 210) / 21" placeholder="正文内容......"></i-Input>
-                        </div>
-                    </template>
-                    <template #right>
-                        <div class="demo-split-pane">
-                            <i-Input v-model="dataFilterSecondary" type="textarea" :border="false" :rows="(clientHeight - 210) / 21" placeholder="副文内容......"></i-Input>
-                        </div>
-                    </template>
-                </Split>
-            </div>
-
-            <div style="margin-top: 10px">
-                <i-button type="info"  @click="filter(1)" ghost>筛选 >></i-button> &nbsp;&nbsp;
-                <i-button type="warning"  @click="filter(2)" ghost>反向筛选 >></i-button>
-
-                <span style="margin-left: 10px" v-html="'正文:'+dataFilterPrimaryLineNumber + '   ' + '副文:'+dataFilterSecondaryLineNumber + '   ' + '结果:'+dataFilterResultLineNumber "></span>
-            </div>
-            <div class="demo-split-pane" style="margin-top: 10px;width: 60%">
-                <i-Input v-model="dataFilterResult" type="textarea" :border="true" :rows="(contentHeight - clientHeight)/ 21 " placeholder="结果内容......"></i-Input>
-            </div>
-        </Tab-Pane>
-
-<!------------------------------------------------------------------------------------>
-
-        <Tab-Pane label="文本对比" name="text-diff">
-            <div class="demo-split" :style='{"height": contentHeight - 52 + "px", "border": "1px solid #dcdee2"}'>
-                <iframe id="iframe" src="https://editor.mergely.com/" style="width:100%;height:100%;top: 0px;"></iframe>
-            </div>
-        </Tab-Pane>
-
     </Tabs>
 
 </section>
 
-<script type="text/javascript" src="./assets/js/md5.js"></script>
-<script type="text/javascript" src="./assets/js/formatJson.js"></script>
+<Spin :show="loadding" size="large"></Spin>
+
+<div type="text/javascript" src="./assets/js/md5.js" v-is="'script'"></div>
+<div type="text/javascript" src="./assets/js/formatJson.js" v-is="'script'"></div>
+
+<script>
+    var require = {paths: {vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.36.0/min/vs' } };
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.36.0/min/vs/loader.js"></script>
 
 <script>
 
     var render = {
         data () {
             return {
+                loadding:true,
+
                 now:0,
                 time1: "",
                 date1: "",
@@ -242,13 +207,7 @@
                 aesType:true,
                 aesToken:"",
 
-                splitDataFilter:0.6,
-                dataFilterPrimary:"",
-                dataFilterSecondary:"",
-                dataFilterResult:"",
-                dataFilterPrimaryLineNumber:0,
-                dataFilterSecondaryLineNumber:0,
-                dataFilterResultLineNumber:0,
+                editor:0,
             }
         },
         watch:{
@@ -275,15 +234,6 @@
             },
             aesToken(){
                 this.aes()
-            },
-            dataFilterPrimary(){
-                this.getDataFilterLineNumber()
-            },
-            dataFilterSecondary(){
-                this.getDataFilterLineNumber()
-            },
-            dataFilterResult(){
-                this.getDataFilterLineNumber()
             },
         },
         methods: {
@@ -360,52 +310,6 @@
                     self.aesData2 = tip + "失败."
                 })
             },
-            filter(filterType){
-
-                var recordsPrimary = this.dataFilterPrimary.split("\n")
-                var recordsSecondary = this.dataFilterSecondary.split("\n")
-                var result = ""
-                var existsRecords = []
-
-                for (i = 0; i < recordsPrimary.length ; i ++) {
-
-                    var p = recordsPrimary[i]
-                    var isInsert = false
-                    var isInsert2 = true
-
-                    if (p.length == 0) {
-                        continue
-                    }
-
-                    for (j = 0; j < recordsSecondary.length ; j ++) {
-                        var s = recordsSecondary[j]
-
-                        if (s.length == 0) {
-                            continue
-                        }
-
-                        if (filterType == 1 && p.indexOf(s) != -1)  {
-                            isInsert = true
-                            break
-                        }
-                        if (filterType == 2 && p.indexOf(s) != -1)  {
-                            isInsert2 = false
-                            break
-                        }
-                    }
-
-                    if ((filterType == 1 && isInsert) || (filterType == 2 && isInsert2)) {
-                        result += p+"\n"
-                    }
-                }
-
-                this.dataFilterResult = result.trim("\n")
-            },
-            getDataFilterLineNumber(){
-                this.dataFilterPrimaryLineNumber = this.dataFilterPrimary.length > 0 ? this.dataFilterPrimary.split("\n").length : 0
-                this.dataFilterSecondaryLineNumber = this.dataFilterSecondary.length > 0 ? this.dataFilterSecondary.split("\n").length : 0
-                this.dataFilterResultLineNumber = this.dataFilterResult.length > 0 ? this.dataFilterResult.split("\n").length : 0
-            }
         },
         mounted(){
             this.now = Date.parse(new Date()) / 1000;
@@ -417,6 +321,23 @@
             setTimeout(this.tt, 1000)
 
             this.aesData1 = this.aesData2 = this.aesToken = ""
+
+            this.loadding = false
+
+            require(['vs/editor/editor.main'], () => {
+                monaco.editor.setTheme('vs-light');
+                this.editor = monaco.editor.create(document.getElementById('jsonEditor'), {
+                    model: monaco.editor.createModel(``,"json"),
+                    scrollBeyondLastLine: false,
+                });
+            });
+            setInterval(()=>{
+                if (this.editor) {
+                    this.editor.getAction('editor.action.formatDocument').run();
+                }
+            }, 800)
+
+
         }
     }
 </script>
@@ -427,12 +348,5 @@
     .md5-label {
         font-size: 12px;
         font-weight: bold;
-    }
-
-    iframe {
-        border-width: 0px !important;
-        border-style: inset;
-        border-color: initial;
-        border-image: initial;
     }
 </style>

@@ -32,9 +32,11 @@
 
                 <div id="app">
 
-                    <i-button type="primary" shape="circle" icon="md-key" @click="modal = true" size="small" style="margin-left: 12px;"></i-button>
+                    <i-button type="primary" shape="circle" icon="ios-undo" size="small" style="margin-left: 10px;" to="/" title="回到首页"></i-button>
 
-                    <i-Switch style="margin-left: 10px" v-model="isImgModel">
+                    <i-button type="primary" shape="circle" icon="md-key" @click="modal = true" size="small" style="margin-left: 10px;" title="token配置"></i-button>
+
+                    <i-Switch style="margin-left: 10px" v-model="isImgModel" title="图文切换">
                         <template #open>
                             <span>图</span>
                         </template>

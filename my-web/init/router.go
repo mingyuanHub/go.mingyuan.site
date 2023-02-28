@@ -27,6 +27,11 @@ func initRouter(r *gin.Engine) {
 		g1.GET("/trans", api.Trans)
 	}
 
+	g7 := r.Group("/data")
+	{
+		g7.GET("", api.DataIndex)
+	}
+
 	g3 := r.Group("/bulletscreen")
 	{
 		g3.GET("", api.BulletScreenIndex)

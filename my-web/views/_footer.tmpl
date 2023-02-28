@@ -11,7 +11,7 @@
                 </Layout>
             </div>
         </div>
-        <script>
+        <script setup>
 
             const myMixin = {
                 data () {
@@ -38,7 +38,7 @@
                 },
                 methods: {
                     mix() {
-                        console.log('混入实例!')
+                        // console.log('混入实例!')
                     },
                     onresize() {
                         //this.clientHeight = document.body.clientHeight > document.documentElement.clientHeight ? document.body.clientHeight : document.documentElement.clientHeight
@@ -46,7 +46,7 @@
                         this.contentHeight = this.clientHeight * 2 - 140
                         this.contentHeightInner = this.clientHeight - 140
 
-                        console.log(document.documentElement.clientWidth, document.body.clientWidth)
+                        // console.log(document.documentElement.clientWidth, document.body.clientWidth)
 
                         this.clientWidth = document.documentElement.clientWidth
                         this.contentWidth = this.clientWidth - 36*2
