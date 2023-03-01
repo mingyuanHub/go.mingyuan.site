@@ -16,6 +16,10 @@ func initRouter(r *gin.Engine) {
 
 	r.LoadHTMLGlob("./my-web/views/*")
 
+	//r.Static("/assets", "./assets")
+	//r.StaticFS("/more_static", http.Dir("/var/log"))
+	//r.StaticFile("/bdunion.txt", "./assets/bdunion.txt")
+
 	g0 := r.Group("/")
 	{
 		g0.GET("", api.TimestampIndex)
