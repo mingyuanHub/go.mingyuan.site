@@ -168,10 +168,10 @@
 <div type="text/javascript" src="./assets/js/formatJson.js" v-is="'script'"></div>
 
 <script>
-    var require = {paths: {vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.36.0/min/vs' } };
+    var require = {paths: {vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.23.0/min/vs' } };
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.36.0/min/vs/loader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.23.0/min/vs/loader.js"></script>
 
 <script>
 
@@ -328,7 +328,6 @@
                 monaco.editor.setTheme('vs-light');
                 this.editor = monaco.editor.create(document.getElementById('jsonEditor'), {
                     model: monaco.editor.createModel(``,"json"),
-                    scrollBeyondLastLine: false,
                 });
             });
             setInterval(()=>{
