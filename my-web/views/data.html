@@ -133,6 +133,7 @@
                 monaco.editor.setTheme('vs-light');
                 const editor = monaco.editor.createDiffEditor(document.getElementById('jsonEditor'),{
                     originalEditable: true,
+                    wordWrap: true,
                 });
                 editor.setModel({
                     original: monaco.editor.createModel('', "json/string"),
