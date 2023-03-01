@@ -2,7 +2,21 @@
 {{template "header" .}}
 
 <section >
-    <Tabs model-value="data-filter" :animated="false">
+    <Tabs model-value="text-diff" :animated="false">
+
+        <!------------------------------------------------------------------------------------>
+
+<!--        <Tab-Pane label="文本对比" name="text-diff">-->
+<!--            <div class="demo-split" :style='{"height": contentHeight - 52 + "px", "border": "1px solid #dcdee2"}'>-->
+<!--                <iframe id="iframe" src="https://editor.mergely.com/" style="width:100%;height:100%;top: 0px;"></iframe>-->
+<!--            </div>-->
+<!--        </Tab-Pane>-->
+
+        <Tab-Pane label="文本对比" name="text-diff">
+            <div class="demo-split" :style='{"height": contentHeight - 52 + "px", "border": "1px solid #dcdee2"}'>
+                <div id="jsonEditor" style="height: 100%;width: 100%" ></div>
+            </div>
+        </Tab-Pane>
 
         <Tab-Pane label="数据筛选" name="data-filter">
 
@@ -31,18 +45,15 @@
                 <i-Input v-model="dataFilterResult" type="textarea" :border="true" :rows="(contentHeight - clientHeight)/ 21 " placeholder="结果内容......"></i-Input>
             </div>
         </Tab-Pane>
-
-        <!------------------------------------------------------------------------------------>
-
-        <Tab-Pane label="文本对比" name="text-diff">
-            <div class="demo-split" :style='{"height": contentHeight - 52 + "px", "border": "1px solid #dcdee2"}'>
-                <iframe id="iframe" src="https://editor.mergely.com/" style="width:100%;height:100%;top: 0px;"></iframe>
-            </div>
-        </Tab-Pane>
-
     </Tabs>
 
 </section>
+
+<script>
+    var require = {paths: {vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.23.0/min/vs' } };
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.23.0/min/vs/loader.js"></script>
 
 <script>
 
@@ -118,7 +129,16 @@
             }
         },
         mounted(){
-
+            require(['vs/editor/editor.main'], () => {
+                monaco.editor.setTheme('vs-light');
+                const editor = monaco.editor.createDiffEditor(document.getElementById('jsonEditor'),{
+                    originalEditable: true,
+                });
+                editor.setModel({
+                    original: monaco.editor.createModel('', "json/string"),
+                    modified: monaco.editor.createModel('', "json/string"),
+                });
+            });
         }
     }
 </script>
