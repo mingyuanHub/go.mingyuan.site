@@ -14,7 +14,7 @@ func Test1(c *gin.Context) {
 		}
 	}()
 
-	//t, err := template.ParseFiles("my-web/views/_header.tmpl", "my-web/views/_footer.tmpl", "my-web/views/home.tmpl")
+	//t, err := template.ParseFiles("my-web/views/_header.html", "my-web/views/_footer.html", "my-web/views/home.tmpl")
 	//
 	//if err != nil {
 	//	logger.Error("[home] error: %s", err.Error())

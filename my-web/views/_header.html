@@ -17,7 +17,7 @@
     <meta name="theme-color" content="#000000">
     <meta name="baidu_union_verify" content="a106b44f013f808cf1697826f55ec4c7">
     <meta name="bytedance-verification-code" content="" />
-    <link rel="shortcut icon" href="./assets/img/favicon.ico"></link>
+    <link rel="shortcut icon" href="./assets/img/favicon.ico"/>
     <link rel="manifest" href="manifest.webapp">
 
     <link rel="stylesheet" type="text/css" href="./assets/vue/viewuiplus.css">
@@ -56,7 +56,7 @@
         /*background-image: url("./assets/img/shine.jpg");*/
     }
     .layout-nav{
-        width: 550px;
+        width: 600px;
         margin: 0 auto;
         margin-right: 20px;
     }
@@ -87,14 +87,29 @@
                 <i-Menu mode="horizontal" theme="light" :active-name="path">
                     <div class="layout-logo" @click="showBulletscreen">Code Tools</div>
                     <div class="layout-nav">
-                        <Menu-Item name="/timestamp" to="/timestamp">
-                            <Icon type="ios-swap"></Icon>
-                            转换工具
-                        </Menu-Item>
-                        <Menu-Item name="/data" to="/data">
-                            <Icon type="ios-color-wand"></Icon>
-                            数据处理
-                        </Menu-Item>
+
+                        <Submenu name="/aa">
+                            <template #title>
+                                <Icon type="ios-swap" ></Icon>
+                                转换工具
+                            </template>
+                            <Menu-Item name="/json" to="/json">Json格式化</Menu-Item>
+                            <Menu-Item name="/timestamp" to="/timestamp">时间戳转换</Menu-Item>
+                            <Menu-Item name="/md5" to="/md5">MD5加密</Menu-Item>
+                            <Menu-Item name="/url" to="/url">URL解码</Menu-Item>
+                            <Menu-Item name="/trans" to="/trans">有道翻译</Menu-Item>
+                            <Menu-Item name="/aes" to="/aes">AES加解密</Menu-Item>
+                        </Submenu>
+
+                        <Submenu name="/data">
+                            <template #title>
+                                <Icon type="ios-color-wand" ></Icon>
+                                数据处理
+                            </template>
+                            <Menu-Item name="/data-diff" to="/data-diff">数据对比</Menu-Item>
+                            <Menu-Item name="/data-filter" to="/data-filter">数据过滤</Menu-Item>
+                        </Submenu>
+
                         <Menu-Item name="/adx" to="/adx">
                             <Icon type="ios-crop"></Icon>
                             Adx

@@ -1,0 +1,51 @@
+
+{{template "header" .}}
+
+<section >
+    <div class="demo-split" :style='{"height": contentHeight + "px", "border": "1px solid #dcdee2"}'>
+        <Split v-model="split">
+            <template #left>
+                <div class="demo-split-pane">
+                    <i-Input v-model="transData" type="textarea" :border="false" :rows="(contentHeight - 63) / 21"></i-Input>
+                </div>
+            </template>
+            <template #right>
+                <div class="demo-split-pane">
+                    <i-Input v-model="transDataDone" type="textarea" :border="false" :rows="(contentHeight - 63)  / 21"></i-Input>
+                </div>
+            </template>
+        </Split>
+    </div>
+</section>
+
+<script>
+
+    var render = {
+        data () {
+            return {
+                transData: "",
+                transDataDone: "",
+            }
+        },
+        watch:{
+            transData(v){
+                this.trans(v)
+            },
+        },
+        methods: {
+            trans(t) {
+                var self = this
+                axios.get('/trans/youdao?t='+t).then(function (response) {
+                    let resp = response.data
+                    self.transDataDone = resp.result.transTgt
+                    console.log(resp)
+                })
+            },
+        },
+        mounted(){
+
+        }
+    }
+</script>
+
+{{template "footer" .}}

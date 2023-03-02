@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -14,12 +13,39 @@ import (
 	"mingyuanHub/mingyuan.site/pkg/template"
 )
 
-func TimestampIndex(c *gin.Context) {
-
-	var tmplName = "timestamp.html"
-
+func ConversionJson(c *gin.Context) {
+	var tmplName = "conversion_json.html"
 	t, _ := template.ParseFiles(fmt.Sprintf("my-web/views/%s", tmplName))
+	t.ExecuteTemplate(c.Writer, tmplName, nil)
+}
 
+func ConversionTimestamp(c *gin.Context) {
+	var tmplName = "conversion_timestamp.html"
+	t, _ := template.ParseFiles(fmt.Sprintf("my-web/views/%s", tmplName))
+	t.ExecuteTemplate(c.Writer, tmplName, nil)
+}
+
+func ConversionMd5(c *gin.Context) {
+	var tmplName = "conversion_md5.html"
+	t, _ := template.ParseFiles(fmt.Sprintf("my-web/views/%s", tmplName))
+	t.ExecuteTemplate(c.Writer, tmplName, nil)
+}
+
+func ConversionUrl(c *gin.Context) {
+	var tmplName = "conversion_url.html"
+	t, _ := template.ParseFiles(fmt.Sprintf("my-web/views/%s", tmplName))
+	t.ExecuteTemplate(c.Writer, tmplName, nil)
+}
+
+func ConversionTrans(c *gin.Context) {
+	var tmplName = "conversion_trans.html"
+	t, _ := template.ParseFiles(fmt.Sprintf("my-web/views/%s", tmplName))
+	t.ExecuteTemplate(c.Writer, tmplName, nil)
+}
+
+func ConversionAes(c *gin.Context) {
+	var tmplName = "conversion_aes.html"
+	t, _ := template.ParseFiles(fmt.Sprintf("my-web/views/%s", tmplName))
 	t.ExecuteTemplate(c.Writer, tmplName, nil)
 }
 
@@ -35,7 +61,7 @@ type TranslateResultItermRes struct {
 	Tgt string
 }
 
-func Trans(c *gin.Context) {
+func ConversionTransYoudao(c *gin.Context) {
 
 	t := c.Query("t")
 

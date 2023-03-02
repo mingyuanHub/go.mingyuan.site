@@ -1,0 +1,46 @@
+
+{{template "header" .}}
+
+<section style="padding: 12px;">
+    <div style="width: 48%; float: left">
+        <i-Input v-model="urlContent" type="textarea" :rows="32"></i-Input>
+
+        <div style="float: left; margin-top: 10px;width: 300px">
+            <i-button type="info" style="" @click="urlCode(1)">Url转码 >></i-button>
+            <i-button type="warning" style="margin-left: 10px" @click="urlCode(2)">Url解码 >></i-button>
+        </div>
+    </div>
+
+    <div style="width: 48%; float: left;margin-left: 15px">
+        <i-Input v-model="url2Content" type="textarea" :rows="32"></i-Input>
+    </div>
+</section>
+
+<script>
+
+    var render = {
+        data () {
+            return {
+                urlContent: "",
+                url2Content: ""
+            }
+        },
+        watch: {
+
+        },
+        methods: {
+            urlCode(t) {
+                if (t === 1) {
+                    this.url2Content = escape(this.urlContent)
+                } else {
+                    this.url2Content = unescape(this.urlContent)
+                }
+            },
+        },
+        mounted(){
+
+        }
+    }
+</script>
+
+{{template "footer" .}}

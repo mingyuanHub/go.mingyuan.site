@@ -1,0 +1,74 @@
+
+{{template "header" .}}
+
+<section >
+    <div style="padding: 12px;margin-left: 50px">
+        <br>
+
+        <Icon type="ios-clock-outline" size="48" style="width: auto; margin-left: 10px;"></Icon>
+        北京时间: <span v-html="now" style="margin-left: 5px;"></span>
+
+         <br><br><br>
+
+        <Divider orientation="left" size="small"  style="width: 50%">时间戳转换</Divider><br>
+
+        <div>
+            <i-Input v-model="time1" style="width: auto; margin-left: 10px;" on-change="exchange1"></i-Input>
+            <span v-html="date1" style="margin-left: 10px;"></span>
+        </div> <br><br><br>
+
+        <Divider orientation="left" size="small">日期转换</Divider><br>
+
+        <div>
+            <i-Input v-model="date2" style="width: auto; margin-left: 10px;"></i-Input>
+            <span v-html="time2" style="margin-left: 10px;"></span>
+        </div> <br>
+    </div>
+</section>
+
+
+<script>
+
+    var render = {
+        data () {
+            return {
+                now:0,
+                time1: "",
+                date1: "",
+                time2: "",
+                date2: "",
+            }
+        },
+        watch:{
+            time1(){
+                this.exchange1()
+            },
+            date2(){
+                this.exchange2()
+            },
+        },
+        methods: {
+            exchange1(){
+                this.date1 = this.exchangeT2D(this.time1)
+            },
+            exchange2(){
+                this.time2 = this.exchangeD2T(this.date2)
+            },
+            tt(){
+                this.now = Date.parse(new Date()) / 1000;
+                setTimeout(this.tt, 1000)
+            },
+        },
+        mounted(){
+            this.now = Date.parse(new Date()) / 1000;
+
+            this.time1 = this.now
+
+            this.date2 = this.exchangeT2D(this.time1)
+
+            setTimeout(this.tt, 1000)
+        }
+    }
+</script>
+
+{{template "footer" .}}

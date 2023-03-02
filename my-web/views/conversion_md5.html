@@ -1,0 +1,61 @@
+
+{{template "header" .}}
+
+<section>
+    <div style="width: 50%; padding: 12px;float: left">
+        <i-Input v-model="md5_content" type="textarea" :rows="32"></i-Input>
+        <!--<i-button type="info" style="margin-top: 10px" @click="md5" ghost>MD5 >></i-button>-->
+    </div>
+
+    <div style="width: 400px; padding: 12px;float: left;margin-left: 20px"><br>
+        <span class="md5-label">32位大写&nbsp;</span> <i-Input v-model="md5_32_upper" style="width:80%;"></i-Input> <br><br>
+
+        <span class="md5-label">32位小写&nbsp;</span> <i-Input v-model="md5_32_lower" style="width:80%;"></i-Input> <br><br>
+
+        <span class="md5-label">16位大写&nbsp;</span> <i-Input v-model="md5_16_upper" style="width:80%;"></i-Input> <br><br>
+
+        <span class="md5-label">16位小写&nbsp;</span> <i-Input v-model="md5_16_lower" style="width:80%;"></i-Input> <br><br>
+    </div>
+</section>
+
+<div type="text/javascript" src="./assets/js/md5.js" v-is="'script'"></div>
+
+<script>
+
+    var render = {
+        data () {
+            return {
+                md5_content:"",
+                md5_32_upper:"",
+                md5_32_lower:"",
+                md5_16_upper:"",
+                md5_16_lower:"",
+            }
+        },
+        watch:{
+            md5_content(v){
+                this.md5(v)
+            },
+        },
+        methods: {
+            md5(v) {
+                this.md5_32_lower = hex_md5(v)
+                this.md5_32_upper = this.md5_32_lower.toUpperCase()
+                this.md5_16_lower = this.md5_32_lower.substr(8, 16)
+                this.md5_16_upper = this.md5_32_upper.substr(8, 16)
+            }
+        },
+        mounted(){
+
+        }
+    }
+</script>
+
+{{template "footer" .}}
+
+<style>
+    .md5-label {
+        font-size: 12px;
+        font-weight: bold;
+    }
+</style>

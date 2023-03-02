@@ -14,13 +14,11 @@
 
 ```shell
 
-chmod +x /services/mingyuan.site/mingyuan.site
-
 ps -aux | grep mingyuan.site
 
 kill 17397
 
-cd /services/mingyuan.site/ && nohup ./mingyuan.site > ./nohub.out 2>&1 &
+cd /services/mingyuan.site/ && chmod +x ./mingyuan.site && nohup ./mingyuan.site > ./nohub.out 2>&1 &
 
 # /usr/local/openresty/nginx/sbin/nginx -s reload
 

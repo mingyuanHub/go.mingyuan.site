@@ -22,18 +22,17 @@ func initRouter(r *gin.Engine) {
 
 	g0 := r.Group("/")
 	{
-		g0.GET("", api.TimestampIndex)
-	}
+		g0.GET("", api.ConversionJson)
+		g0.GET("/json", api.ConversionJson)
+		g0.GET("/timestamp", api.ConversionTimestamp)
+		g0.GET("/md5", api.ConversionMd5)
+		g0.GET("/url", api.ConversionUrl)
+		g0.GET("/trans", api.ConversionTrans)
+		g0.GET("/trans/youdao", api.ConversionTransYoudao)
+		g0.GET("/aes", api.ConversionAes)
 
-	g1 := r.Group("/timestamp")
-	{
-		g1.GET("", api.TimestampIndex)
-		g1.GET("/trans", api.Trans)
-	}
-
-	g7 := r.Group("/data")
-	{
-		g7.GET("", api.DataIndex)
+		g0.GET("/data-diff", api.DataDiff)
+		g0.GET("/data-filter", api.DataFilter)
 	}
 
 	g3 := r.Group("/bulletscreen")

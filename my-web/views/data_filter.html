@@ -1,0 +1,110 @@
+
+{{template "header" .}}
+
+<section >
+    <div class="demo-split" :style='{"height": clientHeight-140 + "px", "border": "1px solid #dcdee2"}'>
+        <Split v-model="dataFilterSplit">
+            <template #left>
+                <div class="demo-split-pane">
+                    <i-Input v-model="dataFilterPrimary" type="textarea" :border="false" :rows="(clientHeight - 210) / 21" placeholder="正文内容......"></i-Input>
+                </div>
+            </template>
+            <template #right>
+                <div class="demo-split-pane">
+                    <i-Input v-model="dataFilterSecondary" type="textarea" :border="false" :rows="(clientHeight - 210) / 21" placeholder="副文内容......"></i-Input>
+                </div>
+            </template>
+        </Split>
+    </div>
+
+    <div style="margin-top: 10px">
+        <i-button type="info"  @click="filter(1)" ghost>筛选 >></i-button> &nbsp;&nbsp;
+        <i-button type="warning"  @click="filter(2)" ghost>反向筛选 >></i-button>
+
+        <span style="margin-left: 10px" v-html="'正文:'+dataFilterPrimaryLineNumber + '   ' + '副文:'+dataFilterSecondaryLineNumber + '   ' + '结果:'+dataFilterResultLineNumber "></span>
+    </div>
+    <div class="demo-split-pane" style="margin-top: 10px;width: 60%">
+        <i-Input v-model="dataFilterResult" type="textarea" :border="true" :rows="(contentHeight - clientHeight)/ 21 " placeholder="结果内容......"></i-Input>
+    </div>
+</section>
+
+<script>
+
+    var render = {
+        data () {
+            return {
+                dataFilterSplit:0.6,
+                dataFilterPrimary:"",
+                dataFilterSecondary:"",
+                dataFilterResult:"",
+                dataFilterPrimaryLineNumber:0,
+                dataFilterSecondaryLineNumber:0,
+                dataFilterResultLineNumber:0,
+            }
+        },
+        watch:{
+            dataFilterPrimary(){
+                this.getDataFilterLineNumber()
+            },
+            dataFilterSecondary(){
+                this.getDataFilterLineNumber()
+            },
+            dataFilterResult(){
+                this.getDataFilterLineNumber()
+            },
+        },
+        methods: {
+            filter(filterType){
+
+                var recordsPrimary = this.dataFilterPrimary.split("\n")
+                var recordsSecondary = this.dataFilterSecondary.split("\n")
+                var result = ""
+                var existsRecords = []
+
+                for (i = 0; i < recordsPrimary.length ; i ++) {
+
+                    var p = recordsPrimary[i]
+                    var isInsert = false
+                    var isInsert2 = true
+
+                    if (p.length == 0) {
+                        continue
+                    }
+
+                    for (j = 0; j < recordsSecondary.length ; j ++) {
+                        var s = recordsSecondary[j]
+
+                        if (s.length == 0) {
+                            continue
+                        }
+
+                        if (filterType == 1 && p.indexOf(s) != -1)  {
+                            isInsert = true
+                            break
+                        }
+                        if (filterType == 2 && p.indexOf(s) != -1)  {
+                            isInsert2 = false
+                            break
+                        }
+                    }
+
+                    if ((filterType == 1 && isInsert) || (filterType == 2 && isInsert2)) {
+                        result += p+"\n"
+                    }
+                }
+
+                this.dataFilterResult = result.trim("\n")
+            },
+            getDataFilterLineNumber(){
+                this.dataFilterPrimaryLineNumber = this.dataFilterPrimary.length > 0 ? this.dataFilterPrimary.split("\n").length : 0
+                this.dataFilterSecondaryLineNumber = this.dataFilterSecondary.length > 0 ? this.dataFilterSecondary.split("\n").length : 0
+                this.dataFilterResultLineNumber = this.dataFilterResult.length > 0 ? this.dataFilterResult.split("\n").length : 0
+            }
+        },
+        mounted(){
+            this.contentHeight = this.clientHeight * 2 - 120
+        }
+    }
+</script>
+
+{{template "footer" .}}
