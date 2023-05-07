@@ -33,6 +33,8 @@ func initRouter(r *gin.Engine) {
 
 		g0.GET("/data-diff", api.DataDiff)
 		g0.GET("/data-filter", api.DataFilter)
+		g0.GET("/data-calculator", api.DataCalculcator)
+		g0.POST("/data-calc", api.DataCalc)
 	}
 
 	g3 := r.Group("/bulletscreen")

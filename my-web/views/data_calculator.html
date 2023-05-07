@@ -1,0 +1,69 @@
+
+{{template "header" .}}
+
+<section>
+
+    <div style="width: 20%;padding: 40px;float: left">
+        <Divider orientation="left" size="small"  style="color: #ff9900;">运算符：</Divider><br>
+
+        <div>&nbsp;&nbsp;加：+</div>
+        <div>&nbsp;&nbsp;减：-</div>
+        <div>&nbsp;&nbsp;乘：*</div>
+        <div>&nbsp;&nbsp;除：/</div>
+
+    </div>
+
+    <div style="width: 50%; float: left;margin-left: 15px">
+        <Divider orientation="left" size="small"  style="width: 50%">计算公式</Divider><br>
+
+        <i-Input v-model="command" type="textarea" :rows="4"></i-Input> <br/> <br/>
+
+        <Divider orientation="left" size="small"  style="width: 50%">计算结果</Divider><br>
+
+        <i-Input v-model="result" type="textarea" :rows="8"></i-Input>
+
+    </div>
+
+</section>
+
+<script>
+
+    var render = {
+        data () {
+            return {
+                command:"",
+                result:"",
+                split:0.5
+            }
+        },
+        watch:{
+            command(){
+                this.calc()
+            }
+        },
+        methods: {
+            calc() {
+                if (this.command === "") {
+                    return
+                }
+                var self = this
+                axios.post('/data-calc', {
+                    command: this.command,
+                }).then(function (response) {
+                    if (response.status === 200) {
+                        let resp = response.data
+                        self.result = resp.result
+                    } else {
+                        console.log("失败");
+                    }
+                }).catch((error) => {
+                    console.log(error);
+                })
+            },
+        },
+        mounted() {
+        }
+    }
+</script>
+
+{{template "footer" .}}
