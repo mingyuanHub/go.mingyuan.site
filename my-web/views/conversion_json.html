@@ -34,13 +34,19 @@
                 this.editor = monaco.editor.create(document.getElementById('jsonEditor'), {
                     model: monaco.editor.createModel(``,"json"),
                     wordWrap: true,
+                    autoIndent: true, // 自动布局
+                    automaticLayout: false, // 自动布局
+                    formatOnPaste: true, //是否粘贴自动格式化
+                    foldingImportsByDefault: true,
+                    scrollBeyondLastLine:false,
+                    gotoLocation:false,
                 });
             });
-            setInterval(()=>{
-                if (this.editor) {
-                    this.editor.getAction('editor.action.formatDocument').run();
-                }
-            }, 800)
+            // setInterval(()=>{
+            //     if (this.editor) {
+            //         this.editor.getAction('editor.action.formatDocument').run();
+            //     }
+            // }, 800)
 
 
         }
