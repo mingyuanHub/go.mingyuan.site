@@ -78,14 +78,34 @@
                         return m<10 ? '0'+m : m
                     },
                     exchangeT2D(t){
-                        var time = new Date(t*1000);
+
+                        var mt = 0
+                        var isMs = false
+                        var len = t.toString().length
+
+                        if (len === 10) {
+                            mt = t*1000
+                        } else if (len === 13) {
+                            mt = t*1
+                            isMs = true
+                        }
+
+                        var time = new Date(mt);
                         var y = time.getFullYear();
                         var m = time.getMonth()+1;
                         var d = time.getDate();
                         var h = time.getHours();
                         var mm = time.getMinutes();
                         var s = time.getSeconds();
-                        return y+'-'+this.add(m)+'-'+this.add(d)+' '+this.add(h)+':'+this.add(mm)+':'+this.add(s);
+
+                        date = y+'-'+this.add(m)+'-'+this.add(d)+' '+this.add(h)+':'+this.add(mm)+':'+this.add(s);
+
+                        if (isMs) {
+                            var ms =time.getMilliseconds()
+                            date += '.'+ms
+                        }
+
+                        return date
                     },
                     exchangeD2T(d){
                         d = d.substring(0,19);

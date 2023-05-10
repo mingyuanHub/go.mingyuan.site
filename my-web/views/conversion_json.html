@@ -9,10 +9,10 @@
 
 
 <script>
-    var require = {paths: {vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.23.0/min/vs' } };
+    var require = {paths: {vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.34.0/min/vs' } };
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.23.0/min/vs/loader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.34.0/min/vs/loader.js"></script>
 
 <script>
 
@@ -41,15 +41,36 @@
                     scrollBeyondLastLine:false,
                     gotoLocation:false,
                     foldingStrategy: "indentation",
+                    useShadowDOM:true,
                 });
+
+                monaco.editor.onDidChangeMarkers(([uri]) => {
+
+                    const markers = monaco.editor.getModelMarkers({resource: uri})
+
+                    if (markers.length === 0) {
+                        this.editor.getAction('editor.action.marker.nextInFiles').run();
+                    } else {
+                        this.editor.getAction('editor.action.marker.next').run();
+                    }
+
+                    for (var i=0;i<markers.length;i++){
+                        console.log(i)
+                    }
+
+                    console.log('markers:', markers.map(
+                        ({ message, startLineNumber, startColumn, endLineNumber, endColumn }) =>
+                            `${message} [${startLineNumber}:${startColumn}-${endLineNumber}:${endColumn}]`,
+                    ))
+                })
+
             });
+
             // setInterval(()=>{
             //     if (this.editor) {
             //         this.editor.getAction('editor.action.formatDocument').run();
             //     }
             // }, 800)
-
-
         }
     }
 </script>
