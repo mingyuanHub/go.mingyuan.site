@@ -31,18 +31,36 @@
         mounted(){
             require(['vs/editor/editor.main'], () => {
                 monaco.editor.setTheme('vs-light');
+
+                model = monaco.editor.createModel(``,"json")
                 this.editor = monaco.editor.create(document.getElementById('jsonEditor'), {
-                    model: monaco.editor.createModel(``,"json"),
+                    model: model,
                     wordWrap: true,
                     autoIndent: true, // 自动布局
                     automaticLayout: false, // 自动布局
-                    formatOnPaste: true, //是否粘贴自动格式化
+                    formatOnPaste: false, //是否粘贴自动格式化
                     foldingImportsByDefault: true,
                     scrollBeyondLastLine:false,
                     gotoLocation:false,
                     foldingStrategy: "indentation",
                     useShadowDOM:true,
                 });
+
+                model.onDidChangeContent((e) => {
+                    // console.log(model.getValue(), e)
+                    if (!e.isFlush) {
+                        ct = model.getValue()
+                        ct1 = ct.replaceAll(" ", "")
+                        ct1 = ct1.replaceAll("\r", "")
+                        ct1 = ct1.replaceAll("\n", "")
+                        if (ct1.substr(0, 3) === "{\\\"") {
+                            ct = ct.replace(/\\"/g, '"')
+                            ct = ct.replace(/\/\/"/g, '/')
+                            model.setValue(ct)
+                            this.editor.getAction('editor.action.formatDocument').run();
+                        }
+                    }
+                })
 
                 monaco.editor.onDidChangeMarkers(([uri]) => {
 
@@ -66,11 +84,11 @@
 
             });
 
-            // setInterval(()=>{
-            //     if (this.editor) {
-            //         this.editor.getAction('editor.action.formatDocument').run();
-            //     }
-            // }, 800)
+            setInterval(()=>{
+                if (this.editor) {
+                    this.editor.getAction('editor.action.formatDocument').run();
+                }
+            }, 800)
         }
     }
 </script>
