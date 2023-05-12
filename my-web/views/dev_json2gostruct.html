@@ -1,0 +1,55 @@
+
+{{template "header" .}}
+
+<section style="padding: 12px;">
+    <div style="width: 48%; float: left">
+        <i-Input v-model="jsonContent" type="textarea" :rows="32"></i-Input>
+    </div>
+
+    <div style="width: 48%; float: left;margin-left: 15px">
+        <i-Input v-model="goStructContent" type="textarea" :rows="32"></i-Input>
+    </div>
+</section>
+
+<script>
+
+    var render = {
+        data () {
+            return {
+                jsonContent: "",
+                goStructContent: ""
+            }
+        },
+        watch: {
+            jsonContent(){
+                this.json2goStruct()
+            },
+        },
+        methods: {
+            json2goStruct() {
+                if (this.jsonContent === "") {
+                    this.goStructContent = ""
+                    return
+                }
+                var self = this
+                axios.post('/json2gostruct-api', {
+                    json: this.jsonContent,
+                }).then(function (response) {
+                    if (response.status === 200) {
+                        let resp = response.data
+                        self.goStructContent = resp.result
+                    } else {
+                        console.log("失败");
+                    }
+                }).catch((error) => {
+                    console.log(error);
+                })
+            },
+        },
+        mounted(){
+
+        }
+    }
+</script>
+
+{{template "footer" .}}

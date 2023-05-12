@@ -51,6 +51,8 @@ func DataCalc(c *gin.Context) {
 
 	command := fmt.Sprintf("echo 'scale=6; %s' | bc", ca.Command)
 
+	fmt.Println("[DataCalc] ", command)
+
 	out, err := exec.Command("bash", "-c", command).Output()
 
 	var result string

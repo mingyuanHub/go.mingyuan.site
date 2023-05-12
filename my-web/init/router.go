@@ -35,6 +35,9 @@ func initRouter(r *gin.Engine) {
 		g0.GET("/data-filter", api.DataFilter)
 		g0.GET("/data-calculator", api.DataCalculcator)
 		g0.POST("/data-calc", api.DataCalc)
+
+		g0.GET("/json2gostruct", api.DevJson2GoStruct)
+		g0.POST("/json2gostruct-api", api.DevJson2GoStructApi)
 	}
 
 	g3 := r.Group("/bulletscreen")

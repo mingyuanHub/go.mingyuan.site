@@ -88,10 +88,10 @@
                     <div class="layout-logo" @click="showBulletscreen">Code Tools</div>
                     <div class="layout-nav">
 
-                        <Submenu name="/aa">
+                        <Submenu name="/con">
                             <template #title>
                                 <Icon type="ios-swap" ></Icon>
-                                转换工具
+                                格式转换
                             </template>
                             <Menu-Item name="/json" to="/json">Json格式化</Menu-Item>
                             <Menu-Item name="/timestamp" to="/timestamp">时间戳转换</Menu-Item>
@@ -111,22 +111,31 @@
                             <Menu-Item name="/data-filter" to="/data-filter">数据过滤</Menu-Item>
                         </Submenu>
 
-                        <Menu-Item name="/adx" to="/adx">
-                            <Icon type="ios-crop"></Icon>
-                            Adx
-                        </Menu-Item>
-                        <Menu-Item name="/bulletscreen" to="/bulletscreen" v-if="bulletscreenClick >= 6">
-                            <Icon type="ios-film"></Icon>
-                            弹幕
-                        </Menu-Item>
-                        <Menu-Item name="/pixelwars" to="/pixelwars">
-                            <Icon type="ios-game-controller-b"></Icon>
-                            像素
-                        </Menu-Item>
-                        <Menu-Item name="/chatgpt" to="/chatgpt">
-                            <Icon type="md-chatbubbles"></Icon>
-                            ChatGPT
-                        </Menu-Item>
+                        <Submenu name="/dev">
+                            <template #title>
+                                <Icon type="ios-crop" ></Icon>
+                                快速开发
+                            </template>
+                            <Menu-Item name="/json2gostruct" to="/json2gostruct">Json to GoStruct</Menu-Item>
+                            <Menu-Item name="/adx" to="/adx">Ad Exchange</Menu-Item>
+                        </Submenu>
+
+                        <Submenu name="/ext">
+                            <template #title>
+                                <Icon type="md-chatbubbles" ></Icon>
+                                扩展工具
+                            </template>
+                            <Menu-Item name="/chatgpt" to="/chatgpt">
+                                ChatGPT
+                            </Menu-Item>
+                            <Menu-Item name="/bulletscreen" to="/bulletscreen" v-if="bulletscreenClick >= 6">
+                                弹幕
+                            </Menu-Item>
+                            <Menu-Item name="/pixelwars" to="/pixelwars">
+                                像素
+                            </Menu-Item>
+                        </Submenu>
+
                     </div>
                 </i-Menu>
             </Header>
