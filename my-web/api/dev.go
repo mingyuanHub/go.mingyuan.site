@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"mingyuanHub/mingyuan.site/pkg/template"
 	"net/http"
-	"os/exec"
+	"mingyuanHub/mingyuan.site/pkg/json2struct"
 )
 
 func DevJson2GoStruct(c *gin.Context) {
@@ -26,18 +26,7 @@ func DevJson2GoStructApi(c *gin.Context) {
 
 	c.ShouldBind(&req)
 
-	command := fmt.Sprintf("echo '%s' | gojson -name=Request", req.Json)
-
-	fmt.Println("[DevJson2GoStructApi] ", command)
-
-	out, err := exec.Command("bash", "-c", command).Output()
-
-	var result string
-	if err != nil {
-		result = err.Error()
-	} else {
-		result = string(out)
-	}
+	result := json2struct.Json2struct(req.Json)
 
 	response := struct {
 		Status int    `json:"status"`
@@ -48,3 +37,31 @@ func DevJson2GoStructApi(c *gin.Context) {
 	}
 	c.JSONP(http.StatusOK, response)
 }
+//
+//func DevJson2GoStructApi(c *gin.Context) {
+//	var req = &Request{}
+//
+//	c.ShouldBind(&req)
+//
+//	command := fmt.Sprintf("echo '%s' | gojson -name=Request", req.Json)
+//
+//	fmt.Println("[DevJson2GoStructApi] ", command)
+//
+//	out, err := exec.Command("bash", "-c", command).Output()
+//
+//	var result string
+//	if err != nil {
+//		result = err.Error()
+//	} else {
+//		result = string(out)
+//	}
+//
+//	response := struct {
+//		Status int    `json:"status"`
+//		Result string `json:"result"`
+//	}{
+//		200,
+//		result,
+//	}
+//	c.JSONP(http.StatusOK, response)
+//}
