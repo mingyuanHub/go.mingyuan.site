@@ -22,14 +22,17 @@ func initRouter(r *gin.Engine) {
 
 	g0 := r.Group("/")
 	{
-		g0.GET("", api.ConversionJson)
-		g0.GET("/json", api.ConversionJson)
+		g0.GET("", api.ConversionTimestamp)
 		g0.GET("/timestamp", api.ConversionTimestamp)
+		g0.GET("/json", api.ConversionJson)
 		g0.GET("/md5", api.ConversionMd5)
 		g0.GET("/url", api.ConversionUrl)
 		g0.GET("/trans", api.ConversionTrans)
 		g0.GET("/trans/youdao", api.ConversionTransYoudao)
 		g0.GET("/aes", api.ConversionAes)
+
+		g0.GET("/price", api.ConversionPrice)
+		g0.POST("/price/price-encrypt", api.PriceEncrypt)
 
 		g0.GET("/data-diff", api.DataDiff)
 		g0.GET("/data-filter", api.DataFilter)

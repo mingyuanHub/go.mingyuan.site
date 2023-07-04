@@ -15,7 +15,9 @@
         <span class="md5-label" style="margin-left: 20px">密钥（s）：</span> <i-Input v-model="aesToken" style="width:300px;"></i-Input>
 
         <Tooltip placement="right-start" style="display: inline;margin-left:20px;">
-            <a target="_blank" href="https://conf-inner.tradplusad.com/pages/viewpage.action?pageId=2835243" ><Icon type="ios-alert"></Icon>提示</a>
+            <a target="_blank" href="https://conf-inner.tradplusad.com/pages/viewpage.action?pageId=2835243" >
+                <Icon type="ios-alert"></Icon>传输加解密提示
+            </a>
             <template #content>
                 <p>1. AES 256 ECB 加密，base64 编码</p>
                 <p>2. 密钥长度统一32位</p>
