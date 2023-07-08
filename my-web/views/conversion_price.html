@@ -1,0 +1,119 @@
+
+{{template "header" .}}
+
+<section>
+    <div>
+        <i-Switch size="large" v-model="aesType">
+            <template #open>
+                <span>加密</span>
+            </template>
+            <template #close>
+                <span>解密</span>
+            </template>
+        </i-Switch>
+
+        <span class="md5-label" style="margin-left: 20px">密钥（s）：</span> <i-Input v-model="secret" style="width:300px;"></i-Input>
+
+        <Tooltip placement="right-start" style="display: inline;margin-left:20px;">
+            <a target="_blank" href="https://conf-inner.tradplusad.com/pages/viewpage.action?pageId=2835243" >
+                <Icon type="ios-alert"></Icon>价格加解密提示
+            </a>
+            <template #content >
+                <p>1. 加密：先采用 AES/ECB/PKCS5Padding 加密，再采用 base64-url-safe 编码</p>
+                <p>2. 解密：先采用 base64-url-safe 解码，再采用 AES/ECB/PKCS5Padding 解密</p>
+                <p>3. 密钥长度统一16位</p>
+            </template>
+        </Tooltip >
+
+    </div><br/>
+
+    <div class="demo-split" :style='{"height": contentHeight - 60 + "px", "border": "1px solid #dcdee2"}'>
+        <Split v-model="split">
+            <template #left>
+                <div class="demo-split-pane">
+                    <i-Input v-model="data1" type="textarea" :border="false" :rows="20"></i-Input>
+                </div>
+            </template>
+            <template #right>
+                <div class="demo-split-pane">
+                    <i-Input v-model="data2" type="textarea" :border="false" :rows="20"></i-Input>
+                </div>
+            </template>
+        </Split>
+    </div>
+</section>
+
+<script>
+
+    var render = {
+        data () {
+            return {
+                data1:"",
+                data2:"",
+                aesType:true,
+                secret:"",
+            }
+        },
+        watch:{
+            data1(){
+                this.aes()
+            },
+            aesType(){
+                this.aes()
+            },
+            secret(){
+                this.aes()
+            },
+        },
+        methods: {
+            aes() {
+                if (this.data1 == "") {
+                    this.data2 = ""
+                    return
+                }
+                var self = this
+                var type = 0
+                var tip = ""
+
+                if (this.aesType) {
+                    type = 1
+                    tip ="加密"
+                } else {
+                    type = 2
+                    tip ="解密"
+                }
+                axios.post("/price/price-encrypt", {
+                        type: type,
+                        price: this.data1,
+                        secret: this.secret,
+                    }
+                ).then(function (response) {
+                    if (response.status === 200) {
+                        let resp = response.data
+                        if (resp.status != 200) {
+                            self.data2 = tip + "失败. " + resp.message
+                            return
+                        }
+                        self.data2 = resp.data
+                    } else {
+                        self.data2 = tip + "失败."
+                    }
+                }).catch((error) => {
+                    console.log(error);
+                    self.data2 = tip + "失败."
+                })
+            },
+        },
+        mounted() {
+            this.data1 = this.data2 = this.secret = ""
+        }
+    }
+</script>
+
+{{template "footer" .}}
+
+<style>
+    .ivu-tooltip-inner {
+        max-width:500px
+    }
+</style>
