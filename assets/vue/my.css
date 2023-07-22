@@ -1,0 +1,79 @@
+#app{
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+}
+.layout{
+    border: 1px solid #d7dde4;
+    background: #ffffff;
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+}
+.layout-logo{
+    width: 130px;
+    height: 30px;
+    /*background: #515a6e;*/
+    border-radius: 3px;
+    float: left;
+    position: relative;
+    top: 10px;
+    left: 20px;
+    /*color: white;*/
+    color: #515a6e;
+    line-height: 30px;
+    text-align: center;
+    font-size: larger;
+    font-weight: bolder;
+    /*background-image: url("./assets/img/logo.svg");*/
+}
+.layout-nav{
+    width: 600px;
+    margin: 0 auto;
+    margin-right: 20px;
+}
+.layout-footer-center{
+    text-align: center;
+}
+.layout .ivu-layout-header {
+    background: #191a23;
+}
+.layout-topMiddleBottom .ivu-menu-light{
+    background:none;
+    color: #fff
+}
+
+.ivu-menu-horizontal {
+    height: 50px;
+    line-height: 50px;
+}
+
+body::-webkit-scrollbar { width: 0 !important }
+
+/*[v-cloak]{*/
+/*    　display: none;*/
+/*}*/
+
+/**
+暗色主题：
+ */
+
+.layout-logo {
+    color:#ffffff;
+}
+
+.layout-logo img{
+    width: 20px;
+    height: 20px;
+    border-color: rgb(255, 255, 255);
+    top: 4px;
+    position: relative;
+}
+
+/*头部背景色*/
+.ivu-menu-dark {
+    background: #303032;
+}
+
+.ivu-input:focus {
+    border-color: #620fad;
+    box-shadow: 0 0 0 2px rgba(45, 140, 240, .2);
+}

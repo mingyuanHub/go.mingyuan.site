@@ -18,8 +18,8 @@
     </div>
 
     <div style="margin-top: 10px">
-        <i-button type="info"  @click="filter(1)" ghost>筛选 >></i-button> &nbsp;&nbsp;
-        <i-button type="warning"  @click="filter(2)" ghost>反向筛选 >></i-button>
+        <i-button type="primary"  @click="filter(1)">筛选 >></i-button> &nbsp;&nbsp;
+        <i-button type="primary" ghost @click="filter(2)">反向筛选 >></i-button>
 
         <span style="margin-left: 10px" v-html="'正文:'+dataFilterPrimaryLineNumber + '   ' + '副文:'+dataFilterSecondaryLineNumber + '   ' + '结果:'+dataFilterResultLineNumber "></span>
     </div>

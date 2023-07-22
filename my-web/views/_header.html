@@ -4,7 +4,7 @@
 <html lang="cn">
 <head>
     <meta charset="utf-8">
-    <title>MingYuanTools - 开发在线工具</title>
+    <title>CodeTrek - 开发在线工具</title>
     <meta name="keywords" content="Json格式化工具, Json校验, Json压缩转义, Yaml格式化, Xml格式化, Sql格式化, 加密&amp;解密算法, Hash算法, Base64编解码, Url编解码, ChatGPT在线, Adx素材, 像素大战, 数据处理">
     <meta name="description" content="面向开发人员的免费在线工具, 包括格式化工具Json格式化工具、编码和解码工具、密码和安全工具、ChatGPT在线、Adx素材、像素大战、数据处理">
     <meta name="language" content="en">
@@ -17,75 +17,28 @@
     <meta name="theme-color" content="#000000">
     <meta name="baidu_union_verify" content="a106b44f013f808cf1697826f55ec4c7">
     <meta name="bytedance-verification-code" content="" />
-    <link rel="shortcut icon" href="./assets/img/favicon.ico"/>
-    <link rel="manifest" href="manifest.webapp">
+    <link rel="shortcut icon" href="./assets/img/logo.svg"/>
+<!--    <link rel="manifest" href="manifest.webapp">-->
 
-    <link rel="stylesheet" type="text/css" href="./assets/vue/viewuiplus.css">
+<!--    <link rel="stylesheet" type="text/css" href="./assets/vue/viewuiplus.css">-->
+    <link rel="stylesheet" type="text/css" href="./assets/vue/viewuiplus-dark.css">
+    <link rel="stylesheet" type="text/css" href="./assets/vue/my.css">
     <script type="text/javascript" src="./assets/vue/vue.global.js"></script>
     <script type="text/javascript" src="./assets/vue/viewuiplus.min.js"></script>
     <script type="text/javascript" src="./assets/vue/axios.min.js"></script>
     <script type="text/javascript" src="./assets/js/jquery.min.js"></script>
 </head>
 
-<style scoped>
-    #app{
-        font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
-    }
-    .layout{
-        border: 1px solid #d7dde4;
-        background: #f5f7f9;
-        position: relative;
-        border-radius: 4px;
-        overflow: hidden;
-    }
-    .layout-logo{
-        width: 100px;
-        height: 30px;
-        /*background: #515a6e;*/
-        border-radius: 3px;
-        float: left;
-        position: relative;
-        top: 15px;
-        left: 20px;
-        /*color: white;*/
-        color: #515a6e;
-        line-height: 30px;
-        text-align: center;
-        font-size: larger;
-        font-weight: bolder;
-        /*background-image: url("./assets/img/shine.jpg");*/
-    }
-    .layout-nav{
-        width: 600px;
-        margin: 0 auto;
-        margin-right: 20px;
-    }
-    .layout-footer-center{
-        text-align: center;
-    }
-    .layout .ivu-layout-header {
-        background: #191a23;
-    }
-    .layout-topMiddleBottom .ivu-menu-light{
-        background:none;
-        color: #fff
-    }
-
-    body::-webkit-scrollbar { width: 0 !important }
-
-    /*[v-cloak]{*/
-    /*    　display: none;*/
-    /*}*/
-
-</style>
-
 <body>
 <div id="app">
     <div class="layout">
         <Layout>
             <Header>
-                <i-Menu mode="horizontal" theme="light" :active-name="path">
-                    <div class="layout-logo" @click="showBulletscreen">Code Tools</div>
+                <i-Menu mode="horizontal" theme="dark" :active-name="path">
+                    <div class="layout-logo" @click="logoClick">
+                        <img src="./assets/img/logo-2.svg" style="width: 20px; height: 20px; border-color: #ffffff">
+                        CodeTrek
+                    </div>
                     <div class="layout-nav">
 
                         <Submenu name="/con">
@@ -94,12 +47,9 @@
                                 格式转换
                             </template>
                             <Menu-Item name="/timestamp" to="/timestamp">时间戳转换</Menu-Item>
-                            <Menu-Item name="/json" to="/json">Json格式化</Menu-Item>
-                            <Menu-Item name="/md5" to="/md5">MD5加密</Menu-Item>
-                            <Menu-Item name="/url" to="/url">URL解码</Menu-Item>
-                            <Menu-Item name="/trans" to="/trans">有道翻译</Menu-Item>
-                            <Menu-Item name="/aes" to="/aes">AES传输加解密</Menu-Item>
-                            <Menu-Item name="/price" to="/price">AES价格加解密</Menu-Item>
+                            <Menu-Item name="/json" to="/json">Json 格式化</Menu-Item>
+                            <Menu-Item name="/md5" to="/md5">MD5 加密</Menu-Item>
+                            <Menu-Item name="/url" to="/url">URL 解码</Menu-Item>
                         </Submenu>
 
                         <Submenu name="/data">
@@ -110,14 +60,17 @@
                             <Menu-Item name="/data-calculator" to="/data-calculator">计算器</Menu-Item>
                             <Menu-Item name="/data-diff" to="/data-diff">数据对比</Menu-Item>
                             <Menu-Item name="/data-filter" to="/data-filter">数据过滤</Menu-Item>
+<!--                            <Menu-Item name="/trans" to="/trans">有道翻译</Menu-Item>-->
+                            <Menu-Item name="/json2gostruct" to="/json2gostruct">Json to GoStruct</Menu-Item>
                         </Submenu>
 
                         <Submenu name="/dev">
                             <template #title>
                                 <Icon type="ios-crop" ></Icon>
-                                快速开发
+                                TradPlus
                             </template>
-                            <Menu-Item name="/json2gostruct" to="/json2gostruct">Json to GoStruct</Menu-Item>
+                            <Menu-Item name="/aes" to="/aes">AES 传输加解密</Menu-Item>
+                            <Menu-Item name="/price" to="/price">AES 价格加解密</Menu-Item>
                             <Menu-Item name="/adx" to="/adx">Ad Exchange</Menu-Item>
                         </Submenu>
 
@@ -129,10 +82,10 @@
                             <Menu-Item name="/chatgpt" to="/chatgpt">
                                 ChatGPT
                             </Menu-Item>
-                            <Menu-Item name="/bulletscreen" to="/bulletscreen" v-if="bulletscreenClick >= 6">
+                            <Menu-Item name="/bulletscreen" to="/bulletscreen" v-if="logoClickNumber >= 6">
                                 弹幕
                             </Menu-Item>
-                            <Menu-Item name="/pixelwars" to="/pixelwars">
+                            <Menu-Item name="/pixelwars" to="/pixelwars" v-if="logoClickNumber >= 6">
                                 像素
                             </Menu-Item>
                         </Submenu>

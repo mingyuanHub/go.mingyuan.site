@@ -6,7 +6,7 @@
 
                     <Footer class="layout-footer-center">
                         2021-2023 &copy; Mingyuan Design &nbsp;&nbsp;&nbsp;
-                        <img style="width: 13px" src="./assets/img/beian.png"></img>ICP 备案：<a href="http://beian.miit.gov.cn/" target="_blank"> 沪ICP备16010013号-2 </a>
+                        <img style="width: 13px" src="./assets/img/beian.png"></img>ICP 备案：<a href="http://beian.miit.gov.cn/" target="_blank" style="color: #191a23"> 沪ICP备16010013号-2 </a>
                     </Footer>
                 </Layout>
             </div>
@@ -26,7 +26,7 @@
 
                         nowDate:"",
 
-                        bulletscreenClick:0,
+                        logoClickNumber:0,
                     }
                 },
                 created() {
@@ -43,8 +43,8 @@
                     onresize() {
                         //this.clientHeight = document.body.clientHeight > document.documentElement.clientHeight ? document.body.clientHeight : document.documentElement.clientHeight
                         this.clientHeight = document.documentElement.clientHeight
-                        this.contentHeight = this.clientHeight - 118
-                        this.contentHeightInner = this.clientHeight - 140
+                        this.contentHeight = this.clientHeight - 106
+                        this.contentHeightInner = this.clientHeight - 128
 
                         // console.log(document.documentElement.clientWidth, document.body.clientWidth)
 
@@ -57,8 +57,8 @@
                             b = parseInt(Math.random() * 256); //0-255
                         return `rgb(${r},${g},${b})` //使用了es6的模板字符串
                     },
-                    showBulletscreen() {
-                        this.bulletscreenClick ++
+                    logoClick() {
+                        this.logoClickNumber ++
                     },
                     getUniqueId() {
                         num = navigator.userAgent.replace(/[^0-9]/ig, "")
