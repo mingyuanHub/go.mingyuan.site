@@ -1,0 +1,48 @@
+
+{{template "header" .}}
+
+<section style="padding: 12px;">
+    <div style="width: 48%; float: left">
+        <i-Input v-model="content" type="textarea" :rows="32"></i-Input>
+
+        <div style="float: left; margin-top: 10px;width: 300px">
+            <i-button type="primary" style="" @click="urlCode(1)">Base64 编码 >></i-button>
+            <i-button type="primary" ghost style="margin-left: 10px" @click="urlCode(2)">Base64 解码 >></i-button>
+        </div>
+    </div>
+
+    <div style="width: 48%; float: left;margin-left: 15px">
+        <i-Input v-model="content2" type="textarea" :rows="32"></i-Input>
+    </div>
+</section>
+
+<div type="text/javascript" src="./assets/js/base64.js" v-is="'script'"></div>
+
+<script>
+
+    var render = {
+        data () {
+            return {
+                content: "",
+                content2: ""
+            }
+        },
+        watch: {
+
+        },
+        methods: {
+            urlCode(t) {
+                if (t === 1) {
+                    this.content2 = base64encode(this.content)
+                } else {
+                    this.content2 = base64decode(this.content)
+                }
+            },
+        },
+        mounted(){
+
+        }
+    }
+</script>
+
+{{template "footer" .}}

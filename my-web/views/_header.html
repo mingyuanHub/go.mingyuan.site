@@ -4,7 +4,7 @@
 <html lang="cn">
 <head>
     <meta charset="utf-8">
-    <title>CodeTrek - 开发在线工具</title>
+    <title>CodeDeputy - 开发在线工具</title>
     <meta name="keywords" content="Json格式化工具, Json校验, Json压缩转义, Yaml格式化, Xml格式化, Sql格式化, 加密&amp;解密算法, Hash算法, Base64编解码, Url编解码, ChatGPT在线, Adx素材, 像素大战, 数据处理">
     <meta name="description" content="面向开发人员的免费在线工具, 包括格式化工具Json格式化工具、编码和解码工具、密码和安全工具、ChatGPT在线、Adx素材、像素大战、数据处理">
     <meta name="language" content="en">
@@ -37,7 +37,7 @@
                 <i-Menu mode="horizontal" theme="dark" :active-name="path">
                     <div class="layout-logo" @click="logoClick">
                         <img src="./assets/img/logo-2.svg" style="width: 20px; height: 20px; border-color: #ffffff">
-                        CodeTrek
+                        CodeDeputy
                     </div>
                     <div class="layout-nav">
 
@@ -48,8 +48,10 @@
                             </template>
                             <Menu-Item name="/timestamp" to="/timestamp">时间戳转换</Menu-Item>
                             <Menu-Item name="/json" to="/json">Json 格式化</Menu-Item>
-                            <Menu-Item name="/md5" to="/md5">MD5 加密</Menu-Item>
+                            <Menu-Item name="/md5" to="/md5">Md5 加密</Menu-Item>
                             <Menu-Item name="/url" to="/url">URL 解码</Menu-Item>
+                            <Menu-Item name="/base64" to="/base64">Base64 解码</Menu-Item>
+                            <Menu-Item name="/utf8" to="/utf8">UTF-8 解码</Menu-Item>
                         </Submenu>
 
                         <Submenu name="/data">
@@ -67,7 +69,7 @@
                         <Submenu name="/dev">
                             <template #title>
                                 <Icon type="ios-crop" ></Icon>
-                                TradPlus
+                                TP
                             </template>
                             <Menu-Item name="/aes" to="/aes">AES 传输加解密</Menu-Item>
                             <Menu-Item name="/price" to="/price">AES 价格加解密</Menu-Item>

@@ -31,7 +31,17 @@ func ConversionUrl(c *gin.Context) {
 	t.ExecuteTemplate(c.Writer, tmplName, nil)
 }
 
+func ConversionBase64(c *gin.Context) {
+	var tmplName = "conversion_base64.html"
+	t, _ := template.ParseFiles(fmt.Sprintf("my-web/views/%s", tmplName))
+	t.ExecuteTemplate(c.Writer, tmplName, nil)
+}
 
+func ConversionUtf8(c *gin.Context) {
+	var tmplName = "conversion_utf8.html"
+	t, _ := template.ParseFiles(fmt.Sprintf("my-web/views/%s", tmplName))
+	t.ExecuteTemplate(c.Writer, tmplName, nil)
+}
 
 func ConversionAes(c *gin.Context) {
 	var tmplName = "conversion_aes.html"

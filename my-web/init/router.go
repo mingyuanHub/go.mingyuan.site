@@ -27,6 +27,8 @@ func initRouter(r *gin.Engine) {
 		g0.GET("/json", api.ConversionJson)
 		g0.GET("/md5", api.ConversionMd5)
 		g0.GET("/url", api.ConversionUrl)
+		g0.GET("/base64", api.ConversionBase64)
+		g0.GET("/utf8", api.ConversionUtf8)
 		g0.GET("/trans", api.ConversionTrans)
 		g0.GET("/trans/youdao", api.ConversionTransYoudao)
 		g0.GET("/aes", api.ConversionAes)
