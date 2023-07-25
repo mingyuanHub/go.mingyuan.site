@@ -49,4 +49,10 @@ func ConversionAes(c *gin.Context) {
 	t.ExecuteTemplate(c.Writer, tmplName, nil)
 }
 
+func MarkDown(c *gin.Context) {
+	var tmplName = "markdown.html"
+	t, _ := template.ParseFiles(fmt.Sprintf("my-web/views/%s", tmplName))
+	t.ExecuteTemplate(c.Writer, tmplName, nil)
+}
+
 

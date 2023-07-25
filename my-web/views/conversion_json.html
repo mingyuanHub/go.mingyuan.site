@@ -32,7 +32,7 @@
             require(['vs/editor/editor.main'], () => {
                 monaco.editor.setTheme('vs-light');
 
-                model = monaco.editor.createModel(``,"json")
+                model = monaco.editor.createModel(``, "json")
                 this.editor = monaco.editor.create(document.getElementById('jsonEditor'), {
                     model: model,
                     wordWrap: true,
