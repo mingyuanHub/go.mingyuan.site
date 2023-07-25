@@ -31,13 +31,12 @@
                 theme: "",
                 editorTheme: "monokai",      // Editor area, this is CodeMirror theme at v1.5.0
                 previewTheme: "",             // Preview area theme, default empty
-                path: "./assets/editor.md/lib/"  // Autoload modules mode, codemirror, marked... dependents libs path
+                path: "./assets/editor.md/lib/",  // Autoload modules mode, codemirror, marked... dependents libs path
+                onload: () => {
+                    $(".fa-info-circle:first").remove()
+                    $(".editormd-toolbar:first").css("z-index", 0)
+                }
             });
-
-            setTimeout(() => {
-                $(".fa-info-circle:first").remove()
-                $(".editormd-toolbar:first").css("z-index", 0)
-            }, 100)
 
             //editorTheme : "default","3024-day","3024-night","ambiance","ambiance-mobile","base16-dark","base16-light","blackboard","cobalt","eclipse","elegant","erlang-dark","lesser-dark","mbo","mdn-like","midnight","monokai","neat","neo","night","paraiso-dark","paraiso-light","pastel-on-dark","rubyblue","solarized","the-matrix","tomorrow-night-eighties","twilight","vibrant-ink","xq-dark","xq-light"
             //markdown: "xxxx",     // dynamic set Markdown text
