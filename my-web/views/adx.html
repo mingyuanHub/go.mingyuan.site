@@ -25,10 +25,10 @@
             <i-button type="warning" @click="save()" ghost>保存</i-button>
         </Form-Item>
         <Form-Item label="Adm：">
-            <i-Input v-model="adm" type="textarea" :rows="20" style="width: 60%"></i-Input>
+            <i-Input v-model="adm" type="textarea" :rows="35" style="width: 100%"></i-Input>
         </Form-Item>
         <Form-Item label="日志内容">
-            <i-Input v-model="noticeListText" type="textarea" :rows="20" style="width: 60%"></i-Input>
+            <i-Input v-model="noticeListText" type="textarea" :rows="5" style="width: 100%"></i-Input>
         </Form-Item>
     </i-Form>
 
@@ -77,6 +77,10 @@
                 }).then(function (response) {
                     let resp = response.data
                     if (resp.status === 200) {
+                        self.$Notice.success({
+                            title: '提示',
+                            desc: '保存成功'
+                        });
                         self.dspMap.forEach((item, idx) => {
                             if (item.id == id) {
                                 self.dspMap[idx].name = self.name
@@ -85,6 +89,11 @@
                         if (id === 0) {
                             self.getDspList()
                         }
+                    } else {
+                        self.$Notice.error({
+                            title: '提示',
+                            desc: '保存失败'
+                        });
                     }
                 })
             },

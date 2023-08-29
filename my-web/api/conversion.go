@@ -55,4 +55,9 @@ func MarkDown(c *gin.Context) {
 	t.ExecuteTemplate(c.Writer, tmplName, nil)
 }
 
+func Timeline(c *gin.Context) {
+	var tmplName = "timeline.html"
+	t, _ := template.ParseFiles(fmt.Sprintf("my-web/views/%s", tmplName))
+	t.ExecuteTemplate(c.Writer, tmplName, nil)
+}
 

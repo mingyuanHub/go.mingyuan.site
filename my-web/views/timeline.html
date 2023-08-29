@@ -1,0 +1,60 @@
+
+{{template "header" .}}
+
+<section>
+    <div class="demo-split" :style='{"height": contentHeight + "px", "border": "0px solid #dcdee2"}'>
+        <div id="timesheet" style="width: 100%; height: 100%"></div>
+    </div>
+</section>
+
+<link rel="stylesheet" href="./assets/timesheet.js/timesheet-white.min.css" />
+<link rel="stylesheet" href="./assets/timesheet.js/timesheet.min.css" />
+
+<script src="./assets/timesheet.js/timesheet.min.js"></script>
+
+<script>
+
+    var render = {
+        data() {
+            return {}
+        },
+        methods: {},
+        mounted() {
+            new Timesheet('timesheet', 2021, 2024, [
+                ['2/2022', '3/2022', '项目结构布局', 'ipsum'],
+                ['3/2022', '6/2022', '支持 时间戳转换，Json格式化，弹幕', 'dolor'],
+                ['6/2022', '7/2022', '支持 像素大战，Md5，像素大战websocket，备案，优化布局', 'ipsum'],
+                ['7/2022', '10/2022', '支持 有道翻译，AES传输加密', 'lorem'],
+                ['10/2022', '12/2022', '支持 数据筛选，ADX配置，Json V2', 'dolor'],
+                ['12/2022', '3/2023', '支持 数据对比，ChatGPT，优化项目', 'lorem'],
+                ['3/2023', '5/2023', '支持 计算器，Json2GoStruct', 'default'],
+                ['5/2023', '7/2023', '支持 价格加密，黑暗主题，Base64，Utf-8转换，Markdown，时间轴', 'dolor'],
+
+                // ['11/2/2022', '7/3/2022', '项目结构布局', 'lorem'],
+                // ['7/3/2022', '20/6/2022', '支持时间戳转换', 'lorem'],
+                // ['20/6/2022', '21/6/2022', '支持Json格式化', 'lorem'],
+                // ['21/6/2022', '27/6/2022', '支持弹幕', 'lorem'],
+                // ['28/6/2022', '11/7/2022', '支持像素大战', 'lorem'],
+                // ['29/6/2022', '30/6/2022', '支持Md5，优化布局', 'lorem'],
+                // ['30/6/2022', '11/7/2022', '优化布局', 'lorem'],
+                // ['11/7/2022', '18/7/2022', '支持像素大战websocket', 'lorem'],
+                // ['18/7/2022', '27/7/2022', '新增备案信息', 'lorem'],
+                // ['27/7/2022', '17/10/2022', '支持有道翻译', 'lorem'],
+                // ['17/10/2022', '26/10/2022', '支持AES传输加密', 'lorem'],
+                // ['26/10/2022', '11/11/2022', '支持数据筛选', 'lorem'],
+                // ['11/11/2022', '29/11/2022', '支持ADX配置', 'lorem'],
+                // ['29/11/2022', '15/12/2022', '支持Json V2', 'lorem'],
+                // ['15/12/2022', '1/3/2023', '支持数据对比，优化项目', 'lorem'],
+                // ['3/2/2023', '19/2/2023', '支持ChatGPT', 'lorem'],
+                // ['1/3/2023', '8/5/2023', '支持计算器', 'lorem'],
+                // ['8/5/2023', '4/7/2023', '支持Json2GoStruct', 'lorem'],
+                // ['4/7/2023', '8/7/2023', '支持价格加密', 'lorem'],
+                // ['8/7/2023', '24/7/2023', '支持黑暗主题，支持Base64，Utf-8转换', 'lorem'],
+                // ['24/7/2023', '25/7/2023', '支持Markdown', 'lorem'],
+                // ['25/7/2023', '28/7/2023', '支持时间轴', 'lorem'],
+            ]);
+        }
+    }
+</script>
+
+{{template "footer" .}}

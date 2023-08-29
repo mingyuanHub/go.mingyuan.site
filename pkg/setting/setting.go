@@ -1,7 +1,6 @@
 package setting
 
 import (
-	"fmt"
 	"gopkg.in/ini.v1"
 	"strings"
 )
@@ -57,7 +56,10 @@ func Init() error {
 	}
 
 	AppConfig.Host = cfg.Section("host").Key("HOST_" + strings.ToUpper(AppConfig.RunMode)).String()
-	AppConfig.LocalHost = fmt.Sprintf("http://127.0.0.1:%d", ServerConfig.ServerPort)
+
+	//AppConfig.LocalHost = fmt.Sprintf("http://127.0.0.1:%d", ServerConfig.ServerPort)
+
+	AppConfig.LocalHost = "http://www.mingyuan.site"
 
 	return nil
 }

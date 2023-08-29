@@ -33,6 +33,7 @@ func initRouter(r *gin.Engine) {
 		g0.GET("/trans/youdao", api.ConversionTransYoudao)
 		g0.GET("/aes", api.ConversionAes)
 		g0.GET("/markdown", api.MarkDown)
+		g0.GET("/timeline", api.Timeline)
 
 		g0.GET("/price", api.ConversionPrice)
 		g0.POST("/price/price-encrypt", api.PriceEncrypt)
