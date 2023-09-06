@@ -14,7 +14,7 @@ import (
 
 func AdxIndex(c *gin.Context) {
 
-	var tmplName = "adx.html"
+	var tmplName = "tp_adx.html"
 
 	t, _ := template.ParseFiles(fmt.Sprintf("my-web/views/%s", tmplName))
 

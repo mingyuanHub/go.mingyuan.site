@@ -44,7 +44,7 @@ func ConversionUtf8(c *gin.Context) {
 }
 
 func ConversionAes(c *gin.Context) {
-	var tmplName = "conversion_aes.html"
+	var tmplName = "tp_aes.html"
 	t, _ := template.ParseFiles(fmt.Sprintf("my-web/views/%s", tmplName))
 	t.ExecuteTemplate(c.Writer, tmplName, nil)
 }
@@ -57,6 +57,18 @@ func MarkDown(c *gin.Context) {
 
 func Timeline(c *gin.Context) {
 	var tmplName = "timeline.html"
+	t, _ := template.ParseFiles(fmt.Sprintf("my-web/views/%s", tmplName))
+	t.ExecuteTemplate(c.Writer, tmplName, nil)
+}
+
+func Ip(c *gin.Context) {
+	var tmplName = "tp_ip.htm"
+	t, _ := template.ParseFiles(fmt.Sprintf("my-web/views/%s", tmplName))
+	t.ExecuteTemplate(c.Writer, tmplName, nil)
+}
+
+func Map(c *gin.Context) {
+	var tmplName = "baidu_map.html"
 	t, _ := template.ParseFiles(fmt.Sprintf("my-web/views/%s", tmplName))
 	t.ExecuteTemplate(c.Writer, tmplName, nil)
 }

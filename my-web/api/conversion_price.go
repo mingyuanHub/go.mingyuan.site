@@ -9,7 +9,7 @@ import (
 )
 
 func ConversionPrice(c *gin.Context) {
-	var tmplName = "conversion_price.html"
+	var tmplName = "tp_price.html"
 	t, _ := template.ParseFiles(fmt.Sprintf("my-web/views/%s", tmplName))
 	t.ExecuteTemplate(c.Writer, tmplName, nil)
 }

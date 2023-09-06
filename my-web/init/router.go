@@ -31,12 +31,8 @@ func initRouter(r *gin.Engine) {
 		g0.GET("/utf8", api.ConversionUtf8)
 		g0.GET("/trans", api.ConversionTrans)
 		g0.GET("/trans/youdao", api.ConversionTransYoudao)
-		g0.GET("/aes", api.ConversionAes)
 		g0.GET("/markdown", api.MarkDown)
 		g0.GET("/timeline", api.Timeline)
-
-		g0.GET("/price", api.ConversionPrice)
-		g0.POST("/price/price-encrypt", api.PriceEncrypt)
 
 		g0.GET("/data-diff", api.DataDiff)
 		g0.GET("/data-filter", api.DataFilter)
@@ -45,6 +41,13 @@ func initRouter(r *gin.Engine) {
 
 		g0.GET("/json2gostruct", api.DevJson2GoStruct)
 		g0.POST("/json2gostruct-api", api.DevJson2GoStructApi)
+
+		g0.GET("/aes", api.ConversionAes)
+		g0.GET("/price", api.ConversionPrice)
+		g0.POST("/price/price-encrypt", api.PriceEncrypt)
+		g0.GET("/ip", api.Ip)
+
+		g0.GET("/map", api.Map)
 	}
 
 	g3 := r.Group("/bulletscreen")

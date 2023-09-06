@@ -153,6 +153,9 @@
                 }
             },
             getDspNotice() {
+                if (this.id <= 0) {
+                    return
+                }
 
                 if (parseInt(this.id) === this.tempDspId) {
                     return
@@ -197,7 +200,7 @@
 
             var self = this
 
-            window.setInterval(self.getDspNotice,3000);
+            window.setInterval(self.getDspNotice, 5000);
         }
     }
 </script>

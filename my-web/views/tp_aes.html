@@ -30,12 +30,12 @@
         <Split v-model="split">
             <template #left>
                 <div class="demo-split-pane">
-                    <i-Input v-model="aesData1" type="textarea" :border="false" :rows="(contentHeight - 63) / 21"></i-Input>
+                    <i-Input v-model="aesData1" type="textarea" :border="false" :rows="globalTextareaRowsWithButton"></i-Input>
                 </div>
             </template>
             <template #right>
                 <div class="demo-split-pane">
-                    <i-Input v-model="aesData2" type="textarea" :border="false" :rows="(contentHeight - 63)  / 21"></i-Input>
+                    <i-Input v-model="aesData2" type="textarea" :border="false" :rows="globalTextareaRowsWithButton"></i-Input>
                 </div>
             </template>
         </Split>

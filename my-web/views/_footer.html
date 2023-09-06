@@ -27,6 +27,9 @@
                         nowDate:"",
 
                         logoClickNumber:0,
+
+                        globalTextareaRowsWithButton:0,
+                        globalTextareaRowsNoneButton:0
                     }
                 },
                 created() {
@@ -51,6 +54,9 @@
 
                         this.clientWidth = document.documentElement.clientWidth
                         this.contentWidth = this.clientWidth - 36*2
+
+                        this.globalTextareaRowsWithButton = (this.contentHeight - 63) / 21
+                        this.globalTextareaRowsNoneButton = this.contentHeight / 21
                     },
                     getRGB() {
                         let r = parseInt(Math.random() * 256), //0-255

@@ -1,0 +1,80 @@
+
+{{template "header" .}}
+
+<section style="padding: 12px;">
+    <div style="width: 48%; float: left">
+        <i-Input v-model="content" type="textarea" placeholder="输入IP..." :rows="globalTextareaRowsWithButton"></i-Input>
+
+        <div style="float: left; margin-top: 10px;width: 300px">
+            <i-button type="primary" style="" @click="search()" >IP 查询 >></i-button>
+        </div>
+    </div>
+
+    <div style="width: 48%; float: left;margin-left: 15px">
+        <i-Input v-model="content2" type="textarea" :rows="globalTextareaRowsWithButton"></i-Input>
+    </div>
+</section>
+
+<script type="text/javascript" src="./assets/js/formatJson.js"></script>
+
+<script>
+
+    var render = {
+        data () {
+            return {
+                content: "",
+                content2: ""
+            }
+        },
+        watch: {
+
+        },
+        methods: {
+            search() {
+                var content = this.content.replaceAll("\"", "")
+                content = content.replaceAll("'", "")
+                content = content.replaceAll("{", "")
+                content = content.replaceAll("}", "")
+                content = content.replaceAll("，", ",")
+                content = content.replaceAll(" ", ",")
+
+                if (content.length < 1){
+                    return
+                }
+
+                var ips1 = content.split(",")
+
+                var ips2 = []
+                for (i=0; i < ips1.length; i ++) {
+                    item = ips1[i].split("\n")
+                    for (j=0; j < item.length; j ++) {
+                        ips2.push(item[j])
+                    }
+                }
+
+                var self = this
+
+                axios.post("http://www.mingyuan.site/iplocation", {
+                    ip: ips2
+                }
+                ).then(function (response) {
+                    console.log(response.status)
+                    if (response.status === 200) {
+                        let resp = response.data
+                        self.content2 = formatJson(JSON.stringify(resp))
+                    } else {
+                        self.content2 = "查询失败."
+                    }
+                }).catch((error) => {
+                    console.log(error);
+                    self.content2 = "查询失败."
+                })
+            },
+        },
+        mounted(){
+
+        }
+    }
+</script>
+
+{{template "footer" .}}

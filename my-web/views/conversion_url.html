@@ -3,7 +3,7 @@
 
 <section style="padding: 12px;">
     <div style="width: 48%; float: left">
-        <i-Input v-model="urlContent" type="textarea" :rows="32"></i-Input>
+        <i-Input v-model="urlContent" type="textarea" :rows="globalTextareaRowsWithButton"></i-Input>
 
         <div style="float: left; margin-top: 10px;width: 300px">
             <i-button type="primary" style="" @click="urlCode(1)">Url转码 >></i-button>
@@ -12,7 +12,7 @@
     </div>
 
     <div style="width: 48%; float: left;margin-left: 15px">
-        <i-Input v-model="url2Content" type="textarea" :rows="32"></i-Input>
+        <i-Input v-model="url2Content" type="textarea" :rows="globalTextareaRowsWithButton"></i-Input>
     </div>
 </section>
 
