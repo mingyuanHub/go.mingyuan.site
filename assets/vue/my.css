@@ -25,6 +25,7 @@
     font-size: larger;
     font-weight: bolder;
     /*background-image: url("./assets/img/logo.svg");*/
+    cursor:pointer;
 }
 .layout-nav{
     width: 600px;
