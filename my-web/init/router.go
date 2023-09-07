@@ -5,6 +5,7 @@ import (
 	"mingyuanHub/mingyuan.site/internal/middlewares"
 	"mingyuanHub/mingyuan.site/my-web/api"
 	"mingyuanHub/mingyuan.site/my-web/api/chatgpt"
+	"mingyuanHub/mingyuan.site/my-web/api/ip"
 )
 
 func Init(r *gin.Engine)  {
@@ -45,7 +46,7 @@ func initRouter(r *gin.Engine) {
 		g0.GET("/aes", api.ConversionAes)
 		g0.GET("/price", api.ConversionPrice)
 		g0.POST("/price/price-encrypt", api.PriceEncrypt)
-		g0.GET("/ip", api.Ip)
+		g0.GET("/gepip", api.GeoIp)
 
 		g0.GET("/map", api.Map)
 	}
@@ -83,5 +84,11 @@ func initRouter(r *gin.Engine) {
 	{
 		g6.GET("", chatgpt.Index)
 		g6.POST("/checkToken", chatgpt.CheckToken)
+	}
+
+	g7 := r.Group("/ip")
+	{
+		g7.GET("", ip.Index)
+		g7.GET("/search", ip.Search)
 	}
 }

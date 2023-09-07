@@ -61,7 +61,7 @@ func Timeline(c *gin.Context) {
 	t.ExecuteTemplate(c.Writer, tmplName, nil)
 }
 
-func Ip(c *gin.Context) {
+func GeoIp(c *gin.Context) {
 	var tmplName = "tp_ip.htm"
 	t, _ := template.ParseFiles(fmt.Sprintf("my-web/views/%s", tmplName))
 	t.ExecuteTemplate(c.Writer, tmplName, nil)

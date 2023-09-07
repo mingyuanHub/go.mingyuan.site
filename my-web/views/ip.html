@@ -1,0 +1,97 @@
+
+{{template "header" .}}
+
+<section>
+    <div>
+        <span class="md5-label" style="margin-left: 20px">
+            当前IP ：<span v-html="clientip"></span>
+        </span>
+    </div>
+    <br/>
+    <div>
+        <span class="md5-label" style="margin-left: 20px">IP地址 ： </span>
+        <i-Input v-model="data1" style="width:300px;"></i-Input>
+        <i-button type="primary" @click="search" style="margin-left: 20px">查询 >></i-button>
+    </div>
+    <br/>
+
+    <div class="demo-split" :style='{"height": contentHeight - 100 + "px", "border": "1px solid #dcdee2"}'>
+        <i-Input v-model="data2" type="textarea" :border="false" :rows="globalTextareaRowsWithButton - 5"></i-Input>
+    </div>
+</section>
+
+<script type="text/javascript" src="./assets/js/formatJson.js"></script>
+
+<script>
+
+    var render = {
+        data () {
+            return {
+                data1:"",
+                data2:"",
+                clientip:"",
+            }
+        },
+        watch:{
+            data1(){
+                // this.search()
+            },
+        },
+        methods: {
+            getClientIp() {
+                var self = this
+                axios.get("/clientip").then(function (response) {
+                    if (response.status === 200) {
+                        self.clientip = response.data
+                        self.searchIp(self.clientip)
+                    } else {
+                        self.clientip = "查询失败."
+                    }
+                }).catch((error) => {
+                    console.log(error)
+                    self.clientip = "查询失败."
+                })
+            },
+            search() {
+                if (this.data1 == "") {
+                    this.data2 = ""
+                    return
+                }
+                this.searchIp(this.data1)
+            },
+            searchIp(ip){
+                var self = this
+                axios.get("/ip/search", {
+                    params: {
+                        ip: ip,
+                    }
+                }).then(function (response) {
+                    if (response.status === 200) {
+                        let resp = response.data
+                        if (resp.status !== 200 || resp.data.length === 0) {
+                            self.data2 = "查询失败."
+                            return
+                        }
+                        self.data2 = formatJson(resp.data)
+                    } else {
+                        self.data2 = "查询失败."
+                    }
+                }).catch((error) => {
+                    console.log(error);
+                })
+            }
+        },
+        mounted() {
+            this.data1 = this.data2 = ""
+            this.getClientIp()
+        }
+    }
+</script>
+
+{{template "footer" .}}
+
+<style>
+    .ivu-tooltip-inner {
+        max-width:500px
+    }
+</style>
