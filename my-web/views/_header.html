@@ -83,7 +83,7 @@
                                 <Icon type="md-chatbubbles" ></Icon>
                                 扩展
                             </template>
-                            <Menu-Item name="/chatgpt" to="/chatgpt">
+                            <Menu-Item name="/chatgpt" to="/chatgpt" v-if="logoClickNumber >= 6">
                                 ChatGPT
                             </Menu-Item>
                             <Menu-Item name="/map" to="/map">
