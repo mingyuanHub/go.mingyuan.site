@@ -13,6 +13,12 @@ func ConversionJson(c *gin.Context) {
 	t.ExecuteTemplate(c.Writer, tmplName, nil)
 }
 
+func ConversionHtml(c *gin.Context) {
+	var tmplName = "conversion_html.html"
+	t, _ := template.ParseFiles(fmt.Sprintf("my-web/views/%s", tmplName))
+	t.ExecuteTemplate(c.Writer, tmplName, nil)
+}
+
 func ConversionTimestamp(c *gin.Context) {
 	var tmplName = "conversion_timestamp.html"
 	t, _ := template.ParseFiles(fmt.Sprintf("my-web/views/%s", tmplName))

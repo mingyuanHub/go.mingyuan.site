@@ -1,0 +1,57 @@
+
+{{template "header" .}}
+
+<section style="padding: 12px;">
+    <div style="width: 48%; float: left">
+        <i-Input v-model="content1" type="textarea" :rows="globalTextareaRowsWithButton"></i-Input>
+
+        <div style="float: left; margin-top: 10px;width: 600px">
+            <i-button type="primary" style="" @click="conv(1)"> HTML 格式化 >></i-button>
+            <i-button type="primary" style="margin-left: 10px" @click="conv(2)"> JavaScript 格式化 >></i-button>
+            <i-button type="primary" style="margin-left: 10px" @click="conv(3)"> CSS 格式化 >></i-button>
+        </div>
+    </div>
+
+    <div style="width: 48%; float: left;margin-left: 15px">
+        <i-Input v-model="content2" type="textarea" :rows="globalTextareaRowsWithButton"></i-Input>
+    </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.11/beautify-html.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.11/beautify.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.11/beautify-css.js"></script>
+
+<script>
+
+    const options = { indent_size: 2, space_in_empty_paren: true }
+
+    var render = {
+        data () {
+            return {
+                content1: "",
+                content2: ""
+            }
+        },
+        watch: {
+
+        },
+        methods: {
+            conv(t) {
+                if (t === 1) {
+                    this.content2 = html_beautify(this.content1, options)
+                }
+                if (t === 2) {
+                    this.content2 = js_beautify(this.content1, options)
+                }
+                if (t === 3) {
+                    this.content2 = css_beautify(this.content1, options)
+                }
+            },
+        },
+        mounted(){
+
+        }
+    }
+</script>
+
+{{template "footer" .}}
