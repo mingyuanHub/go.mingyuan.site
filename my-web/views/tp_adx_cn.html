@@ -22,12 +22,9 @@
         <Form-Item label="Api地址：">
             <a v-html="adxApi"></a>
         </Form-Item>
-        <Form-Item label="Adm：">
+        <Form-Item label="BidCn：">
             <i-Input v-model="adm" type="textarea" :rows="44" style="width: 100%"></i-Input>
         </Form-Item>
-<!--        <Form-Item label="日志内容">-->
-<!--            <i-Input v-model="noticeListText" type="textarea" :rows="5" style="width: 100%"></i-Input>-->
-<!--        </Form-Item>-->
     </i-Form>
 
 </section>
@@ -56,7 +53,7 @@
         },
         watch:{
             unique_key(v){
-                this.adxApi = "http://" + this.local + "/adx/" + this.unique_key
+                this.adxApi = "http://" + this.local + "/adx/cn/" + this.unique_key
             },
             id(v){
                 this.setSelectedDsp(v)
@@ -72,6 +69,7 @@
                     name: this.name,
                     unique_key: this.unique_key,
                     adm: this.adm,
+                    is_cn: 1,
                 }).then(function (response) {
                     let resp = response.data
                     if (resp.status === 200) {
@@ -97,7 +95,7 @@
             },
             getDspList(){
                 var self = this
-                axios.post('/adx/adxGetDspList', {}).then(function (response) {
+                axios.post('/adx/adxGetDspList', {"is_cn":1}).then(function (response) {
 
                     self.loadding = false
 
@@ -149,56 +147,10 @@
                         self.getDspAdm(id)
                     }
                 }
-            },
-            getDspNotice() {
-                if (this.id <= 0) {
-                    return
-                }
-
-                if (parseInt(this.id) === this.tempDspId) {
-                    return
-                }
-
-                var self = this
-
-                axios.get('/adx/adxGetDspNotice', {
-                    params: {
-                        id: this.id,
-                        noticeId:this.noticeId,
-                        nowDate:this.nowDate
-                    }
-                }).then(function (response) {
-                    var  resp = response.data
-
-                    if (resp.length === 0) {
-                        return
-                    }
-
-                    resp.forEach((item, idx) => {
-
-                        if (idx == resp.length - 1) {
-                            self.noticeId = item.id
-                        }
-
-                        let notice =
-                            item.id + " " +
-                            "【" + item.createtime + "】 " +
-                            "【" + item.notice_type_name + "】 " +
-                            "【" + item.ip + "】 " +
-                            "【" + item.ua + "】 " +
-                            "\n"
-
-                        self.noticeListText = notice + self.noticeListText
-                    })
-                })
             }
         },
         mounted(){
             this.getDspList()
-
-            var self = this
-
-            // window.setInterval(self.getDspNotice, 5000);
         }
     }
 </script>

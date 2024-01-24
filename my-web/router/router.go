@@ -1,4 +1,4 @@
-package init
+package router
 
 import (
 	"github.com/gin-gonic/gin"
@@ -70,6 +70,7 @@ func initRouter(r *gin.Engine) {
 	g5 := r.Group("/adx")
 	{
 		g5.GET("", api.AdxIndex)
+		g5.GET("/cn", api.AdxIndexCn)
 
 		g5.POST("/adxGetDspList", api.AdxGetDspList)
 		g5.GET("/adxGetDspAdm", api.AdxGetDspAdm)
@@ -77,8 +78,10 @@ func initRouter(r *gin.Engine) {
 		g5.POST("/adxDspSave", api.AdxDspSave)
 		g5.GET("/adxGetDspNotice", api.AdxGetDspNotice)
 
+		g5.POST("/cn/:uniqueKey", api.AdxBidCn)
 		g5.GET("/:uniqueKey/:noticeType", api.AdxSaveDspNotice)
 		g5.POST("/:uniqueKey", api.AdxBid)
+
 	}
 
 	g6 := r.Group("/chatgpt")

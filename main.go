@@ -8,7 +8,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	webint "mingyuanHub/mingyuan.site/my-web/init"
+	"mingyuanHub/mingyuan.site/my-web/router"
 	"mingyuanHub/mingyuan.site/internal/models"
 	"mingyuanHub/mingyuan.site/pkg/logger"
 	"mingyuanHub/mingyuan.site/pkg/setting"
@@ -53,7 +53,7 @@ func main() {
 func getRouter() (r *gin.Engine) {
 	r = gin.Default()
 
-	webint.Init(r)
+	router.Init(r)
 
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{

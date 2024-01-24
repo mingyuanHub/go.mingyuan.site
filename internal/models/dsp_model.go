@@ -4,6 +4,7 @@ type Dsp struct {
 	Id        int    `gorm:"primary_key" json:"id"`
 	Name      string `json:"name"`
 	UniqueKey string `json:"unique_key"`
+	IsCn      int    `json:"is_cn"`
 	Adm       string `json:"adm"`
 }
 
@@ -20,9 +21,9 @@ func NewDspModel() *DspModel {
 }
 
 
-func (m *DspModel) GetDspList() (dspList []*Dsp) {
+func (m *DspModel) GetDspList(isCn int) (dspList []*Dsp) {
 	dspList = []*Dsp{}
-	db.Order("updatetime desc").Find(&dspList)
+	db.Where("is_cn = ?", isCn).Order("updatetime desc").Find(&dspList)
 	return
 }
 

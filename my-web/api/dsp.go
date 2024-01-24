@@ -1,6 +1,7 @@
 package api
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"mingyuanHub/mingyuan.site/internal/models"
@@ -15,6 +16,15 @@ import (
 func AdxIndex(c *gin.Context) {
 
 	var tmplName = "tp_adx.html"
+
+	t, _ := template.ParseFiles(fmt.Sprintf("my-web/views/%s", tmplName))
+
+	t.ExecuteTemplate(c.Writer, tmplName, nil)
+}
+
+func AdxIndexCn(c *gin.Context) {
+
+	var tmplName = "tp_adx_cn.html"
 
 	t, _ := template.ParseFiles(fmt.Sprintf("my-web/views/%s", tmplName))
 
@@ -46,7 +56,13 @@ func AdxDspSave(c *gin.Context) {
 }
 
 func AdxGetDspList(c *gin.Context) {
-	dspList := models.NewDspModel().GetDspList()
+	type request struct {
+		IsCn int `json:"is_cn"`
+	}
+	var req = &request{}
+	c.ShouldBind(&req)
+
+	dspList := models.NewDspModel().GetDspList(req.IsCn)
 
 	for _, dsp := range dspList {
 		dsp.Adm = ""
@@ -58,8 +74,6 @@ func AdxGetDspList(c *gin.Context) {
 func AdxGetDspAdm(c *gin.Context) {
 
 	id, _ := strconv.Atoi(c.Query("id"))
-
-	fmt.Println(id)
 
 	adm := models.NewDspModel().GetDspAdmById(id)
 
@@ -180,6 +194,43 @@ func AdxBid(c *gin.Context) {
 	adResponse.SeatBid[0].Bid[0].Ext.BUrl = []string{setting.AppConfig.Host + "/adx/" + uniqueKey + "/tpburl"}
 	adResponse.SeatBid[0].Bid[0].Ext.ImpUrl = []string{setting.AppConfig.Host + "/adx/" + uniqueKey + "/tpimpurl"}
 	adResponse.SeatBid[0].Bid[0].Ext.ClkUrl = []string{setting.AppConfig.Host + "/adx/" + uniqueKey + "/tpclkurl"}
+
+	c.JSONP(http.StatusOK, adResponse)
+}
+
+func AdxBidCn(c *gin.Context) {
+	var adRequest = &openrtb.DspAccessCnRequest{}
+	c.ShouldBind(&adRequest)
+
+	requestId := adRequest.Id
+
+	uniqueKey := c.Params.ByName("uniqueKey")
+
+	dsp := models.NewDspModel().GetDspByUniqueKey(uniqueKey)
+
+	var bidcn = &openrtb.BidCn{}
+	if err := json.Unmarshal([]byte(dsp.Adm), &bidcn); err != nil {
+		response := struct {
+			Status  int    `json:"status"`
+			Message string `json:"message"`
+		}{
+			201,
+			fmt.Sprintf("解析失败：%s", err.Error()),
+		}
+		c.JSONP(http.StatusOK, response)
+	}
+
+	adResponse := &openrtb.DspAccessCnResponse{
+		Id: requestId,
+		SeatBid: []*openrtb.DspAccessCnSeatBid{
+			{
+				BidCn: []*openrtb.BidCn{
+					bidcn,
+				},
+			},
+		},
+		BidId: "my bid id",
+	}
 
 	c.JSONP(http.StatusOK, adResponse)
 }
