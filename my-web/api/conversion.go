@@ -7,6 +7,12 @@ import (
 	"mingyuanHub/mingyuan.site/pkg/template"
 )
 
+func Home(c *gin.Context) {
+	var tmplName = "_home.html"
+	t, _ := template.ParseFiles(fmt.Sprintf("my-web/views/%s", tmplName))
+	t.ExecuteTemplate(c.Writer, tmplName, nil)
+}
+
 func ConversionJson(c *gin.Context) {
 	var tmplName = "conversion_json.html"
 	t, _ := template.ParseFiles(fmt.Sprintf("my-web/views/%s", tmplName))

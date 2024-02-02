@@ -42,12 +42,13 @@
         },
         methods: {
             calc() {
-                if (this.command === "") {
+                var command = this.command.replace(",", "")
+                if (command === "") {
                     return
                 }
                 var self = this
                 axios.post('/data-calc', {
-                    command: this.command,
+                    command: command,
                 }).then(function (response) {
                     if (response.status === 200) {
                         let resp = response.data

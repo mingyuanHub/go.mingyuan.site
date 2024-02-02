@@ -23,7 +23,7 @@ func initRouter(r *gin.Engine) {
 
 	g0 := r.Group("/")
 	{
-		g0.GET("", api.ConversionTimestamp)
+		g0.GET("", api.Home)
 		g0.GET("/timestamp", api.ConversionTimestamp)
 		g0.GET("/json", api.ConversionJson)
 		g0.GET("/html", api.ConversionHtml)

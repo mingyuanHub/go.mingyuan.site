@@ -41,9 +41,14 @@
                     </div>
                     <div class="layout-nav">
 
+                        <Menu-Item name="/" to="/">
+                            <Icon type="ios-home-outline"></Icon>
+                            首页
+                        </Menu-Item>
+
                         <Submenu name="/con">
                             <template #title>
-                                <Icon type="ios-swap" ></Icon>
+                                <Icon type="ios-planet-outline" ></Icon>
                                 格式转换
                             </template>
                             <Menu-Item name="/timestamp" to="/timestamp">时间戳转换</Menu-Item>
@@ -57,7 +62,7 @@
 
                         <Submenu name="/data">
                             <template #title>
-                                <Icon type="ios-color-wand" ></Icon>
+                                <Icon type="ios-funnel-outline" ></Icon>
                                 数据处理
                             </template>
                             <Menu-Item name="/data-calculator" to="/data-calculator">计算器</Menu-Item>
@@ -70,19 +75,19 @@
 
                         <Submenu name="/dev">
                             <template #title>
-                                <Icon type="ios-crop" ></Icon>
-                                TP
+                                <Icon type="ios-infinite-outline" ></Icon>
+                                TPX
                             </template>
                             <Menu-Item name="/aes" to="/aes">AES 传输加解密</Menu-Item>
                             <Menu-Item name="/price" to="/price">AES 价格加解密</Menu-Item>
-                            <Menu-Item name="/adx" to="/adx">Ad Exchange</Menu-Item>
-                            <Menu-Item name="/adx/cn" to="/adx/cn">Ad Exchange CN</Menu-Item>
+                            <Menu-Item name="/adx" to="/adx">TPX</Menu-Item>
+                            <Menu-Item name="/adx/cn" to="/adx/cn">TPX CN</Menu-Item>
                             <Menu-Item name="/gepip" to="/gepip">GeoIp 解析</Menu-Item>
                         </Submenu>
 
                         <Submenu name="/ext">
                             <template #title>
-                                <Icon type="md-chatbubbles" ></Icon>
+                                <Icon type="ios-chatboxes-outline" ></Icon>
                                 扩展
                             </template>
                             <Menu-Item name="/chatgpt" to="/chatgpt" v-if="logoClickNumber >= 6">

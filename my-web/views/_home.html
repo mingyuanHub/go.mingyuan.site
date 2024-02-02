@@ -1,0 +1,230 @@
+
+{{template "header" .}}
+
+<section style="padding: 12px;">
+    <div>
+
+        <Card style="width:80%;margin-left: 10%" :bordered="false" :dis-hover="true">
+            <template #title>
+                <Icon type="ios-planet" size="20" class="card-title-icon"></Icon>
+                <span class="card-title">格式转换</span>
+            </template>
+            <p class="rate-demo" v-for="item in conversionList">
+                <a :href="item.url">
+                    <span v-html="item.name" class="card-list-name"></span>
+                </a>
+                <i-Space size="large" wrap>
+                    <Rate show-text disabled allow-half v-model="item.rate">
+                        <span style="color: #f5a623" v-html="item.rate"></span>
+                    </Rate>
+                </i-Space>
+            </p>
+        </Card>
+
+        <Card style="width:80%;margin-left: 10%;" :bordered="false" :dis-hover="true">
+            <template #title>
+                <Icon type="ios-funnel" size="16" class="card-title-icon"></Icon>
+                <span class="card-title">数据处理</span>
+            </template>
+            <p class="rate-demo" v-for="item in dataList">
+                <a :href="item.url">
+                    <span v-html="item.name" class="card-list-name"></span>
+                </a>
+                <i-Space size="large" wrap>
+                    <Rate show-text disabled allow-half v-model="item.rate">
+                        <span style="color: #f5a623" v-html="item.rate"></span>
+                    </Rate>
+                </i-Space>
+            </p>
+        </Card>
+
+        <Card style="width:80%;margin-left: 10%" :bordered="false" :dis-hover="true">
+            <template #title>
+                <Icon type="ios-infinite" size="20" class="card-title-icon"></Icon>
+                <span class="card-title">TPX</span>
+            </template>
+            <p class="rate-demo" v-for="item in tpList">
+                <a :href="item.url">
+                    <span v-html="item.name" class="card-list-name"></span>
+                </a>
+                <i-Space size="large" wrap>
+                    <!--                    <Rate show-text v-model="item.rate" ></Rate>-->
+                    <Rate show-text disabled allow-half v-model="item.rate">
+                        <span style="color: #f5a623" v-html="item.rate"></span>
+                    </Rate>
+                </i-Space>
+            </p>
+        </Card>
+
+        <Card style="width:80%;margin-left: 10%" :bordered="false" :dis-hover="true">
+            <template #title>
+                <Icon type="ios-chatboxes" size="20" class="card-title-icon"></Icon>
+                <span class="card-title">扩展</span>
+            </template>
+            <p class="rate-demo" v-for="item in extList">
+                <a :href="item.url">
+                    <span v-html="item.name" class="card-list-name"></span>
+                </a>
+                <i-Space size="large" wrap>
+                    <!--                    <Rate show-text v-model="item.rate" ></Rate>-->
+                    <Rate show-text disabled allow-half v-model="item.rate">
+                        <span style="color: #f5a623" v-html="item.rate"></span>
+                    </Rate>
+                </i-Space>
+            </p>
+        </Card>
+    </div>
+</section>
+
+<script>
+
+    var render = {
+        data () {
+            return {
+                conversionList: [
+                    {
+                        name: '时间戳转换',
+                        url: '/timestamp',
+                        rate: 1.1
+                    },
+                    {
+                        name: 'Json 格式化',
+                        url: '/json',
+                        rate: 4.5
+                    },
+                    {
+                        name: 'HTML 格式化',
+                        url: '/html',
+                        rate: 0.4
+                    },
+                    {
+                        name: 'Md5 加密',
+                        url: '/md5',
+                        rate: 0.4
+                    },
+                    {
+                        name: 'URL 解码',
+                        url: '/url',
+                        rate: 0.1
+                    },
+                    {
+                        name: 'Base64 解码',
+                        url: '/base64',
+                        rate: 0.1
+                    },
+                    {
+                        name: 'UTF-8 解码',
+                        url: '/utf8',
+                        rate: 0.1
+                    }
+                ],
+                dataList: [
+                    {
+                        name: '计算器',
+                        url: '/data-calculator',
+                        rate: 0.4
+                    },
+                    {
+                        name: '数据对比',
+                        url: '/data-diff',
+                        rate: 2.1
+                    },
+                    {
+                        name: '数据过滤',
+                        url: '/data-filter',
+                        rate: 0.4
+                    },
+                    {
+                        name: 'Markdown',
+                        url: '/markdown',
+                        rate: 0.1
+                    },
+                    {
+                        name: 'Json to GoStruct',
+                        url: '/json2gostruct',
+                        rate: 0.1
+                    },
+                ],
+                tpList:[
+                    {
+                        name: 'AES 传输加解密',
+                        url: '/aes',
+                        rate: 1.3
+                    },
+                    {
+                        name: 'AES 价格加解密',
+                        url: '/price',
+                        rate: 0.2
+                    },
+                    {
+                        name: 'Ad Exchange',
+                        url: '/adx',
+                        rate: 0.4
+                    },
+                    {
+                        name: 'Ad Exchange CN',
+                        url: '/adx/cn',
+                        rate: 0.5
+                    },
+                    {
+                        name: 'GeoIp 解析',
+                        url: '/gepip',
+                        rate: 0.1
+                    },
+                ],
+
+                extList:[
+                    {
+                        name: 'IP 查询',
+                        url: '/ip',
+                        rate: 0.1
+                    },
+                    {
+                        name: '经纬度定位',
+                        url: '/map',
+                        rate: 0.1
+                    },
+                ]
+            }
+        },
+        watch: {
+
+        },
+        methods: {
+            conv(t) {
+
+            },
+        },
+        mounted(){
+
+        }
+    }
+</script>
+
+{{template "footer" .}}
+
+<style>
+    a {
+        color: #515a6e;
+    }
+     .rate-demo {
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+     }
+     .card-title {
+         font-size: 16px;
+         font-weight: 600;
+         margin-left: 5px;
+         margin-bottom: 2px;
+     }
+     .card-title-icon {
+         color: #0089ff;
+     }
+     .card-list-name:hover {
+         font-size: 15px;
+         font-weight: 400;
+     }
+
+
+</style>

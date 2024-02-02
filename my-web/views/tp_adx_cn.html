@@ -23,7 +23,7 @@
             <a v-html="adxApi"></a>
         </Form-Item>
         <Form-Item label="BidCn：">
-            <i-Input v-model="adm" type="textarea" :rows="44" style="width: 100%"></i-Input>
+            <i-Input v-model="adm" type="textarea" :rows="44" style="width: 95%"></i-Input>
         </Form-Item>
     </i-Form>
 
@@ -88,7 +88,7 @@
                     } else {
                         self.$Notice.error({
                             title: '提示',
-                            desc: '保存失败'
+                            desc: resp.message
                         });
                     }
                 })

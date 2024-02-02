@@ -40,6 +40,21 @@ func AdxDspSave(c *gin.Context) {
 
 	c.ShouldBind(&dsp)
 
+	if dsp.IsCn == 1 {
+		var bidcn = &openrtb.BidCn{}
+		if err := json.Unmarshal([]byte(dsp.Adm), &bidcn); err != nil {
+			response := struct {
+				Status  int    `json:"status"`
+				Message string `json:"message"`
+			}{
+				201,
+				fmt.Sprintf("解析失败：%s", err.Error()),
+			}
+			c.JSONP(http.StatusOK, response)
+			return
+		}
+	}
+
 	pw := models.NewDspModel()
 	err = pw.Save(dsp)
 
