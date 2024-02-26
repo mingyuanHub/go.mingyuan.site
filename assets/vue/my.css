@@ -1,3 +1,12 @@
+{
+    '无色背景':    #ffffff
+    '浅色背景':    #f3f3f3
+    '深色背景':    #303030
+    '按钮线条颜色': #620fad
+    '字体浅色颜色': #515a6e
+}
+
+
 #app{
     font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 }
@@ -51,6 +60,10 @@
     line-height: 50px;
 }
 
+.ivu-menu-submenu.ivu-menu-item-active {
+    background-color: #515a6e;
+}
+
 body::-webkit-scrollbar { width: 0 !important }
 
 /*[v-cloak]{*/
@@ -75,10 +88,20 @@ body::-webkit-scrollbar { width: 0 !important }
 
 /*头部背景色*/
 .ivu-menu-dark {
-    background: #303032;
+    background: #303030;
 }
 
 .ivu-input:focus {
     border-color: #620fad;
     box-shadow: 0 0 0 2px rgba(45, 140, 240, .2);
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-left: 5px;
+    margin-bottom: 2px;
+}
+.card-title-icon {
+    color: #620fad;
 }

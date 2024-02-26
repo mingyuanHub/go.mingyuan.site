@@ -75,10 +75,10 @@
                 var tip = ""
 
                 if (this.aesType) {
-                    api = "http://www.mingyuan.site/aes-encode"
+                    api = "/aes-encode"
                     tip ="加密"
                 } else {
-                    api = "http://www.mingyuan.site/aes-decode"
+                    api = "/aes-decode"
                     tip ="解密"
                 }
                 axios.post(api,

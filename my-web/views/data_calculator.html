@@ -3,24 +3,37 @@
 
 <section>
 
-    <div style="width: 20%;padding: 40px;float: left">
-        <Divider orientation="left" size="small"  style="color: #ff9900;">运算符：</Divider><br>
-
-        <div>&nbsp;&nbsp;加：+</div>
-        <div>&nbsp;&nbsp;减：-</div>
-        <div>&nbsp;&nbsp;乘：*&nbsp;x</div>
-        <div>&nbsp;&nbsp;除：/&nbsp;÷</div>
-
+    <div style="width: 20%;padding-left: 100px;padding-top: 10px;float: left">
+        <Card :bordered="false" :dis-hover="true">
+            <template #title>
+                <Icon type="ios-information-circle" size="20" class="card-title-icon"></Icon>
+                <span class="card-title">快捷运算符：</span>
+            </template>
+            <i-button type="primary" ghost @click="appendOp('+')">加：+</i-button> <br><br>
+            <i-button type="primary" ghost @click="appendOp('-')">减：-</i-button> <br><br>
+            <i-button type="primary" ghost @click="appendOp('*')">乘：*&nbsp;x</i-button> <br><br>
+            <i-button type="primary" ghost @click="appendOp('/')">除：/&nbsp;÷</i-button> <br><br>
+        </Card>
     </div>
 
     <div style="width: 50%; float: left;margin-left: 15px">
-        <Divider orientation="left" size="small"  style="width: 50%">计算公式</Divider><br>
+        <Card :bordered="false" :dis-hover="true">
+            <template #title>
+                <Icon type="logo-pinterest" size="20" class="card-title-icon"></Icon>
+                <span class="card-title">计算公式</span>
+            </template>
+            <i-Input v-model="command" type="textarea" :rows="10" id="command-text"></i-Input>
+        </Card>
 
-        <i-Input v-model="command" type="textarea" :rows="6"></i-Input> <br/> <br/><br>
 
-        <Divider orientation="left" size="small"  style="width: 50%">计算结果</Divider><br>
+        <Card :bordered="false" :dis-hover="true">
+            <template #title>
+                <Icon type="logo-playstation" size="20" class="card-title-icon"></Icon>
+                <span class="card-title">计算结果</span>
+            </template>
+            <i-Input v-model="result" type="textarea" :rows="globalTextareaRowsNoneButton - 20"></i-Input>
+        </Card>
 
-        <i-Input v-model="result" type="textarea" :rows="10"></i-Input>
     </div>
 
 </section>
@@ -41,8 +54,15 @@
             }
         },
         methods: {
+            appendOp(op){
+                this.command += op
+                var textareaAll = $('#command-text').find("textarea")
+                if (textareaAll.length > 0) {
+                    textareaAll[0].select()
+                }
+            },
             calc() {
-                var command = this.command.replace(",", "")
+                var command = this.command.replaceAll(",", "")
                 if (command === "") {
                     return
                 }
@@ -67,3 +87,9 @@
 </script>
 
 {{template "footer" .}}
+
+<style>
+    .ivu-card-head {
+        border-bottom: 0px solid #e8eaec;
+    }
+</style>
