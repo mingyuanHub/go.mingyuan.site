@@ -9,10 +9,13 @@
                 <Icon type="ios-information-circle" size="20" class="card-title-icon"></Icon>
                 <span class="card-title">快捷运算符：</span>
             </template>
-            <i-button type="primary" ghost @click="appendOp('+')">加：+</i-button> <br><br>
-            <i-button type="primary" ghost @click="appendOp('-')">减：-</i-button> <br><br>
-            <i-button type="primary" ghost @click="appendOp('*')">乘：*&nbsp;x</i-button> <br><br>
-            <i-button type="primary" ghost @click="appendOp('/')">除：/&nbsp;÷</i-button> <br><br>
+            <i-button type="primary" style="width:90px" ghost @click="clear()">清空</i-button> <br><br>
+            <i-button type="primary" style="width:90px" ghost @click="appendOp('+')">加：+</i-button> <br><br>
+            <i-button type="primary" style="width:90px" ghost @click="appendOp('-')">减：-</i-button> <br><br>
+            <i-button type="primary" style="width:90px" ghost @click="appendOp('*')">乘：*&nbsp;x</i-button> <br><br>
+            <i-button type="primary" style="width:90px" ghost @click="appendOp('/')">除：/&nbsp;÷</i-button> <br><br>
+            <i-button type="primary" style="width:90px" ghost @click="appendOp('/60/60')">/60/60</i-button> <br><br>
+            <i-button type="primary" style="width:90px" ghost @click="appendOp('/24/60/60')">/24/60/60</i-button> <br><br>
         </Card>
     </div>
 
@@ -54,6 +57,10 @@
             }
         },
         methods: {
+            clear(){
+                this.command = ""
+                this.result = ""
+            },
             appendOp(op){
                 this.command += op
                 var textareaAll = $('#command-text').find("textarea")

@@ -5,8 +5,18 @@
     <div style="padding: 12px;margin-left: 50px">
         <br>
 
-        <Icon type="ios-clock-outline" size="48" style="width: auto; margin-left: 10px;"></Icon>
-        北京时间: <span v-html="now" style="margin-left: 5px;"></span>
+        <Icon type="ios-clock-outline" size="48" style="width: auto; margin-left: 20px;color:#620fad"></Icon>
+        <b style="margin-left: 16px;font-size: 15px">时间戳: </b>
+        <span v-html="now" style="margin-left: 5px;"></span>
+
+        <b style="margin-left: 20px;font-size: 15px">当前时区: </b>
+
+        <i-Select v-model="timezone" @on-change="changeTimezone" style="margin-left: 5px;width:200px">
+            <i-Option v-for="item in timezoneList" :value="item.value" :key="item.value">
+                <span v-html="item.label"></span>
+            </i-Option>
+            <span v-html="timezone"></span>
+        </i-Select>
 
          <br><br><br>
 
@@ -37,6 +47,25 @@
                 date1: "",
                 time2: "",
                 date2: "",
+                timezone: '8',
+                timezoneList:[
+                    {
+                        value: '8',
+                        label: 'UTC+8 中国标准时间'
+                    },
+                    {
+                        value: '0',
+                        label: 'UTC+0 格林威治标准时间'
+                    },
+                    {
+                        value: '-8',
+                        label: 'UTC-8 太平洋标准时间'
+                    },
+                    {
+                        value: '-5',
+                        label: 'UTC-5 美国东部标准时区'
+                    },
+                ]
             }
         },
         watch:{
@@ -48,11 +77,15 @@
             },
         },
         methods: {
+            changeTimezone(){
+                this.exchange1()
+                this.exchange2()
+            },
             exchange1(){
-                this.date1 = this.exchangeT2D(this.time1)
+                this.date1 = this.exchangeT2D(this.time1, this.timezone)
             },
             exchange2(){
-                this.time2 = this.exchangeD2T(this.date2)
+                this.time2 = this.exchangeD2T(this.date2, this.timezone)
             },
             tt(){
                 this.now = Date.parse(new Date()) / 1000;
@@ -64,7 +97,7 @@
 
             this.time1 = this.now
 
-            this.date2 = this.exchangeT2D(this.time1)
+            this.date2 = this.exchangeT2D(this.time1, this.timezone)
 
             setTimeout(this.tt, 1000)
         }

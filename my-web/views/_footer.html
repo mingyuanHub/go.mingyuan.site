@@ -85,7 +85,9 @@
                     add(m){
                         return m<10 ? '0'+m : m
                     },
-                    exchangeT2D(t){
+                    exchangeT2D(t, timezone){
+
+                        console.log(timezone)
 
                         var mt = 0
                         var isMs = false
@@ -97,6 +99,8 @@
                             mt = t*1
                             isMs = true
                         }
+
+                        mt -= (8-timezone)*3600*1000
 
                         var time = new Date(mt);
                         var y = time.getFullYear();
@@ -115,10 +119,12 @@
 
                         return date
                     },
-                    exchangeD2T(d){
+                    exchangeD2T(d, timezone){
                         d = d.substring(0,19);
                         d = d.replace(/-/g,'/');
-                        return new Date(d).getTime() / 1000;
+                        time = new Date(d).getTime() / 1000;
+                        time += (8-timezone)*3600
+                        return time
                     },
                 },
                 mounted() {
