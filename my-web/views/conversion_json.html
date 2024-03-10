@@ -47,12 +47,12 @@
                 });
 
                 model.onDidChangeContent((e) => {
-                    // console.log(model.getValue(), e)
                     if (!e.isFlush) {
                         ct = model.getValue()
                         ct1 = ct.replaceAll(" ", "")
                         ct1 = ct1.replaceAll("\r", "")
                         ct1 = ct1.replaceAll("\n", "")
+                        ct1 = ct1.replaceAll("\u0026", "&")
                         if (ct1.substr(0, 3) === "{\\\"") {
                             ct = ct.replace(/\\"/g, '"')
                             ct = ct.replace(/\/\/"/g, '/')

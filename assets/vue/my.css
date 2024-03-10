@@ -1,9 +1,11 @@
-{
-    '无色背景':    #ffffff
-    '浅色背景':    #f3f3f3
-    '深色背景':    #303030
-    '按钮线条颜色': #620fad
-    '字体浅色颜色': #515a6e
+#theme{
+    color: #620fad; /*主题深色*/
+    color: #e3c5ff; /*主题浅色*/
+
+    color: #ffffff; /*无色背景*/
+    color: #f3f3f3; /*浅色背景：下拉菜单*/
+    color: #303030; /*深色背景：头部背景色*/
+    color: #515a6e; /*浅色颜色：*/
 }
 
 
@@ -21,14 +23,11 @@
 .layout-logo{
     width: 150px;
     height: 30px;
-    /*background: #515a6e;*/
     border-radius: 3px;
     float: left;
     position: relative;
     top: 10px;
     left: 40px;
-    /*color: white;*/
-    color: #515a6e;
     line-height: 30px;
     text-align: center;
     font-size: larger;

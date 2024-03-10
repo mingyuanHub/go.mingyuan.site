@@ -16,7 +16,7 @@
             </p>
         </Card>
 
-        <Card :style="{'width':'80%','margin-left': '10%','margin-top': '100px'}" :bordered="false" :dis-hover="true" v-for="(item, idx) in menuList">
+        <Card :style="{'width':'80%','margin-left': '10%','margin-top': '75px'}" :bordered="false" :dis-hover="true" v-for="(item, idx) in menuList">
             <template #title>
                 <Icon :type="item.icon" size="20" class="card-title-icon"></Icon>
                 <span class="card-title" v-html="item.title"></span>
@@ -238,10 +238,10 @@
         margin-left: 10px;
         display: inline;
         float: left;
-        background-color: #f3f3f3;
+        background-color: #FFFFFF;
         padding: 6px;
         border-radius: 4px;
-        border: 1px solid #FFFFFF;
+        border: 1px solid #e3c5ff;
     }
 
     .card-child:hover{

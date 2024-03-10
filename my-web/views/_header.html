@@ -5,8 +5,8 @@
 <head>
     <meta charset="utf-8">
     <title>CodeDeputy - 开发在线工具</title>
-    <meta name="keywords" content="Json格式化工具, Json校验, Json压缩转义, Yaml格式化, Xml格式化, Sql格式化, 加密&amp;解密算法, Hash算法, Base64编解码, Url编解码, ChatGPT在线, Adx素材, 像素大战, 数据处理">
-    <meta name="description" content="面向开发人员的免费在线工具, 包括格式化工具Json格式化工具、编码和解码工具、密码和安全工具、ChatGPT在线、Adx素材、像素大战、数据处理">
+    <meta name="keywords" content="Json格式化,Json校验,Json压缩转义,Yaml格式化,Xml格式化,Sql格式化,加密&amp;解密算法,Hash算法,Base64编解码,Url编解码,ChatGPT在线,Adx素材,数据处理">
+    <meta name="description" content="面向开发人员的免费在线工具,包括格式化工具Json格式化工具、编码和解码工具、密码和安全工具、ChatGPT在线、Adx素材、数据处理">
     <meta name="language" content="en">
     <meta name="robots" content="all">
     <meta name="rating" content="general">
@@ -91,21 +91,11 @@
                                 <Icon type="ios-chatboxes-outline" ></Icon>
                                 扩展
                             </template>
-                            <Menu-Item name="/chatgpt" to="/chatgpt" v-if="logoClickNumber >= 6">
-                                ChatGPT
-                            </Menu-Item>
-                            <Menu-Item name="/ip" to="/ip">
-                                IP 查询
-                            </Menu-Item>
-                            <Menu-Item name="/map" to="/map">
-                                经纬度定位
-                            </Menu-Item>
-                            <Menu-Item name="/bulletscreen" to="/bulletscreen" v-if="logoClickNumber >= 6">
-                                弹幕
-                            </Menu-Item>
-                            <Menu-Item name="/pixelwars" to="/pixelwars" v-if="logoClickNumber >= 6">
-                                像素
-                            </Menu-Item>
+                            <Menu-Item name="/ip" to="/ip">IP 查询</Menu-Item>
+                            <Menu-Item name="/map" to="/map">经纬度定位</Menu-Item>
+                            <Menu-Item name="/chatgpt" to="/chatgpt" v-if="logoClickNumber >= 6">ChatGPT</Menu-Item>
+                            <Menu-Item name="/bulletscreen" to="/bulletscreen" v-if="logoClickNumber >= 6">弹幕</Menu-Item>
+                            <Menu-Item name="/pixelwars" to="/pixelwars" v-if="logoClickNumber >= 6">像素</Menu-Item>
                         </Submenu>
 
                     </div>

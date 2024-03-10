@@ -6,17 +6,8 @@
         <br>
 
         <Icon type="ios-clock-outline" size="48" style="width: auto; margin-left: 20px;color:#620fad"></Icon>
-        <b style="margin-left: 16px;font-size: 15px">时间戳: </b>
+        <b style="margin-left: 16px;font-size: 15px">Unix时间戳: </b>
         <span v-html="now" style="margin-left: 5px;"></span>
-
-        <b style="margin-left: 20px;font-size: 15px">当前时区: </b>
-
-        <i-Select v-model="timezone" @on-change="changeTimezone" style="margin-left: 5px;width:200px">
-            <i-Option v-for="item in timezoneList" :value="item.value" :key="item.value">
-                <span v-html="item.label"></span>
-            </i-Option>
-            <span v-html="timezone"></span>
-        </i-Select>
 
          <br><br><br>
 
@@ -25,6 +16,12 @@
         <div>
             <i-Input v-model="time1" style="width: auto; margin-left: 10px;" on-change="exchange1"></i-Input>
             <span v-html="date1" style="margin-left: 10px;"></span>
+
+            <i-Select v-model="timezone" @on-change="exchange1" style="margin-left: 20px;width:200px">
+                <i-Option v-for="item in timezoneList" :value="item.value" :key="item.value">
+                    <span v-html="item.label"></span>
+                </i-Option>
+            </i-Select>
         </div> <br><br><br>
 
         <Divider orientation="left" size="small">日期转换</Divider><br>
@@ -32,6 +29,12 @@
         <div>
             <i-Input v-model="date2" style="width: auto; margin-left: 10px;"></i-Input>
             <span v-html="time2" style="margin-left: 10px;"></span>
+
+            <i-Select v-model="timezone2" @on-change="exchange2" style="margin-left: 71px;width:200px">
+                <i-Option v-for="item in timezoneList" :value="item.value" :key="item.value">
+                    <span v-html="item.label"></span>
+                </i-Option>
+            </i-Select>
         </div> <br>
     </div>
 </section>
@@ -45,9 +48,10 @@
                 now:0,
                 time1: "",
                 date1: "",
+                timezone: '8',
                 time2: "",
                 date2: "",
-                timezone: '8',
+                timezone2: '8',
                 timezoneList:[
                     {
                         value: '8',
@@ -77,15 +81,11 @@
             },
         },
         methods: {
-            changeTimezone(){
-                this.exchange1()
-                this.exchange2()
-            },
             exchange1(){
                 this.date1 = this.exchangeT2D(this.time1, this.timezone)
             },
             exchange2(){
-                this.time2 = this.exchangeD2T(this.date2, this.timezone)
+                this.time2 = this.exchangeD2T(this.date2, this.timezone2)
             },
             tt(){
                 this.now = Date.parse(new Date()) / 1000;
@@ -97,7 +97,7 @@
 
             this.time1 = this.now
 
-            this.date2 = this.exchangeT2D(this.time1, this.timezone)
+            this.date2 = this.exchangeT2D(this.time1, this.timezone2)
 
             setTimeout(this.tt, 1000)
         }
