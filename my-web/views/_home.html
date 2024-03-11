@@ -5,11 +5,11 @@
     <div>
         <Card :style="{'width':'80%','margin-left': '10%','margin-top': '0px'}" :bordered="false" :dis-hover="true" >
             <template #title>
-                <Icon type="ios-star" size="20" class="card-title-icon"></Icon>
+                <Icon type="ios-star-outline" size="20" class="card-title-icon"></Icon>
                 <span class="card-title">标星</span>
             </template>
             <p class="card-child" v-for="item2 in collectList">
-                <Icon type="ios-star" style="color:#620fad" class="card-child-star" @click="collect(item2.id)"></Icon>
+                <Icon type="ios-star" style="color:#006688" class="card-child-star" @click="collect(item2.id)"></Icon>
                 <a :href="item2.url">
                     <span v-html="item2.name" class="card-child-name"></span>
                 </a>
@@ -42,7 +42,7 @@
             return {
                 menuList: [
                     {
-                        icon:'ios-planet',
+                        icon:'ios-planet-outline',
                         title:'格式转换',
                         list:[
                             {
@@ -90,7 +90,7 @@
                         ]
                     },
                     {
-                        icon:'ios-funnel',
+                        icon:'ios-funnel-outline',
                         title:'数据处理',
                         list:[
                             {
@@ -126,7 +126,7 @@
                         ]
                     },
                     {
-                        icon:'ios-infinite',
+                        icon:'ios-infinite-outline',
                         title:'TPX',
                         list:[
                             {
@@ -162,7 +162,7 @@
                         ]
                     },
                     {
-                        icon:'ios-chatboxes',
+                        icon:'ios-chatboxes-outline',
                         title:'扩展',
                         list:[
                             {
@@ -241,11 +241,11 @@
         background-color: #FFFFFF;
         padding: 6px;
         border-radius: 4px;
-        border: 1px solid #e3c5ff;
+        border: 1px solid #009cd1;
     }
 
     .card-child:hover{
-        border: 1px solid #620fad;
+        border: 1px solid #006688;
     }
 
     .card-child-name {
@@ -266,6 +266,6 @@
     }
 
     .card-child-star:hover{
-        color: #620fad;
+        color: #006688;
     }
 </style>

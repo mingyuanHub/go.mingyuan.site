@@ -1,12 +1,4 @@
-#theme{
-    color: #620fad; /*主题深色*/
-    color: #e3c5ff; /*主题浅色*/
 
-    color: #ffffff; /*无色背景*/
-    color: #f3f3f3; /*浅色背景：下拉菜单*/
-    color: #303030; /*深色背景：头部背景色*/
-    color: #515a6e; /*浅色颜色：*/
-}
 
 
 #app{
@@ -44,7 +36,7 @@
     text-align: center;
 }
 .layout .ivu-layout-header {
-    background: #191a23;
+    background: #006688;
 }
 .ivu-layout {
     background-color: #ffffff;
@@ -59,8 +51,14 @@
     line-height: 50px;
 }
 
+.ivu-menu-horizontal .ivu-menu-submenu .ivu-select-dropdown .ivu-menu-item:hover {
+    background-color: #ffffff;
+    color: #009cd1;
+    font-weight: 400;
+}
+
 .ivu-menu-submenu.ivu-menu-item-active {
-    background-color: #515a6e;
+    font-weight: 400;
 }
 
 body::-webkit-scrollbar { width: 0 !important }
@@ -87,11 +85,11 @@ body::-webkit-scrollbar { width: 0 !important }
 
 /*头部背景色*/
 .ivu-menu-dark {
-    background: #303030;
+    background: #006688;
 }
 
 .ivu-input:focus {
-    border-color: #620fad;
+    border-color: #006688;
     box-shadow: 0 0 0 2px rgba(45, 140, 240, .2);
 }
 
@@ -102,5 +100,5 @@ body::-webkit-scrollbar { width: 0 !important }
     margin-bottom: 2px;
 }
 .card-title-icon {
-    color: #620fad;
+    color: #006688;
 }
