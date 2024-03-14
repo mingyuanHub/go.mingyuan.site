@@ -6,6 +6,7 @@
         <div id="editor">
             <textarea style="display:none;"></textarea>
         </div>
+        <div id="contentMd" style="display: none"></div>
     </div>
 </section>
 
@@ -13,34 +14,48 @@
 <script src="./assets/editor.md/editormd.min.js"></script>
 
 <script>
-
     var render = {
         data() {
             return {}
         },
-        methods: {},
-        mounted() {
-
-            var editor = editormd("editor", {
-                width: "100%",
-                height: "100%",
-                placeholder: "",
-                emoji: true,
-                dialogMaskOpacity: 0,
-                dialogMaskBgColor: "#ffffff",
-                theme: "",
-                editorTheme: "monokai",      // Editor area, this is CodeMirror theme at v1.5.0
-                previewTheme: "",             // Preview area theme, default empty
-                path: "./assets/editor.md/lib/",  // Autoload modules mode, codemirror, marked... dependents libs path
-                onload: () => {
-                    $(".fa-info-circle:first").remove()
-                    $(".editormd-toolbar:first").css("z-index", 0)
+        methods: {
+            getShareData() {
+                return {
+                    "content": $("#contentMd").html()
                 }
-            });
-
-            //editorTheme : "default","3024-day","3024-night","ambiance","ambiance-mobile","base16-dark","base16-light","blackboard","cobalt","eclipse","elegant","erlang-dark","lesser-dark","mbo","mdn-like","midnight","monokai","neat","neo","night","paraiso-dark","paraiso-light","pastel-on-dark","rubyblue","solarized","the-matrix","tomorrow-night-eighties","twilight","vibrant-ink","xq-dark","xq-light"
-            //markdown: "xxxx",     // dynamic set Markdown text
-        }
+            },
+            initShareData(data) {
+                this.render(data["content"])
+            },
+            initOrInitShareDataFail(){
+                this.render()
+            },
+            render(content) {
+                var editor = editormd("editor", {
+                    width: "100%",
+                    height: "100%",
+                    placeholder: "",
+                    emoji: true,
+                    markdown: content,
+                    dialogMaskOpacity: 0,
+                    dialogMaskBgColor: "#ffffff",
+                    theme: "",
+                    editorTheme: "monokai",      // Editor area, this is CodeMirror theme at v1.5.0
+                    previewTheme: "",             // Preview area theme, default empty
+                    path: "./assets/editor.md/lib/",  // Autoload modules mode, codemirror, marked... dependents libs path
+                    onload: () => {
+                        $(".fa-info-circle:first").remove()
+                        $(".editormd-toolbar:first").css("z-index", 0)
+                    },
+                    onchange: function () {
+                        $("#contentMd").html(this.getMarkdown())
+                    }
+                });
+                //editorTheme : "default","3024-day","3024-night","ambiance","ambiance-mobile","base16-dark","base16-light","blackboard","cobalt","eclipse","elegant","erlang-dark","lesser-dark","mbo","mdn-like","midnight","monokai","neat","neo","night","paraiso-dark","paraiso-light","pastel-on-dark","rubyblue","solarized","the-matrix","tomorrow-night-eighties","twilight","vibrant-ink","xq-dark","xq-light"
+                //markdown: "xxxx",     // dynamic set Markdown text
+            }
+        },
+        mounted() {        }
     }
 </script>
 

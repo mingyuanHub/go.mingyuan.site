@@ -1,0 +1,32 @@
+<script>
+    $(function() {
+        var isDragging = false;
+        var draggable = $('#draggable');
+        var offset;
+
+        draggable.on('mousedown', function(event) {
+        isDragging = true;
+        offset = draggable.offset();
+        var startX = event.pageX - offset.left;
+        var startY = event.pageY - offset.top;
+
+        // $(this).css('opacity', '0.5');
+        // $(this).css('right', '0');
+        // $(this).css('bottom', '0');
+
+        $(document).on('mousemove.draggable', function(event) {
+        if (isDragging) {
+        var x = event.pageX - startX;
+        var y = event.pageY - startY;
+        draggable.css('left', x + 'px').css('top', y + 'px');
+        }
+        }).on('mouseup', function() {
+        isDragging = false;
+        $(this).css('opacity', '1');
+        $(document).off('mousemove.draggable');
+        });
+
+        return false;
+        });
+    });
+</script>

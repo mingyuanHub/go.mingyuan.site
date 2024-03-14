@@ -6,6 +6,7 @@ import (
 	"mingyuanHub/mingyuan.site/my-web/api"
 	"mingyuanHub/mingyuan.site/my-web/api/chatgpt"
 	"mingyuanHub/mingyuan.site/my-web/api/ip"
+	"mingyuanHub/mingyuan.site/my-web/api/share"
 )
 
 func Init(r *gin.Engine)  {
@@ -94,5 +95,11 @@ func initRouter(r *gin.Engine) {
 	{
 		g7.GET("", ip.Index)
 		g7.GET("/search", ip.Search)
+	}
+
+	g8 := r.Group("/share")
+	{
+		g8.POST("/saveData", share.SaveData)
+		g8.POST("/getData", share.GetData)
 	}
 }

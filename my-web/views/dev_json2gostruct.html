@@ -2,11 +2,11 @@
 {{template "header" .}}
 
 <section style="padding: 12px;">
-    <div style="width: 48%; float: left">
+    <div style="width: 49%; float: left">
         <i-Input v-model="jsonContent" type="textarea" :rows="globalTextareaRowsNoneButton"></i-Input>
     </div>
 
-    <div style="width: 48%; float: left;margin-left: 15px">
+    <div style="width: 49%; float: left;margin-left: 15px">
         <i-Input v-model="goStructContent" type="textarea" :rows="globalTextareaRowsNoneButton"></i-Input>
     </div>
 </section>
@@ -28,6 +28,14 @@
             },
         },
         methods: {
+            getShareData() {
+                return {
+                    "jsonContent":this.jsonContent
+                }
+            },
+            initShareData(data) {
+                this.jsonContent = data["jsonContent"]
+            },
             json2goStruct() {
                 if (this.jsonContent === "") {
                     this.goStructContent = ""

@@ -24,26 +24,56 @@
     var render = {
         data () {
             return {
-
+                content1:"",
+                content2:"",
             }
         },
         watch:{
 
         },
         methods: {
+            getShareData() {
+                return {
+                    "content1":this.content1,
+                    "content2":this.content2,
+                }
+            },
+            initShareData(data) {
+                this.content1 = data["content1"]
+                this.content2 = data["content2"]
+                this.render(this.content1, this.content2)
+            },
+            initOrInitShareDataFail(){
+                this.render("", "")
+            },
+            render(content1, content2){
+                require(['vs/editor/editor.main'], () => {
+                    monaco.editor.setTheme('vs-light');
+                    const editor = monaco.editor.createDiffEditor(document.getElementById('jsonEditor'),{
+                        originalEditable: true,
+                        wordWrap: true,
+                    });
+
+                    modelOriginal = monaco.editor.createModel(content1, "json/string")
+                    modelModified = monaco.editor.createModel(content2, "json/string")
+
+                    editor.setModel({
+                        original: modelOriginal,
+                        modified: modelModified,
+                    });
+
+                    modelOriginal.onDidChangeContent((e) => {
+                        this.content1 = modelOriginal.getValue()
+                    })
+
+                    modelModified.onDidChangeContent((e) => {
+                        this.content2 = modelModified.getValue()
+                    })
+                });
+            }
         },
         mounted(){
-            require(['vs/editor/editor.main'], () => {
-                monaco.editor.setTheme('vs-light');
-                const editor = monaco.editor.createDiffEditor(document.getElementById('jsonEditor'),{
-                    originalEditable: true,
-                    wordWrap: true,
-                });
-                editor.setModel({
-                    original: monaco.editor.createModel('', "json/string"),
-                    modified: monaco.editor.createModel('', "json/string"),
-                });
-            });
+
         }
     }
 </script>

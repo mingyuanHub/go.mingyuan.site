@@ -38,6 +38,14 @@
             },
         },
         methods: {
+            getShareData() {
+                return {
+                    "md5_content":this.md5_content,
+                }
+            },
+            initShareData(data) {
+                this.md5_content = data["md5_content"]
+            },
             md5(v) {
                 this.md5_32_lower = hex_md5(v)
                 this.md5_32_upper = this.md5_32_lower.toUpperCase()

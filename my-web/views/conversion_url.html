@@ -2,7 +2,7 @@
 {{template "header" .}}
 
 <section style="padding: 12px;">
-    <div style="width: 48%; float: left">
+    <div style="width: 49%; float: left">
         <i-Input v-model="urlContent" type="textarea" :rows="globalTextareaRowsWithButton"></i-Input>
 
         <div style="float: left; margin-top: 10px;width: 300px">
@@ -11,7 +11,7 @@
         </div>
     </div>
 
-    <div style="width: 48%; float: left;margin-left: 15px">
+    <div style="width: 49%; float: left;margin-left: 15px">
         <i-Input v-model="url2Content" type="textarea" :rows="globalTextareaRowsWithButton"></i-Input>
     </div>
 </section>
@@ -29,6 +29,16 @@
 
         },
         methods: {
+            getShareData() {
+                return {
+                    "urlContent":this.urlContent,
+                    "url2Content":this.url2Content,
+                }
+            },
+            initShareData(data) {
+                this.urlContent = data["urlContent"]
+                this.url2Content = data["url2Content"]
+            },
             urlCode(t) {
                 if (t === 1) {
                     this.url2Content = escape(this.urlContent)

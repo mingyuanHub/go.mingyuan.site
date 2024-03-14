@@ -21,13 +21,14 @@
 <!--    <link rel="manifest" href="manifest.webapp">-->
 
 <!--    <link rel="stylesheet" type="text/css" href="./assets/vue/viewuiplus.css">-->
-    <link rel="stylesheet" type="text/css" href="./assets/vue/viewuiplus-dark.css">
-    <link rel="stylesheet" type="text/css" href="./assets/vue/my.css">
+    <link rel="stylesheet" type="text/css" href="./assets/vue/viewuiplus-dark.css?v=0311">
+    <link rel="stylesheet" type="text/css" href="./assets/vue/my.css?v=0311">
     <script type="text/javascript" src="./assets/vue/vue.global.js"></script>
     <script type="text/javascript" src="./assets/vue/viewuiplus.min.js"></script>
     <script type="text/javascript" src="./assets/vue/axios.min.js"></script>
     <script type="text/javascript" src="./assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="./assets/js/jquery.cookie.js"></script>
+
 </head>
 
 <body>
@@ -97,8 +98,20 @@
                             <Menu-Item name="/bulletscreen" to="/bulletscreen" v-if="logoClickNumber >= 6">弹幕</Menu-Item>
                             <Menu-Item name="/pixelwars" to="/pixelwars" v-if="logoClickNumber >= 6">像素</Menu-Item>
                         </Submenu>
+<!--                        <Menu-Item name="/user" to="/user">-->
+<!--                            <Icon type="ios-person-outline" size="16"></Icon>-->
+<!--                            用户-->
+<!--                        </Menu-Item>-->
+                        <Menu-Item @click="share" style="padding: 0px">
+                            <span>|</span>
 
+                            <Icon type="ios-share-alt-outline" size="15"  style="cursor: pointer;margin-left: 20px"></Icon>
+                                分享
+                            <Badge status="error" text="" ></Badge>
+                        </Menu-Item>
                     </div>
+
+
                 </i-Menu>
 
 

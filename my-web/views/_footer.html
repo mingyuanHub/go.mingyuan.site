@@ -7,29 +7,53 @@
                     <Footer class="layout-footer-center">
                         2021-2023 &copy; Mingyuan Design &nbsp;&nbsp;&nbsp;
                         <img style="width: 13px" src="./assets/img/beian.png"></img>ICP 备案：<a href="http://beian.miit.gov.cn/" target="_blank" style="color: #191a23"> 沪ICP备16010013号-2 </a>
+                        <input id="copyText" style="display:none"/>
                     </Footer>
                 </Layout>
             </div>
+            <Modal v-model="shareModal" title="分享链接" @on-ok="shareOk" @on-cancel="shareCancel" :width="700" mask="true">
+                <i-Form label-position="right" :label-width="60" >
+                    <Form-Item label="名称：">
+                        <i-Input v-model="shareName" style="width:300px"></i-Input>
+                    </Form-Item>
+                    <Form-Item label="链接：">
+                        <a :href="shareUrl" target="_blank">
+                            <span v-html="shareUrl" ></span>
+                        </a>
+<!--                        <Icon type="ios-copy-outline" title="复制" @click="copy(this.shareUrl)" size="18" style="cursor:pointer;"></Icon>-->
+                    </Form-Item>
+                </i-Form>
+            </Modal>
+
         </div>
         <script setup>
-
             const myMixin = {
                 data () {
                     return {
-                        clientHeight:0,
-                        clientWidth:0,
-                        contentHeight:0,
-                        contentWidth:0,
-                        host:"",
-                        path:"",
-                        local:"",
+                        clientHeight: 0,
+                        clientWidth: 0,
+                        contentHeight: 0,
+                        contentWidth: 0,
+                        host: "",
+                        path: "",
+                        local: "",
+                        params:{},
 
-                        nowDate:"",
+                        nowDate: "",
 
-                        logoClickNumber:0,
+                        logoClickNumber: 0,
 
-                        globalTextareaRowsWithButton:0,
-                        globalTextareaRowsNoneButton:0
+                        globalTextareaRowsWithButton: 0,
+                        globalTextareaRowsNoneButton: 0,
+
+                        uuid: "",
+                        copyText:"",
+
+                        shareModal: false,
+                        shareName: "",
+                        shareToken: "",
+                        shareUrl: "",
+                        shareData:{},
                     }
                 },
                 created() {
@@ -37,8 +61,8 @@
                     this.onresize()
                     this.host = window.location.host
                     this.path = window.location.pathname
-                    // this.local = "127.0.0.1:8099"
-                    this.local = "www.mingyuan.site"
+                    this.local = "127.0.0.1:8081"
+                    // this.local = "www.mingyuan.site"
                 },
                 methods: {
                     mix() {
@@ -57,6 +81,20 @@
 
                         this.globalTextareaRowsWithButton = (this.contentHeight - 63) / 21
                         this.globalTextareaRowsNoneButton = this.contentHeight / 21
+                    },
+                    getParam() {
+                        var queryString = window.location.search;
+                        var params = {};
+                        if (queryString) {
+                            var pairs = queryString.split('&');
+                            for (var i = 0; i < pairs.length; i++) {
+                                var pair = pairs[i].split('=');
+                                if(pair.length>0){
+                                    params[pair[0].replace('?','')] = pair[1];
+                                }
+                            }
+                        }
+                        this.params = params
                     },
                     getRGB() {
                         let r = parseInt(Math.random() * 256), //0-255
@@ -86,8 +124,6 @@
                         return m<10 ? '0'+m : m
                     },
                     exchangeT2D(t, timezone){
-
-                        console.log(timezone)
 
                         var mt = 0
                         var isMs = false
@@ -126,6 +162,113 @@
                         time += (8-timezone)*3600
                         return time
                     },
+                    getUUID(){
+                        const fpPromise = new Promise((resolve, reject) => {
+                            const script = document.createElement('script')
+                            script.onload = resolve
+                            script.onerror = reject
+                            script.async = true
+                            script.src = 'https://cdn.jsdelivr.net/npm/'
+                                + '@fingerprintjs/fingerprintjs@3/dist/fp.min.js'
+                            document.head.appendChild(script)
+                        }).then(() => FingerprintJS.load())
+
+                        fpPromise.then(fp => fp.get()).then(result => {
+                            this.uuid = result.visitorId
+                            this.getUUIDSuccessCallBack()
+                        })
+                    },
+                    initShare(){
+                        this.shareName = ""
+                        this.shareToken = ""
+                        this.shareUrl = ""
+                        this.shareData = {}
+                        this.shareModal = false
+                    },
+                    share(){
+                        this.shareName = (this.path.length > 1 ? this.path.substring(1)+"_": "")+this.exchangeT2D(Date.parse(new Date()) / 1000, 8).split(' ')[0] + "_"
+                        this.shareToken = this.guid()
+                        this.shareUrl = "http://" + this.local + this.path + "?token=" + this.shareToken
+                        this.shareData = this.getShareData()
+                        this.shareModal = true
+                    },
+                    shareOk(){
+                        axios.post('/share/saveData', {
+                            uuid: this.uuid,
+                            path: this.path,
+                            token: this.shareToken,
+                            name: this.shareName,
+                            data: this.shareData,
+                        }).then((response) => {
+                            let resp = response.data
+                            if (resp.status === 200) {
+                                this.copy(this.shareUrl)
+                                this.$Notice.success({
+                                    title: '提示',
+                                    desc: '保存成功，并复制到剪切板'
+                                });
+                            } else {
+                                this.$Notice.error({
+                                    title: '提示',
+                                    desc: resp.message
+                                });
+                            }
+                            this.initShare()
+                        })
+                    },
+                    shareCancel(){
+                        this.initShare()
+                    },
+                    getShareData(){
+                    },
+                    initOrInitShareDataFail(){
+                    },
+                    getShareDataFromServer() {
+                        var token =  this.params["token"]
+                        if(token === undefined || token.length === 0) {
+                            this.initOrInitShareDataFail({})
+                            return
+                        }
+                        axios.post('/share/getData', {
+                            uuid: this.uuid,
+                            path: this.path,
+                            token: token
+                        }).then((response) => {
+                            let resp = response.data
+                            if (resp.status === 200) {
+                                this.initShareData($.parseJSON(resp.data))
+                            } else {
+                                this.$Notice.error({
+                                    title: '提示',
+                                    desc: resp.message
+                                });
+                                this.initOrInitShareDataFail({})
+                            }
+                        })
+                    },
+                    copy(v, isNotice){
+                        $("#copyText").css('display', 'inline')
+                        $("#copyText").val(v)
+                        $("#copyText").select();
+                        document.execCommand('copy')
+                        $("#copyText").css('display', 'none')
+                        if (isNotice === true) {
+                            this.$Notice.success({
+                                title: '提示',
+                                desc: '已复制到剪切板'
+                            });
+                        }
+                    },
+                    guid() {
+                        return 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                            var r = Math.random() * 16 | 0,
+                                v = c === 'x' ? r : (r & 0x3 | 0x8);
+                            return v.toString(16);
+                        });
+                    },
+                    getUUIDSuccessCallBack() {
+                        this.getShareDataFromServer()
+                    }
                 },
                 mounted() {
                     const that = this
@@ -134,13 +277,13 @@
                             that.onresize()
                         })()
                     }
-
                     this.nowDate = this.exchangeT2D(Date.parse(new Date()) / 1000 - 8 * 60 * 60)
+                    this.getUUID()
+                    this.getParam()
                 }
             }
 
             render.mixins = [myMixin]
-
             const app = Vue.createApp(render);
             app.use(ViewUIPlus);
             app.mount("#app");

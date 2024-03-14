@@ -38,7 +38,7 @@ func DevJson2GoStructApi(c *gin.Context) {
 	c.JSONP(http.StatusOK, response)
 }
 //
-//func DevJson2GoStructApi(c *gin.Context) {
+//func DevJson2GoStructApi(c *gin.C) {
 //	var req = &Request{}
 //
 //	c.ShouldBind(&req)

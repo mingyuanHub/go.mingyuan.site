@@ -38,6 +38,18 @@
             },
         },
         methods: {
+            getShareData() {
+                return {
+                    "data1": this.data1,
+                    "data2": this.data2,
+                    "clientip": this.clientip,
+                }
+            },
+            initShareData(data) {
+                this.data1 = data["data1"]
+                this.data2 = data["data2"]
+                this.clientip = data["clientip"]
+            },
             getClientIp() {
                 var self = this
                 axios.get("/clientip").then(function (response) {

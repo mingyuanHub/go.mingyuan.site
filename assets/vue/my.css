@@ -1,12 +1,9 @@
 
-
-
 #app{
     font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 }
 
 .layout{
-    /*border: 1px solid #d7dde4;*/
     background: #ffffff;
     position: relative;
     border-radius: 0px;
@@ -24,11 +21,10 @@
     text-align: center;
     font-size: larger;
     font-weight: bolder;
-    /*background-image: url("./assets/img/logo.svg");*/
     cursor:pointer;
 }
 .layout-nav{
-    width: 650px;
+    width: 730px;
     margin: 0 auto;
     margin-right: 20px;
 }
@@ -63,14 +59,6 @@
 
 body::-webkit-scrollbar { width: 0 !important }
 
-/*[v-cloak]{*/
-/*    　display: none;*/
-/*}*/
-
-/**
-暗色主题：
- */
-
 .layout-logo {
     color:#ffffff;
 }
@@ -83,9 +71,19 @@ body::-webkit-scrollbar { width: 0 !important }
     position: relative;
 }
 
-/*头部背景色*/
 .ivu-menu-dark {
     background: #006688;
+}
+
+.my-tool {
+    display: block;
+    position: fixed;
+    right: 80px;
+    top: 90px;
+    z-index: 10;
+    -webkit-box-shadow: 0 6px 16px 0 rgba(0,0,0,.06);
+    box-shadow: 0 6px 16px 0 rgba(0,0,0,.06);
+    color: #fff;
 }
 
 .ivu-input:focus {

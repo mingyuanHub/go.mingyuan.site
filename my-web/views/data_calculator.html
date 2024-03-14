@@ -57,6 +57,16 @@
             }
         },
         methods: {
+            getShareData() {
+                return {
+                    "command":this.command,
+                    "result":this.result,
+                }
+            },
+            initShareData(data) {
+                this.command = data["command"]
+                this.result = data["result"]
+            },
             clear(){
                 this.command = ""
                 this.result = ""

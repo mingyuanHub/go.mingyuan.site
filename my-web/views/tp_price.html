@@ -66,6 +66,18 @@
             },
         },
         methods: {
+            getShareData() {
+                return {
+                    "data1":this.data1,
+                    "aesType":this.aesType,
+                    "secret":this.secret,
+                }
+            },
+            initShareData(data) {
+                this.data1 = data["data1"]
+                this.aesType = data["aesType"]
+                this.secret = data["secret"]
+            },
             aes() {
                 if (this.data1 == "") {
                     this.data2 = ""

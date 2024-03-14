@@ -60,6 +60,14 @@
             }
         },
         methods: {
+            getShareData() {
+                return {
+                    "id":this.id
+                }
+            },
+            initShareData(data) {
+                this.id = data["id"]
+            },
             save() {
                 let id = parseInt(this.id) == this.tempDspId ? 0 : parseInt(this.id)
 

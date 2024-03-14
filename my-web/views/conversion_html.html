@@ -2,7 +2,7 @@
 {{template "header" .}}
 
 <section style="padding: 12px;">
-    <div style="width: 48%; float: left">
+    <div style="width: 49%; float: left">
         <i-Input v-model="content1" type="textarea" :rows="globalTextareaRowsWithButton"></i-Input>
 
         <div style="float: left; margin-top: 10px;width: 600px">
@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    <div style="width: 48%; float: left;margin-left: 15px">
+    <div style="width: 49%; float: left;margin-left: 15px">
         <i-Input v-model="content2" type="textarea" :rows="globalTextareaRowsWithButton"></i-Input>
     </div>
 </section>
@@ -36,6 +36,16 @@
 
         },
         methods: {
+            getShareData() {
+                return {
+                    "content1":this.content1,
+                    "content2":this.content2,
+                }
+            },
+            initShareData(data) {
+                this.content1 = data["content1"]
+                this.content2 = data["content2"]
+            },
             conv(t) {
                 if (t === 1) {
                     this.content2 = html_beautify(this.content1, options)

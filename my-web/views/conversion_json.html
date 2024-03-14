@@ -19,78 +19,94 @@
     var render = {
         data () {
             return {
-                editor:0
+                editor:0,
+                content:"",
             }
         },
         watch:{
 
         },
         methods: {
+            getShareData() {
+                return {
+                    "content":this.content
+                }
+            },
+            initShareData(data) {
+                this.content = data["content"]
+                this.render(this.content)
+            },
+            initOrInitShareDataFail(){
+                this.render()
+            },
+            render(content) {
+                require(['vs/editor/editor.main'], () => {
+                    monaco.editor.setTheme('vs-light');
 
-        },
-        mounted(){
-            require(['vs/editor/editor.main'], () => {
-                monaco.editor.setTheme('vs-light');
+                    model = monaco.editor.createModel(content, "json")
+                    this.editor = monaco.editor.create(document.getElementById('jsonEditor'), {
+                        // value:"123123",
+                        model: model,
+                        wordWrap: true,
+                        autoIndent: true, // 自动布局
+                        automaticLayout: false, // 自动布局
+                        formatOnPaste: false, //是否粘贴自动格式化
+                        foldingImportsByDefault: true,
+                        scrollBeyondLastLine:false,
+                        gotoLocation:false,
+                        foldingStrategy: "indentation",
+                        useShadowDOM:true,
+                    });
 
-                model = monaco.editor.createModel(``, "json")
-                this.editor = monaco.editor.create(document.getElementById('jsonEditor'), {
-                    model: model,
-                    wordWrap: true,
-                    autoIndent: true, // 自动布局
-                    automaticLayout: false, // 自动布局
-                    formatOnPaste: false, //是否粘贴自动格式化
-                    foldingImportsByDefault: true,
-                    scrollBeyondLastLine:false,
-                    gotoLocation:false,
-                    foldingStrategy: "indentation",
-                    useShadowDOM:true,
-                });
-
-                model.onDidChangeContent((e) => {
-                    if (!e.isFlush) {
-                        ct = model.getValue()
-                        ct1 = ct.replaceAll(" ", "")
-                        ct1 = ct1.replaceAll("\r", "")
-                        ct1 = ct1.replaceAll("\n", "")
-                        ct1 = ct1.replaceAll("\u0026", "&")
-                        if (ct1.substr(0, 3) === "{\\\"") {
-                            ct = ct.replace(/\\"/g, '"')
-                            ct = ct.replace(/\/\/"/g, '/')
-                            model.setValue(ct)
-                            this.editor.getAction('editor.action.formatDocument').run();
+                    model.onDidChangeContent((e) => {
+                        if (!e.isFlush) {
+                            ct = model.getValue()
+                            ct1 = ct.replaceAll(" ", "")
+                            ct1 = ct1.replaceAll("\r", "")
+                            ct1 = ct1.replaceAll("\n", "")
+                            ct1 = ct1.replaceAll("\u0026", "&")
+                            if (ct1.substr(0, 3) === "{\\\"") {
+                                ct = ct.replace(/\\"/g, '"')
+                                ct = ct.replace(/\/\/"/g, '/')
+                                model.setValue(ct)
+                                this.editor.getAction('editor.action.formatDocument').run();
+                            }
                         }
-                    }
-                })
+                        this.content = model.getValue()
+                    })
 
-                monaco.editor.onDidChangeMarkers(([uri]) => {
+                    monaco.editor.onDidChangeMarkers(([uri]) => {
 
-                    const markers = monaco.editor.getModelMarkers({resource: uri})
+                        const markers = monaco.editor.getModelMarkers({resource: uri})
 
-                    if (markers.length === 0) {
-                        this.editor.getAction('editor.action.marker.nextInFiles').run();
-                    } else {
-                        this.editor.getAction('editor.action.marker.next').run();
-                    }
+                        if (markers.length === 0) {
+                            this.editor.getAction('editor.action.marker.nextInFiles').run();
+                        } else {
+                            this.editor.getAction('editor.action.marker.next').run();
+                        }
 
-                    for (var i=0;i<markers.length;i++){
-                        console.log(i)
-                    }
+                        for (var i=0;i<markers.length;i++){
+                            console.log(i)
+                        }
 
-                    console.log('markers:', markers.map(
-                        ({ message, startLineNumber, startColumn, endLineNumber, endColumn }) =>
-                            `${message} [${startLineNumber}:${startColumn}-${endLineNumber}:${endColumn}]`,
-                    ))
-                })
+                        console.log('markers:', markers.map(
+                            ({ message, startLineNumber, startColumn, endLineNumber, endColumn }) =>
+                                `${message} [${startLineNumber}:${startColumn}-${endLineNumber}:${endColumn}]`,
+                        ))
+                    })
 
-            });
-
-            setInterval(()=>{
+                });
+            }
+        },
+        mounted() {
+            setInterval(() => {
                 if (this.editor) {
                     this.editor.getAction('editor.action.formatDocument').run();
                 }
             }, 800)
         }
     }
+
 </script>
 
 {{template "footer" .}}

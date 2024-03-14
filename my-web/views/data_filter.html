@@ -54,6 +54,18 @@
             },
         },
         methods: {
+            getShareData() {
+                return {
+                    "dataFilterPrimary":this.dataFilterPrimary,
+                    "dataFilterSecondary":this.dataFilterSecondary,
+                    "dataFilterResult":this.dataFilterResult,
+                }
+            },
+            initShareData(data) {
+                this.dataFilterPrimary = data["dataFilterPrimary"]
+                this.dataFilterSecondary = data["dataFilterSecondary"]
+                this.dataFilterResult = data["dataFilterResult"]
+            },
             filter(filterType){
 
                 var recordsPrimary = this.dataFilterPrimary.split("\n")

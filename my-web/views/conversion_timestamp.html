@@ -81,6 +81,20 @@
             },
         },
         methods: {
+            getShareData() {
+                return {
+                    "time1":this.time1,
+                    "date2":this.date2,
+                    "timezone":this.timezone,
+                    "timezone2":this.timezone2,
+                }
+            },
+            initShareData(data) {
+                this.time1 = data["time1"]
+                this.date2 = data["date2"]
+                this.timezone = data["timezone"]
+                this.timezone2 = data["timezone2"]
+            },
             exchange1(){
                 this.date1 = this.exchangeT2D(this.time1, this.timezone)
             },
