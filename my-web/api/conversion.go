@@ -85,3 +85,9 @@ func Map(c *gin.Context) {
 	t.ExecuteTemplate(c.Writer, tmplName, nil)
 }
 
+func ChartSankey(c *gin.Context) {
+	var tmplName = "chart_sankey.html"
+	t, _ := template.ParseFiles(fmt.Sprintf("my-web/views/%s", tmplName))
+	t.ExecuteTemplate(c.Writer, tmplName, nil)
+}
+

@@ -1,0 +1,117 @@
+
+{{template "header" .}}
+
+<section style="padding: 5px;">
+    <div style="width: 15%; float: left">
+        <span style="line-height:30px;margin-left: 10px">名称: </span>
+        <i-Input v-model="chartTitle" style="width:80%;float: right;margin-right: 1px" @on-change="render"></i-Input>
+        <br/>
+        <br/>
+
+        <i-Input v-model="content" type="textarea" :rows="globalTextareaRowsWithButton"></i-Input>
+    </div>
+
+    <div style="width: 84%; float: left;margin-left: 15px;">
+        <div :style='{"height": contentHeight + "px", "border": "1px solid #dcdee2"}'>
+            <div id="chart" style="height: 100%;width: 100%" ></div>
+        </div>
+    </div>
+
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+
+<script>
+
+    var render = {
+        data () {
+            return {
+                myChart:"",
+                content:"",
+                chartTitle:"桑基图",
+                chartData:[],
+                chartLinks:[]
+            }
+        },
+        watch:{
+            content(){
+                var records = this.content.split("\n")
+                var chartData = []
+                var chartLinks = []
+                var tep = []
+                for (i = 0; i < records.length ; i ++) {
+                    var a = records[i].split(",")
+                    if (a.length >= 3) {
+                        if (!tep.includes(a[0])) {
+                            tep.push(a[0]);
+                            chartData.push({name: a[0] })
+                        }
+                        if (!tep.includes(a[1])) {
+                            tep.push(a[1]);
+                            chartData.push({name: a[1] })
+                        }
+                        chartLinks.push({
+                            source: a[0], target: a[1], value: a[2]
+                        })
+                    }
+                }
+                this.chartData = chartData
+                this.chartLinks = chartLinks
+                this.render()
+            },
+        },
+        methods: {
+            getShareData() {
+                return {
+                    "content":this.content,
+                    "chartTitle":this.chartTitle,
+
+                }
+            },
+            initShareData(data) {
+                this.content = data["content"]
+                this.chartTitle = data["chartTitle"]
+            },
+            initOrInitShareDataFail(){
+                this.render()
+            },
+            render() {
+
+                // 指定图表的配置项和数据
+                var option = {
+                    title: {
+                        text: this.chartTitle
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                            triggerOn: 'mousemove'
+                    },
+                    series: [
+                        {
+                            type: 'sankey',
+                            data: this.chartData,
+                            links: this.chartLinks,
+                            emphasis: {
+                                focus: 'adjacency'
+                            },
+                            lineStyle: {
+                                color: 'gradient',
+                                curveness: 0.5
+                            }
+                        }
+                    ]
+                }
+
+                // 使用刚指定的配置项和数据显示图表。
+                this.myChart.setOption(option);
+            }
+        },
+        mounted() {
+            this.myChart = echarts.init(document.getElementById('chart'), 'dark');
+            this.content = "a,b,12\nb,c,78"
+        }
+    }
+
+</script>
+
+{{template "footer" .}}

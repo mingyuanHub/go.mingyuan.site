@@ -51,6 +51,7 @@ func initRouter(r *gin.Engine) {
 		g0.GET("/gepip", api.GeoIp)
 
 		g0.GET("/map", api.Map)
+		g0.GET("/chart-sankey", api.ChartSankey)
 	}
 
 	g3 := r.Group("/bulletscreen")

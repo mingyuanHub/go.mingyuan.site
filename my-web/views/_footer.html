@@ -61,8 +61,8 @@
                     this.onresize()
                     this.host = window.location.host
                     this.path = window.location.pathname
-                    this.local = "127.0.0.1:8081"
-                    // this.local = "www.mingyuan.site"
+                    // this.local = "127.0.0.1:8081"
+                    this.local = "www.mingyuan.site"
                 },
                 methods: {
                     mix() {
@@ -185,10 +185,10 @@
                         this.shareData = {}
                         this.shareModal = false
                     },
-                    share(){
-                        this.shareName = (this.path.length > 1 ? this.path.substring(1)+"_": "")+this.exchangeT2D(Date.parse(new Date()) / 1000, 8).split(' ')[0] + "_"
+                    share() {
+                        this.shareName = (this.path.length > 1 ? this.path.substring(1) + "_" : "") + this.exchangeT2D(Date.parse(new Date()) / 1000, 8).split(' ')[0] + "_"
                         this.shareToken = this.guid()
-                        this.shareUrl = "http://" + this.local + this.path + "?token=" + this.shareToken
+                        this.shareUrl = "https://" + this.local + this.path + "?token=" + this.shareToken + "&name=" + this.shareName
                         this.shareData = this.getShareData()
                         this.shareModal = true
                     },
