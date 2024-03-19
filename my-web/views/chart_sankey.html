@@ -11,7 +11,7 @@
         <i-Input v-model="content" type="textarea" :rows="globalTextareaRowsWithButton"></i-Input>
     </div>
 
-    <div style="width: 84%; float: left;margin-left: 15px;">
+    <div style="width: 84%; float: left;margin-left: 5px;">
         <div :style='{"height": contentHeight + "px", "border": "1px solid #dcdee2"}'>
             <div id="chart" style="height: 100%;width: 100%" ></div>
         </div>
@@ -84,16 +84,17 @@
                     },
                     tooltip: {
                         trigger: 'item',
-                            triggerOn: 'mousemove'
+                        triggerOn: 'mousemove'
                     },
                     series: [
                         {
-                            type: 'sankey',
-                            data: this.chartData,
-                            links: this.chartLinks,
+                            // layout: 'none',
                             emphasis: {
                                 focus: 'adjacency'
                             },
+                            type: 'sankey',
+                            data: this.chartData,
+                            links: this.chartLinks,
                             lineStyle: {
                                 color: 'gradient',
                                 curveness: 0.5

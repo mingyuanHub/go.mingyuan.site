@@ -11,10 +11,12 @@
                     </Footer>
                 </Layout>
             </div>
-            <Modal v-model="shareModal" title="分享链接" @on-ok="shareOk" @on-cancel="shareCancel" :width="700" mask="true">
+            <Modal v-model="shareModal" title="分享链接" @on-ok="shareOk" @on-cancel="shareCancel" :width="700" footer-hide="true">
                 <i-Form label-position="right" :label-width="60" >
                     <Form-Item label="名称：">
-                        <i-Input v-model="shareName" style="width:300px"></i-Input>
+                        <Tooltip content="修改后自动复制链接" placement="right">
+                            <i-Input v-model="shareName" style="width:300px" @on-change="shareNameChange" id="shareName"></i-Input>
+                        </Tooltip>
                     </Form-Item>
                     <Form-Item label="链接：">
                         <a :href="shareUrl" target="_blank">
@@ -61,8 +63,10 @@
                     this.onresize()
                     this.host = window.location.host
                     this.path = window.location.pathname
-                    // this.local = "127.0.0.1:8081"
-                    this.local = "www.mingyuan.site"
+                    this.local = "https://www.mingyuan.site"
+                    if (this.host.indexOf("localhost") !== -1 || this.host.indexOf("127.0.0.1") !== -1) {
+                        this.local = "http://127.0.0.1:8081"
+                    }
                 },
                 methods: {
                     mix() {
@@ -188,11 +192,10 @@
                     share() {
                         this.shareName = (this.path.length > 1 ? this.path.substring(1) + "_" : "") + this.exchangeT2D(Date.parse(new Date()) / 1000, 8).split(' ')[0] + "_"
                         this.shareToken = this.guid()
-                        this.shareUrl = "https://" + this.local + this.path + "?token=" + this.shareToken + "&name=" + this.shareName
+                        this.shareUrl = this.local + this.path + "?token=" + this.shareToken + "&name=" + this.shareName
                         this.shareData = this.getShareData()
                         this.shareModal = true
-                    },
-                    shareOk(){
+
                         axios.post('/share/saveData', {
                             uuid: this.uuid,
                             path: this.path,
@@ -205,7 +208,7 @@
                                 this.copy(this.shareUrl)
                                 this.$Notice.success({
                                     title: '提示',
-                                    desc: '保存成功，并复制到剪切板'
+                                    desc: '分享链接已生成，并复制到剪切板'
                                 });
                             } else {
                                 this.$Notice.error({
@@ -213,8 +216,16 @@
                                     desc: resp.message
                                 });
                             }
-                            this.initShare()
+
                         })
+                    },
+                    shareNameChange(){
+                        this.shareUrl = this.local + this.path + "?token=" + this.shareToken + "&name=" + this.shareName
+                        this.copy(this.shareUrl)
+                        $("#shareName input").focus();
+                    },
+                    shareOk(){
+                        this.initShare()
                     },
                     shareCancel(){
                         this.initShare()
